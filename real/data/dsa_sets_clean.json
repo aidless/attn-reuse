@@ -1,0 +1,172 @@
+{
+ "seq": 4096,
+ "per_layer": [
+  {
+   "layer": 0,
+   "rows": 4096,
+   "identical": 4095,
+   "frac": 0.999755859375
+  },
+  {
+   "layer": 1,
+   "rows": 4096,
+   "identical": 4096,
+   "frac": 1.0
+  },
+  {
+   "layer": 2,
+   "rows": 4096,
+   "identical": 4096,
+   "frac": 1.0
+  },
+  {
+   "layer": 3,
+   "rows": 4096,
+   "identical": 4096,
+   "frac": 1.0
+  },
+  {
+   "layer": 4,
+   "rows": 4096,
+   "identical": 4096,
+   "frac": 1.0
+  },
+  {
+   "layer": 5,
+   "rows": 4096,
+   "identical": 4096,
+   "frac": 1.0
+  },
+  {
+   "layer": 6,
+   "rows": 4096,
+   "identical": 4096,
+   "frac": 1.0
+  },
+  {
+   "layer": 7,
+   "rows": 4096,
+   "identical": 4096,
+   "frac": 1.0
+  },
+  {
+   "layer": 8,
+   "rows": 4096,
+   "identical": 4096,
+   "frac": 1.0
+  },
+  {
+   "layer": 9,
+   "rows": 4096,
+   "identical": 4095,
+   "frac": 0.999755859375
+  },
+  {
+   "layer": 10,
+   "rows": 4096,
+   "identical": 4096,
+   "frac": 1.0
+  },
+  {
+   "layer": 11,
+   "rows": 4096,
+   "identical": 4096,
+   "frac": 1.0
+  },
+  {
+   "layer": 12,
+   "rows": 4096,
+   "identical": 4096,
+   "frac": 1.0
+  },
+  {
+   "layer": 13,
+   "rows": 4096,
+   "identical": 4096,
+   "frac": 1.0
+  },
+  {
+   "layer": 14,
+   "rows": 4096,
+   "identical": 4096,
+   "frac": 1.0
+  },
+  {
+   "layer": 15,
+   "rows": 4096,
+   "identical": 4096,
+   "frac": 1.0
+  },
+  {
+   "layer": 16,
+   "rows": 4096,
+   "identical": 4095,
+   "frac": 0.999755859375
+  },
+  {
+   "layer": 17,
+   "rows": 4096,
+   "identical": 4096,
+   "frac": 1.0
+  },
+  {
+   "layer": 18,
+   "rows": 4096,
+   "identical": 4096,
+   "frac": 1.0
+  },
+  {
+   "layer": 19,
+   "rows": 4096,
+   "identical": 4095,
+   "frac": 0.999755859375
+  },
+  {
+   "layer": 20,
+   "rows": 4096,
+   "identical": 4096,
+   "frac": 1.0
+  },
+  {
+   "layer": 21,
+   "rows": 4096,
+   "identical": 4096,
+   "frac": 1.0
+  },
+  {
+   "layer": 22,
+   "rows": 4096,
+   "identical": 4096,
+   "frac": 1.0
+  },
+  {
+   "layer": 23,
+   "rows": 4096,
+   "identical": 4096,
+   "frac": 1.0
+  },
+  {
+   "layer": 24,
+   "rows": 4096,
+   "identical": 4096,
+   "frac": 1.0
+  },
+  {
+   "layer": 25,
+   "rows": 4096,
+   "identical": 4096,
+   "frac": 1.0
+  },
+  {
+   "layer": 26,
+   "rows": 4096,
+   "identical": 4095,
+   "frac": 0.999755859375
+  }
+ ],
+ "summary": {
+  "rows": 110592,
+  "identical": 110587,
+  "frac": 0.9999547887731481
+ }
+}

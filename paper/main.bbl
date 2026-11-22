@@ -1,0 +1,74 @@
+\begin{thebibliography}{11}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Bai et~al.(2026)Bai, Dong, Jiang, Lv, Du, and Zeng]{indexcache}
+Yushi Bai, Qian Dong, Ting Jiang, Xin Lv, Zhengxiao Du, and Aohan Zeng.
+\newblock Indexcache: Accelerating sparse attention via cross-layer index reuse.
+\newblock \emph{arXiv preprint arXiv:2603.12201}, 2026.
+\newblock URL \url{https://arxiv.org/abs/2603.12201}.
+
+\bibitem[Deshmukh et~al.(2025)Deshmukh, Goyal, Kwatra, and Ramjee]{kascade}
+Dhruv Deshmukh, Saurabh Goyal, Nipun Kwatra, and Ramachandran Ramjee.
+\newblock Kascade: A practical sparse attention method for long-context llm inference.
+\newblock \emph{arXiv preprint arXiv:2512.16391}, 2025.
+\newblock URL \url{https://arxiv.org/abs/2512.16391}.
+
+\bibitem[Dilbaz et~al.(2026)Dilbaz, Krishna, Kamble, and Bikel]{mli}
+Serdarcan Dilbaz, Arjun Krishna, Kiran Kamble, and Daniel~M. Bikel.
+\newblock Multi-layer indexer: Overlapping selection and attention in deepseek sparse attention.
+\newblock \emph{arXiv preprint arXiv:2611.03768}, 2026.
+\newblock URL \url{https://arxiv.org/abs/2611.03768}.
+
+\bibitem[Gao et~al.(2026)Gao, Wei, Zhang, Cheng, et~al.]{hysparse}
+Yizhao Gao, Jianyu Wei, Qihao Zhang, Yu~Cheng, et~al.
+\newblock Hysparse: A hybrid sparse attention architecture with oracle token selection and kv cache sharing.
+\newblock \emph{arXiv preprint arXiv:2602.03560}, 2026.
+\newblock URL \url{https://arxiv.org/abs/2602.03560}.
+
+\bibitem[Kornblith et~al.(2019)Kornblith, Norouzi, Lee, and Hinton]{cka}
+Simon Kornblith, Mohammad Norouzi, Honglak Lee, and Geoffrey Hinton.
+\newblock Similarity of neural network representations revisited.
+\newblock In \emph{Proceedings of the 36th International Conference on Machine Learning}, volume~97 of \emph{Proceedings of Machine Learning Research}, pp.\  3519--3529, 2019.
+
+\bibitem[Sun et~al.(2026)Sun, Zhang, Dong, Wang, and Wei]{clsa}
+Yutao Sun, Yanqi Zhang, Li~Dong, Jianyong Wang, and Furu Wei.
+\newblock You only index once: Cross-layer sparse attention with shared routing.
+\newblock \emph{arXiv preprint arXiv:2606.06467}, 2026.
+\newblock URL \url{https://arxiv.org/abs/2606.06467}.
+
+\bibitem[Wang et~al.(2026)Wang, Pan, Meng, and Zhang]{latentindex}
+Zhaohui Wang, Zhixin Pan, Fanxu Meng, and Muhan Zhang.
+\newblock Latentindex: Cross-layer sharing with layer-specific selection for sparse attention.
+\newblock \emph{arXiv preprint arXiv:2610.04635}, 2026.
+\newblock URL \url{https://arxiv.org/abs/2610.04635}.
+
+\bibitem[Wu et~al.(2024)Wu, Wu, and Tu]{kvshare}
+You Wu, Haoyi Wu, and Kewei Tu.
+\newblock A systematic study of cross-layer kv sharing for efficient llm inference.
+\newblock \emph{arXiv preprint arXiv:2410.14442}, 2024.
+\newblock URL \url{https://arxiv.org/abs/2410.14442}.
+\newblock NAACL 2025 main conference.
+
+\bibitem[Xiao et~al.(2023)Xiao, Tang, Sheng, et~al.]{streamingllm}
+Guangxuan Xiao, Jesse Tang, Ying Sheng, et~al.
+\newblock Efficient streaming language models with attention sinks.
+\newblock \emph{arXiv preprint arXiv:2309.17453}, 2023.
+\newblock URL \url{https://arxiv.org/abs/2309.17453}.
+
+\bibitem[Yang et~al.(2024{\natexlab{a}})Yang, Zhang, Chen, Li, and Jia]{tidaldecode}
+Lijie Yang, Zhihao Zhang, Zhuofu Chen, Zikun Li, and Zhihao Jia.
+\newblock Tidaldecode: Fast and accurate llm decoding with position persistent sparse attention.
+\newblock \emph{arXiv preprint arXiv:2410.05076}, 2024{\natexlab{a}}.
+\newblock URL \url{https://arxiv.org/abs/2410.05076}.
+
+\bibitem[Yang et~al.(2024{\natexlab{b}})Yang, Cao, Chen, Qin, Yang, Zhao, and Chen]{kvsharer}
+Yifei Yang, Zouying Cao, Qiguang Chen, Libo Qin, Dongjie Yang, Hai Zhao, and Zhi Chen.
+\newblock Kvsharer: Efficient inference via layer-wise dissimilar kv cache sharing.
+\newblock \emph{arXiv preprint arXiv:2410.18517}, 2024{\natexlab{b}}.
+\newblock URL \url{https://arxiv.org/abs/2410.18517}.
+
+\end{thebibliography}

@@ -1,0 +1,86 @@
+{
+  "n_pairs": 141,
+  "n_lead": 12,
+  "n_rest": 129,
+  "lead_mean": 0.00048182739151853005,
+  "rest_mean": 0.0005427620515651645,
+  "ratio": 0.8877322762877085,
+  "permutation_two_sided": {
+    "n": 10000,
+    "seed": 20261119,
+    "p": 0.6132386761323868
+  },
+  "diff": {
+    "value": -6.093466004663444e-05,
+    "ci_lo": -0.0004675007913772374,
+    "ci_hi": 0.00039775642621727575,
+    "median": -6.979911826382647e-05,
+    "share_positive": 0.3822
+  },
+  "boundary_sensitivity": {
+    "0": {
+      "ratio": 1.0382999832179667,
+      "n_lead": 6
+    },
+    "1": {
+      "ratio": 0.8877322762877085,
+      "n_lead": 12
+    },
+    "2": {
+      "ratio": 0.8089854295824042,
+      "n_lead": 18
+    },
+    "3": {
+      "ratio": 0.9100751721366043,
+      "n_lead": 24
+    }
+  },
+  "mean_delta": {
+    "value": 0.0005375761230505574,
+    "ci_lo": 0.0004712937853297735,
+    "ci_hi": 0.0006057700366839266,
+    "n_positive": 127,
+    "n_negative": 14
+  },
+  "dense_reprojection": [
+    {
+      "path": "real/data/pairs20w12_0.5B.jsonl",
+      "ratio": 7.541336572177093,
+      "n_lead": 12,
+      "n_rest": 111,
+      "ok": true
+    },
+    {
+      "path": "real/data/pairs20w12_1.5B.jsonl",
+      "ratio": 34.98643538762814,
+      "n_lead": 12,
+      "n_rest": 135,
+      "ok": true
+    },
+    {
+      "path": "real/data/pairs20w12_7B.jsonl",
+      "ratio": 11.818547173449206,
+      "n_lead": 12,
+      "n_rest": 135,
+      "ok": true
+    },
+    {
+      "path": "real/data/pairs20_TinyLlama.jsonl",
+      "ratio": 28.705349164287252,
+      "n_lead": 12,
+      "n_rest": 99,
+      "ok": true
+    },
+    {
+      "path": "real/data/pairs14b.jsonl",
+      "ratio": 12.674644314482803,
+      "n_lead": 12,
+      "n_rest": 255,
+      "ok": true
+    }
+  ],
+  "inputs": [
+    "real/data/dsa_multi.json",
+    "real/data/dsa_overlap.json"
+  ]
+}

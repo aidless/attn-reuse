@@ -1,0 +1,749 @@
+{
+ "model": "models/Qwen2.5-0.5B",
+ "dtype": "float16",
+ "seq": 512,
+ "k": 256,
+ "n_batches": 20,
+ "max_distance": 6,
+ "n_layers": 24,
+ "pairs": [
+  {
+   "source": 0,
+   "target": 1,
+   "deliver": 0.9283203125,
+   "jaccard": 0.7373318344354629
+  },
+  {
+   "source": 0,
+   "target": 2,
+   "deliver": 0.95546875,
+   "jaccard": 0.7329887747764587
+  },
+  {
+   "source": 0,
+   "target": 3,
+   "deliver": 0.8705078125,
+   "jaccard": 0.7183972924947739
+  },
+  {
+   "source": 0,
+   "target": 4,
+   "deliver": 0.881787109375,
+   "jaccard": 0.739989259839058
+  },
+  {
+   "source": 0,
+   "target": 5,
+   "deliver": 0.8522216796875,
+   "jaccard": 0.7406501322984695
+  },
+  {
+   "source": 0,
+   "target": 6,
+   "deliver": 0.895751953125,
+   "jaccard": 0.7471535205841064
+  },
+  {
+   "source": 1,
+   "target": 2,
+   "deliver": 0.9630126953125,
+   "jaccard": 0.7651408761739731
+  },
+  {
+   "source": 1,
+   "target": 3,
+   "deliver": 0.905712890625,
+   "jaccard": 0.722832876443863
+  },
+  {
+   "source": 1,
+   "target": 4,
+   "deliver": 0.929150390625,
+   "jaccard": 0.7826297253370285
+  },
+  {
+   "source": 1,
+   "target": 5,
+   "deliver": 0.908837890625,
+   "jaccard": 0.7932286560535431
+  },
+  {
+   "source": 1,
+   "target": 6,
+   "deliver": 0.9111083984375,
+   "jaccard": 0.7970406919717788
+  },
+  {
+   "source": 1,
+   "target": 7,
+   "deliver": 0.9019287109375,
+   "jaccard": 0.7736305177211762
+  },
+  {
+   "source": 2,
+   "target": 3,
+   "deliver": 0.936865234375,
+   "jaccard": 0.7452052652835846
+  },
+  {
+   "source": 2,
+   "target": 4,
+   "deliver": 0.94130859375,
+   "jaccard": 0.7668679535388947
+  },
+  {
+   "source": 2,
+   "target": 5,
+   "deliver": 0.931103515625,
+   "jaccard": 0.766166752576828
+  },
+  {
+   "source": 2,
+   "target": 6,
+   "deliver": 0.950048828125,
+   "jaccard": 0.7827086240053177
+  },
+  {
+   "source": 2,
+   "target": 7,
+   "deliver": 0.94287109375,
+   "jaccard": 0.7663195222616196
+  },
+  {
+   "source": 2,
+   "target": 8,
+   "deliver": 0.97275390625,
+   "jaccard": 0.7705672353506088
+  },
+  {
+   "source": 3,
+   "target": 4,
+   "deliver": 0.9634521484375,
+   "jaccard": 0.7336952358484268
+  },
+  {
+   "source": 3,
+   "target": 5,
+   "deliver": 0.9664794921875,
+   "jaccard": 0.7370320707559586
+  },
+  {
+   "source": 3,
+   "target": 6,
+   "deliver": 0.969140625,
+   "jaccard": 0.7510357677936554
+  },
+  {
+   "source": 3,
+   "target": 7,
+   "deliver": 0.97607421875,
+   "jaccard": 0.7352919846773147
+  },
+  {
+   "source": 3,
+   "target": 8,
+   "deliver": 0.9820068359375,
+   "jaccard": 0.7489217787981033
+  },
+  {
+   "source": 3,
+   "target": 9,
+   "deliver": 0.96455078125,
+   "jaccard": 0.7078853368759155
+  },
+  {
+   "source": 4,
+   "target": 5,
+   "deliver": 0.967431640625,
+   "jaccard": 0.7975193351507187
+  },
+  {
+   "source": 4,
+   "target": 6,
+   "deliver": 0.9763916015625,
+   "jaccard": 0.8101100534200668
+  },
+  {
+   "source": 4,
+   "target": 7,
+   "deliver": 0.991552734375,
+   "jaccard": 0.7962596893310547
+  },
+  {
+   "source": 4,
+   "target": 8,
+   "deliver": 0.9848388671875,
+   "jaccard": 0.7816757827997207
+  },
+  {
+   "source": 4,
+   "target": 9,
+   "deliver": 0.9860107421875,
+   "jaccard": 0.7613098233938217
+  },
+  {
+   "source": 4,
+   "target": 10,
+   "deliver": 0.97578125,
+   "jaccard": 0.8000976592302322
+  },
+  {
+   "source": 5,
+   "target": 6,
+   "deliver": 0.9760498046875,
+   "jaccard": 0.8224303245544433
+  },
+  {
+   "source": 5,
+   "target": 7,
+   "deliver": 0.9899169921875,
+   "jaccard": 0.7944314897060394
+  },
+  {
+   "source": 5,
+   "target": 8,
+   "deliver": 0.986572265625,
+   "jaccard": 0.7962367713451386
+  },
+  {
+   "source": 5,
+   "target": 9,
+   "deliver": 0.9815673828125,
+   "jaccard": 0.7689843237400055
+  },
+  {
+   "source": 5,
+   "target": 10,
+   "deliver": 0.9732666015625,
+   "jaccard": 0.8131589293479919
+  },
+  {
+   "source": 5,
+   "target": 11,
+   "deliver": 0.974462890625,
+   "jaccard": 0.7553208649158478
+  },
+  {
+   "source": 6,
+   "target": 7,
+   "deliver": 0.98642578125,
+   "jaccard": 0.8059269607067108
+  },
+  {
+   "source": 6,
+   "target": 8,
+   "deliver": 0.9898681640625,
+   "jaccard": 0.8025629699230195
+  },
+  {
+   "source": 6,
+   "target": 9,
+   "deliver": 0.977685546875,
+   "jaccard": 0.7682012408971787
+  },
+  {
+   "source": 6,
+   "target": 10,
+   "deliver": 0.9809814453125,
+   "jaccard": 0.8147532939910889
+  },
+  {
+   "source": 6,
+   "target": 11,
+   "deliver": 0.96796875,
+   "jaccard": 0.754058101773262
+  },
+  {
+   "source": 6,
+   "target": 12,
+   "deliver": 0.979150390625,
+   "jaccard": 0.8211688995361328
+  },
+  {
+   "source": 7,
+   "target": 8,
+   "deliver": 0.988525390625,
+   "jaccard": 0.7968125879764557
+  },
+  {
+   "source": 7,
+   "target": 9,
+   "deliver": 0.9897705078125,
+   "jaccard": 0.763483527302742
+  },
+  {
+   "source": 7,
+   "target": 10,
+   "deliver": 0.9795166015625,
+   "jaccard": 0.7979300916194916
+  },
+  {
+   "source": 7,
+   "target": 11,
+   "deliver": 0.977783203125,
+   "jaccard": 0.7466038763523102
+  },
+  {
+   "source": 7,
+   "target": 12,
+   "deliver": 0.975,
+   "jaccard": 0.8061473459005356
+  },
+  {
+   "source": 7,
+   "target": 13,
+   "deliver": 0.979541015625,
+   "jaccard": 0.7913636893033982
+  },
+  {
+   "source": 8,
+   "target": 9,
+   "deliver": 0.9838134765625,
+   "jaccard": 0.7660395175218582
+  },
+  {
+   "source": 8,
+   "target": 10,
+   "deliver": 0.9812255859375,
+   "jaccard": 0.8054880023002624
+  },
+  {
+   "source": 8,
+   "target": 11,
+   "deliver": 0.9766845703125,
+   "jaccard": 0.7436328291893005
+  },
+  {
+   "source": 8,
+   "target": 12,
+   "deliver": 0.9811279296875,
+   "jaccard": 0.8185929149389267
+  },
+  {
+   "source": 8,
+   "target": 13,
+   "deliver": 0.9751220703125,
+   "jaccard": 0.7994138568639755
+  },
+  {
+   "source": 8,
+   "target": 14,
+   "deliver": 0.9771240234375,
+   "jaccard": 0.8030363082885742
+  },
+  {
+   "source": 9,
+   "target": 10,
+   "deliver": 0.9625732421875,
+   "jaccard": 0.7752250462770462
+  },
+  {
+   "source": 9,
+   "target": 11,
+   "deliver": 0.98876953125,
+   "jaccard": 0.7841070175170899
+  },
+  {
+   "source": 9,
+   "target": 12,
+   "deliver": 0.9543701171875,
+   "jaccard": 0.7764890760183334
+  },
+  {
+   "source": 9,
+   "target": 13,
+   "deliver": 0.9747802734375,
+   "jaccard": 0.7798863083124161
+  },
+  {
+   "source": 9,
+   "target": 14,
+   "deliver": 0.9630615234375,
+   "jaccard": 0.7781124591827393
+  },
+  {
+   "source": 9,
+   "target": 15,
+   "deliver": 0.9605712890625,
+   "jaccard": 0.7720218390226364
+  },
+  {
+   "source": 10,
+   "target": 11,
+   "deliver": 0.980126953125,
+   "jaccard": 0.7607530802488327
+  },
+  {
+   "source": 10,
+   "target": 12,
+   "deliver": 0.983935546875,
+   "jaccard": 0.8345055520534516
+  },
+  {
+   "source": 10,
+   "target": 13,
+   "deliver": 0.98310546875,
+   "jaccard": 0.8238636195659638
+  },
+  {
+   "source": 10,
+   "target": 14,
+   "deliver": 0.991064453125,
+   "jaccard": 0.8359953135251998
+  },
+  {
+   "source": 10,
+   "target": 15,
+   "deliver": 0.9865966796875,
+   "jaccard": 0.8334395229816437
+  },
+  {
+   "source": 10,
+   "target": 16,
+   "deliver": 0.9792236328125,
+   "jaccard": 0.7989137768745422
+  },
+  {
+   "source": 11,
+   "target": 12,
+   "deliver": 0.9400146484375,
+   "jaccard": 0.7620637595653534
+  },
+  {
+   "source": 11,
+   "target": 13,
+   "deliver": 0.9715087890625,
+   "jaccard": 0.7738618284463883
+  },
+  {
+   "source": 11,
+   "target": 14,
+   "deliver": 0.9564697265625,
+   "jaccard": 0.7722957670688629
+  },
+  {
+   "source": 11,
+   "target": 15,
+   "deliver": 0.95625,
+   "jaccard": 0.7637016087770462
+  },
+  {
+   "source": 11,
+   "target": 16,
+   "deliver": 0.9822998046875,
+   "jaccard": 0.7602759182453156
+  },
+  {
+   "source": 11,
+   "target": 17,
+   "deliver": 0.9586669921875,
+   "jaccard": 0.7522336840629578
+  },
+  {
+   "source": 12,
+   "target": 13,
+   "deliver": 0.9828125,
+   "jaccard": 0.8267544835805893
+  },
+  {
+   "source": 12,
+   "target": 14,
+   "deliver": 0.9874755859375,
+   "jaccard": 0.8412698477506637
+  },
+  {
+   "source": 12,
+   "target": 15,
+   "deliver": 0.98017578125,
+   "jaccard": 0.8242216229438781
+  },
+  {
+   "source": 12,
+   "target": 16,
+   "deliver": 0.9821533203125,
+   "jaccard": 0.8034143894910812
+  },
+  {
+   "source": 12,
+   "target": 17,
+   "deliver": 0.9697265625,
+   "jaccard": 0.8129004210233688
+  },
+  {
+   "source": 12,
+   "target": 18,
+   "deliver": 0.9907958984375,
+   "jaccard": 0.8297781258821487
+  },
+  {
+   "source": 13,
+   "target": 14,
+   "deliver": 0.981689453125,
+   "jaccard": 0.83224358856678
+  },
+  {
+   "source": 13,
+   "target": 15,
+   "deliver": 0.981787109375,
+   "jaccard": 0.8312194854021072
+  },
+  {
+   "source": 13,
+   "target": 16,
+   "deliver": 0.9885009765625,
+   "jaccard": 0.8192718386650085
+  },
+  {
+   "source": 13,
+   "target": 17,
+   "deliver": 0.9718994140625,
+   "jaccard": 0.814922297000885
+  },
+  {
+   "source": 13,
+   "target": 18,
+   "deliver": 0.9866455078125,
+   "jaccard": 0.8230164498090744
+  },
+  {
+   "source": 13,
+   "target": 19,
+   "deliver": 0.9884521484375,
+   "jaccard": 0.814584630727768
+  },
+  {
+   "source": 14,
+   "target": 15,
+   "deliver": 0.9893310546875,
+   "jaccard": 0.8393057346343994
+  },
+  {
+   "source": 14,
+   "target": 16,
+   "deliver": 0.985888671875,
+   "jaccard": 0.8093701243400574
+  },
+  {
+   "source": 14,
+   "target": 17,
+   "deliver": 0.9759765625,
+   "jaccard": 0.814899879693985
+  },
+  {
+   "source": 14,
+   "target": 18,
+   "deliver": 0.9916748046875,
+   "jaccard": 0.8302427351474762
+  },
+  {
+   "source": 14,
+   "target": 19,
+   "deliver": 0.9896240234375,
+   "jaccard": 0.8188010841608048
+  },
+  {
+   "source": 14,
+   "target": 20,
+   "deliver": 0.9793212890625,
+   "jaccard": 0.8227927953004837
+  },
+  {
+   "source": 15,
+   "target": 16,
+   "deliver": 0.9837158203125,
+   "jaccard": 0.8102538615465165
+  },
+  {
+   "source": 15,
+   "target": 17,
+   "deliver": 0.97119140625,
+   "jaccard": 0.811814683675766
+  },
+  {
+   "source": 15,
+   "target": 18,
+   "deliver": 0.9918212890625,
+   "jaccard": 0.8287843406200409
+  },
+  {
+   "source": 15,
+   "target": 19,
+   "deliver": 0.9877685546875,
+   "jaccard": 0.8155771523714066
+  },
+  {
+   "source": 15,
+   "target": 20,
+   "deliver": 0.981103515625,
+   "jaccard": 0.8227674186229705
+  },
+  {
+   "source": 15,
+   "target": 21,
+   "deliver": 0.974951171875,
+   "jaccard": 0.8018234699964524
+  },
+  {
+   "source": 16,
+   "target": 17,
+   "deliver": 0.9677001953125,
+   "jaccard": 0.8118713587522507
+  },
+  {
+   "source": 16,
+   "target": 18,
+   "deliver": 0.977490234375,
+   "jaccard": 0.806458592414856
+  },
+  {
+   "source": 16,
+   "target": 19,
+   "deliver": 0.97314453125,
+   "jaccard": 0.7971031576395035
+  },
+  {
+   "source": 16,
+   "target": 20,
+   "deliver": 0.965283203125,
+   "jaccard": 0.8039511382579804
+  },
+  {
+   "source": 16,
+   "target": 21,
+   "deliver": 0.9769775390625,
+   "jaccard": 0.8057414770126343
+  },
+  {
+   "source": 16,
+   "target": 22,
+   "deliver": 0.92412109375,
+   "jaccard": 0.805591756105423
+  },
+  {
+   "source": 17,
+   "target": 18,
+   "deliver": 0.984765625,
+   "jaccard": 0.8157583862543106
+  },
+  {
+   "source": 17,
+   "target": 19,
+   "deliver": 0.9805908203125,
+   "jaccard": 0.8054805070161819
+  },
+  {
+   "source": 17,
+   "target": 20,
+   "deliver": 0.967333984375,
+   "jaccard": 0.8147584795951843
+  },
+  {
+   "source": 17,
+   "target": 21,
+   "deliver": 0.9740234375,
+   "jaccard": 0.8126266241073609
+  },
+  {
+   "source": 17,
+   "target": 22,
+   "deliver": 0.9181396484375,
+   "jaccard": 0.8094299763441086
+  },
+  {
+   "source": 17,
+   "target": 23,
+   "deliver": 0.926904296875,
+   "jaccard": 0.8071978688240051
+  },
+  {
+   "source": 18,
+   "target": 19,
+   "deliver": 0.99140625,
+   "jaccard": 0.8255618274211883
+  },
+  {
+   "source": 18,
+   "target": 20,
+   "deliver": 0.9780517578125,
+   "jaccard": 0.820824921131134
+  },
+  {
+   "source": 18,
+   "target": 21,
+   "deliver": 0.979541015625,
+   "jaccard": 0.8137073248624802
+  },
+  {
+   "source": 18,
+   "target": 22,
+   "deliver": 0.9239501953125,
+   "jaccard": 0.8034506797790527
+  },
+  {
+   "source": 18,
+   "target": 23,
+   "deliver": 0.9308837890625,
+   "jaccard": 0.7970012277364731
+  },
+  {
+   "source": 19,
+   "target": 20,
+   "deliver": 0.97685546875,
+   "jaccard": 0.8196315884590148
+  },
+  {
+   "source": 19,
+   "target": 21,
+   "deliver": 0.972119140625,
+   "jaccard": 0.8090758860111237
+  },
+  {
+   "source": 19,
+   "target": 22,
+   "deliver": 0.926513671875,
+   "jaccard": 0.8053889036178589
+  },
+  {
+   "source": 19,
+   "target": 23,
+   "deliver": 0.9318359375,
+   "jaccard": 0.8034922003746032
+  },
+  {
+   "source": 20,
+   "target": 21,
+   "deliver": 0.9815673828125,
+   "jaccard": 0.8319899588823318
+  },
+  {
+   "source": 20,
+   "target": 22,
+   "deliver": 0.95009765625,
+   "jaccard": 0.8305064767599106
+  },
+  {
+   "source": 20,
+   "target": 23,
+   "deliver": 0.9552734375,
+   "jaccard": 0.8265013575553894
+  },
+  {
+   "source": 21,
+   "target": 22,
+   "deliver": 0.970751953125,
+   "jaccard": 0.8635240763425827
+  },
+  {
+   "source": 21,
+   "target": 23,
+   "deliver": 0.9634765625,
+   "jaccard": 0.8489177763462067
+  },
+  {
+   "source": 22,
+   "target": 23,
+   "deliver": 0.9730224609375,
+   "jaccard": 0.8725252091884613
+  }
+ ]
+}

@@ -1,0 +1,65 @@
+{
+ "model": "/root/attn-reuse/models/TinyLlama-1.1B",
+ "dtype": "float16",
+ "n_layers": 22,
+ "seq": 512,
+ "n_batches": 20,
+ "k": 256,
+ "groups": {
+  "2": {
+   "nll": {
+    "base": 2.4388725757598877,
+    "high": 2.4257202446460724,
+    "low": 4.776137781143189
+   },
+   "deliver": {
+    "base": 0.9670600403438915,
+    "high": 0.9864038608290933,
+    "low": 0.5569205013188449
+   },
+   "overlap_high_low": 0.25097658417441626,
+   "overlap_low_base": 0.25137563185258344,
+   "low_distinct_from_base": true,
+   "manipulation_check": true,
+   "predicted_order": true
+  },
+  "3": {
+   "nll": {
+    "base": 2.439603590965271,
+    "high": 2.4258999168872832,
+    "low": 5.342958211898804
+   },
+   "deliver": {
+    "base": 0.9641968522753034,
+    "high": 0.9838676410061973,
+    "low": 0.5649046642439706
+   },
+   "overlap_high_low": 0.25097635814121794,
+   "overlap_low_base": 0.2513554436819894,
+   "low_distinct_from_base": true,
+   "manipulation_check": true,
+   "predicted_order": true
+  },
+  "6": {
+   "nll": {
+    "base": 2.8545942902565002,
+    "high": 2.4264444589614866,
+    "low": 5.306301593780518
+   },
+   "deliver": {
+    "base": 0.9350185228718652,
+    "high": 0.9838999344242944,
+    "low": 0.5630615121788449
+   },
+   "overlap_high_low": 0.25097665521833634,
+   "overlap_low_base": 0.25144195556640625,
+   "low_distinct_from_base": true,
+   "manipulation_check": true,
+   "predicted_order": true
+  }
+ },
+ "full": 2.425240534543991,
+ "harness_own_kseq": 2.425240534543991,
+ "harness_abs_diff": 0.0,
+ "harness_pass": true
+}

@@ -1,0 +1,33 @@
+{
+ "model": "/root/models/DSV2-Lite-IndexCache-Sparse-1250",
+ "seq": 4096,
+ "topk": 2048,
+ "chunk": 128,
+ "n_batches": 3,
+ "base": [
+  1.8442041873931885,
+  1.9859486818313599,
+  2.1591265201568604
+ ],
+ "capture_delta": 0.0,
+ "deltas_all_chunks": [
+  0.06707870960235596,
+  0.06892001628875732,
+  0.07469701766967773
+ ],
+ "deltas_live_chunks": [
+  0.06707870960235596,
+  0.06892001628875732,
+  0.07469701766967773
+ ],
+ "expected_multiplier": 2.0004885197850513,
+ "observed_multipliers": [
+  1.0,
+  1.0,
+  1.0
+ ],
+ "all_rows": 4095,
+ "live_rows": 2047,
+ "n_live_chunks_per_leader": 16,
+ "n_chunks_per_leader": 32
+}

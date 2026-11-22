@@ -1,0 +1,176 @@
+{
+ "schema": "figure-trace-manifest/1",
+ "paper": "attn-reuse/paper/main.tex",
+ "artifacts": [
+  {
+   "artifact_id": "tab:grid"
+  },
+  {
+   "artifact_id": "tab:long"
+  },
+  {
+   "artifact_id": "tab:leader"
+  },
+  {
+   "artifact_id": "tab:mde"
+  },
+  {
+   "artifact_id": "tab:band"
+  },
+  {
+   "artifact_id": "tab:offset"
+  },
+  {
+   "artifact_id": "tab:atrisk"
+  },
+  {
+   "artifact_id": "tab:shots"
+  }
+ ],
+ "figure_table_trace": [
+  {
+   "artifact_id": "tab:grid",
+   "source_data": "attn-reuse/real/data/main_20b_05.json",
+   "transformation": {
+    "script": "attn-reuse/real/reuse_real.py",
+    "hash": "939d75eec31efb87269470906ff92645a293cfe3f333f7e3f52398ef2496c7d2"
+   },
+   "caption_claim": "$\\text{reuse}-\\text{own}$ in nats per token, Qwen2.5-0.5B, 512\npositions, twenty batches, dense 2.82874 (perplexity 16.92). Control exact\n($0$) in every cell. Source: \\texttt{real/data/main\\_20b\\_05.json}.",
+   "supported_manuscript_claims": [
+    "Table~\\ref{tab:grid} gives $\\text{reuse} - \\text{own}$ for 0.5B at 512 positions.",
+    "helpful ($k=64$ to $k=256$ \\emph{lower} NLL, by at most 0.0016), so every cost",
+    "Second, cost is not monotone in group width, and the violation is stable"
+   ],
+   "limitations": [
+    "Three model sizes, three data regimes.",
+    "Most numbers here borrow routing from a model"
+   ]
+  },
+  {
+   "artifact_id": "tab:long",
+   "source_data": "attn-reuse/real/data/long_20b.json",
+   "transformation": {
+    "script": "attn-reuse/real/reuse_real.py",
+    "hash": "939d75eec31efb87269470906ff92645a293cfe3f333f7e3f52398ef2496c7d2"
+   },
+   "caption_claim": "Cost at 512 versus 2048 positions, same $k$ and group (0.5B,\ntwenty batches at both lengths). The ratio grows fastest where $k$ is far\nfrom saturation. Source: \\texttt{real/data/main\\_20b\\_05.json} and\n\\texttt{real/data/long\\_20b.json}.",
+   "supported_manuscript_claims": [
+    "Table~\\ref{tab:long} repeats the lower half of the grid at 2048 positions.",
+    "For the same $k$ and the same group, the cost is 2.6 to 14.9 times larger.",
+    "This matters for how the reuse literature should be read."
+   ],
+   "limitations": [
+    "Three model sizes, three data regimes.",
+    "Most numbers here borrow routing from a model"
+   ]
+  },
+  {
+   "artifact_id": "tab:leader",
+   "source_data": "attn-reuse/real/data/pairs20w12_0.5B.jsonl",
+   "transformation": {
+    "script": "attn-reuse/real/sweep2.py",
+    "hash": "d00db0caf54e1a28ff9fad2793369272f7b4a4c3156606a46644ce5637b8d0b8"
+   },
+   "caption_claim": "Mean single-pair cost by source layer, Qwen2.5-0.5B, $k=256$,\n512 positions, twenty batches, distances up to twelve. Source layers 0 and 1\ndominate. Source: \\texttt{real/data/pairs20w12\\_0.5B.jsonl}.",
+   "supported_manuscript_claims": [
+    "Regrouping the same 210 pairs by \\emph{which layer is the source} tells a",
+    "The ratio is 11.9 per pair and 12.4 when each source layer first contributes",
+    "It is not an odd-versus-even effect: odd followers average $+0.001963$ and"
+   ],
+   "limitations": [
+    "Three defects in our own implementation produced plausible numbers before",
+    "Most numbers here borrow routing from a model"
+   ]
+  },
+  {
+   "artifact_id": "tab:mde",
+   "source_data": "attn-reuse/real/data/mcq_power.json",
+   "transformation": {
+    "script": "attn-reuse/real/power_mcq.py",
+    "hash": "0a814be421c3db528e82692dbe79b1f0dafa3ea2d181896bde63e0ae0b692639"
+   },
+   "caption_claim": "Minimum detectable accuracy difference, in percentage points, for\ncells that admit a rejection region at all. Source:\n\\texttt{real/data/mcq\\_power.json}.",
+   "supported_manuscript_claims": [
+    "Table~\\ref{tab:mde} reports the ranges.",
+    "the exact two-sided McNemar test is applied, and the minimum detectable difference"
+   ],
+   "limitations": [
+    "At 200 items, an MDE of 3--9 points is coarse.",
+    "We score multiple choice by summed option log-probability and do not generate."
+   ]
+  },
+  {
+   "artifact_id": "tab:band",
+   "source_data": "attn-reuse/real/data/mcq_summary.json",
+   "transformation": {
+    "script": "attn-reuse/real/analyze_mcq.py",
+    "hash": "18bf20550153ef30eb8bc522024954888b5b08b0e2190fb76bf0f27a2286b590"
+   },
+   "caption_claim": "Accuracy change by token-level cost band, 0.5B, 25 cells. Source:\n\\texttt{real/data/mcq\\_summary.json} crossed with\n\\texttt{real/data/main\\_20b\\_05.json}.",
+   "supported_manuscript_claims": [
+    "Sorting the 25 cells of 0.5B by token-level cost reveals where the translation",
+    "The defensible statement is banded. Below 0.2 nats, we detect no decision",
+    "Pearson correlation between the two is $-0.936$ over 25 cells, and $-0.906$"
+   ],
+   "limitations": [
+    "At 200 items, an MDE of 3--9 points is coarse.",
+    "We score multiple choice by summed option log-probability and do not generate."
+   ]
+  },
+  {
+   "artifact_id": "tab:offset",
+   "source_data": "attn-reuse/real/data/mcq_offset_05b_k64g6.json",
+   "transformation": {
+    "script": "attn-reuse/real/mcq_offset.py",
+    "hash": "5ed5cc3d3910a7c5118afaf77083c546df7093d33993c1e90e91bc24112b6266"
+   },
+   "caption_claim": "Score decomposition at 0.5B, 120 items, $g{=}6$. The shift is\nlarge relative to the baseline margin, so the reason answers survive is\nthat margins were wide, not that the perturbation was small. Source:\n\\texttt{real/data/mcq\\_offset\\_05b\\_k64g6.json} and its $k{=}128$ counterpart.",
+   "supported_manuscript_claims": [
+    "options and a spread across options separates the two:",
+    "The mechanism is not that the perturbation is small: the spread of 4.376 exceeds",
+    "and margin predicts which items flip with an AUC of 0.76 to 0.86."
+   ],
+   "limitations": [
+    "We score multiple choice by summed option log-probability and do not generate.",
+    "At 200 items, an MDE of 3--9 points is coarse."
+   ]
+  },
+  {
+   "artifact_id": "tab:atrisk",
+   "source_data": "attn-reuse/real/data/cross_bench.json",
+   "transformation": {
+    "script": "attn-reuse/real/cross_bench.py",
+    "hash": "759933cce594b5d2376e16caf7783f778162b92a3e94b1e2f06ca906117a9dc8"
+   },
+   "caption_claim": "Damage and rescue per hundred at-risk items. ARC-Challenge's at-risk\npopulation is \\emph{inverted} (more wrong than correct), which rules out\ndrift-toward-the-majority as the explanation. Source:\n\\texttt{real/data/cross\\_bench.json}.",
+   "supported_manuscript_claims": [
+    "What can carry direction is a pair of \\emph{different} denominators, because",
+    "Both benchmarks agree in direction and disagree in magnitude by only a",
+    "The ARC-Challenge result is the stronger one for our"
+   ],
+   "limitations": [
+    "At 200 items, an MDE of 3--9 points is coarse.",
+    "Its exemplar count differs from ARC-Easy's, and we did not separate the"
+   ]
+  },
+  {
+   "artifact_id": "tab:shots",
+   "source_data": "attn-reuse/real/data/cross_bench.json",
+   "transformation": {
+    "script": "attn-reuse/real/cross_bench.py",
+    "hash": "759933cce594b5d2376e16caf7783f778162b92a3e94b1e2f06ca906117a9dc8"
+   },
+   "caption_claim": "The same six cells at two exemplar counts (0.5B, ARC-Easy,\n$k \\in \\{64,128\\}$, $g \\in \\{2,3,6\\}$). The sign of damage minus rescue\nreverses. Source: \\texttt{real/data/cross\\_bench.json} under\n\\texttt{shot\\_control}.",
+   "supported_manuscript_claims": [
+    "The prompt builder discards demonstrations rather than truncating the",
+    "The reversal is asserted in the instrument's self-test, so the caveat is",
+    "exemplar count is a real variable in this measurement, not noise."
+   ],
+   "limitations": [
+    "Its exemplar count differs from ARC-Easy's, and we did not separate the",
+    "At 200 items, an MDE of 3--9 points is coarse."
+   ]
+  }
+ ],
+ "overrides": []
+}

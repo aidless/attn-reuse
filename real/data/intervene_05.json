@@ -1,0 +1,65 @@
+{
+ "model": "/root/attn-reuse/models/Qwen2.5-0.5B",
+ "dtype": "float16",
+ "n_layers": 24,
+ "seq": 512,
+ "n_batches": 20,
+ "k": 256,
+ "groups": {
+  "2": {
+   "nll": {
+    "base": 2.875252890586853,
+    "high": 2.824442732334137,
+    "low": 4.26165269613266
+   },
+   "deliver": {
+    "base": 0.9639977067708969,
+    "high": 0.9855253001054128,
+    "low": 0.5621253699064255
+   },
+   "overlap_high_low": 0.25097424785296124,
+   "overlap_low_base": 0.25146207213401794,
+   "low_distinct_from_base": true,
+   "manipulation_check": true,
+   "predicted_order": true
+  },
+  "3": {
+   "nll": {
+    "base": 2.8364951729774477,
+    "high": 2.8243352651596068,
+    "low": 5.038276410102844
+   },
+   "deliver": {
+    "base": 0.9623291008174419,
+    "high": 0.9809716157615185,
+    "low": 0.57706518471241
+   },
+   "overlap_high_low": 0.2509771101176739,
+   "overlap_low_base": 0.25135333463549614,
+   "low_distinct_from_base": true,
+   "manipulation_check": true,
+   "predicted_order": true
+  },
+  "6": {
+   "nll": {
+    "base": 2.909968137741089,
+    "high": 2.8241771459579468,
+    "low": 5.2230600118637085
+   },
+   "deliver": {
+    "base": 0.9464431792497635,
+    "high": 0.9803128987550735,
+    "low": 0.5764281868934631
+   },
+   "overlap_high_low": 0.25097642838954926,
+   "overlap_low_base": 0.25138404965400696,
+   "low_distinct_from_base": true,
+   "manipulation_check": true,
+   "predicted_order": true
+  }
+ },
+ "full": 2.824514651298523,
+ "harness_own_kseq": 2.824514651298523,
+ "harness_abs_diff": 0.0,
+ "harness_pass": true
+}

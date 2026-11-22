@@ -1,0 +1,175 @@
+{
+ "seq": 4096,
+ "layers": 27,
+ "per_layer": [
+  {
+   "layer": 0,
+   "total": 8388608,
+   "same_sequence_entries": 6671047,
+   "same_set_entries": 8362690
+  },
+  {
+   "layer": 1,
+   "total": 8388608,
+   "same_sequence_entries": 6763052,
+   "same_set_entries": 8364056
+  },
+  {
+   "layer": 2,
+   "total": 8388608,
+   "same_sequence_entries": 6687018,
+   "same_set_entries": 8355316
+  },
+  {
+   "layer": 3,
+   "total": 8388608,
+   "same_sequence_entries": 6695074,
+   "same_set_entries": 8358516
+  },
+  {
+   "layer": 4,
+   "total": 8388608,
+   "same_sequence_entries": 6708630,
+   "same_set_entries": 8357962
+  },
+  {
+   "layer": 5,
+   "total": 8388608,
+   "same_sequence_entries": 6695577,
+   "same_set_entries": 8359647
+  },
+  {
+   "layer": 6,
+   "total": 8388608,
+   "same_sequence_entries": 6701062,
+   "same_set_entries": 8363972
+  },
+  {
+   "layer": 7,
+   "total": 8388608,
+   "same_sequence_entries": 6703930,
+   "same_set_entries": 8357225
+  },
+  {
+   "layer": 8,
+   "total": 8388608,
+   "same_sequence_entries": 6702446,
+   "same_set_entries": 8368450
+  },
+  {
+   "layer": 9,
+   "total": 8388608,
+   "same_sequence_entries": 6708690,
+   "same_set_entries": 8355345
+  },
+  {
+   "layer": 10,
+   "total": 8388608,
+   "same_sequence_entries": 6697728,
+   "same_set_entries": 8353927
+  },
+  {
+   "layer": 11,
+   "total": 8388608,
+   "same_sequence_entries": 6708095,
+   "same_set_entries": 8360855
+  },
+  {
+   "layer": 12,
+   "total": 8388608,
+   "same_sequence_entries": 6703905,
+   "same_set_entries": 8359057
+  },
+  {
+   "layer": 13,
+   "total": 8388608,
+   "same_sequence_entries": 6701529,
+   "same_set_entries": 8355363
+  },
+  {
+   "layer": 14,
+   "total": 8388608,
+   "same_sequence_entries": 6710623,
+   "same_set_entries": 8364329
+  },
+  {
+   "layer": 15,
+   "total": 8388608,
+   "same_sequence_entries": 6699989,
+   "same_set_entries": 8361696
+  },
+  {
+   "layer": 16,
+   "total": 8388608,
+   "same_sequence_entries": 6715936,
+   "same_set_entries": 8364172
+  },
+  {
+   "layer": 17,
+   "total": 8388608,
+   "same_sequence_entries": 6703427,
+   "same_set_entries": 8357715
+  },
+  {
+   "layer": 18,
+   "total": 8388608,
+   "same_sequence_entries": 6683136,
+   "same_set_entries": 8365775
+  },
+  {
+   "layer": 19,
+   "total": 8388608,
+   "same_sequence_entries": 6702624,
+   "same_set_entries": 8365606
+  },
+  {
+   "layer": 20,
+   "total": 8388608,
+   "same_sequence_entries": 6701098,
+   "same_set_entries": 8362996
+  },
+  {
+   "layer": 21,
+   "total": 8388608,
+   "same_sequence_entries": 6698745,
+   "same_set_entries": 8365068
+  },
+  {
+   "layer": 22,
+   "total": 8388608,
+   "same_sequence_entries": 6694489,
+   "same_set_entries": 8361276
+  },
+  {
+   "layer": 23,
+   "total": 8388608,
+   "same_sequence_entries": 6704936,
+   "same_set_entries": 8359747
+  },
+  {
+   "layer": 24,
+   "total": 8388608,
+   "same_sequence_entries": 6701600,
+   "same_set_entries": 8362712
+  },
+  {
+   "layer": 25,
+   "total": 8388608,
+   "same_sequence_entries": 6693905,
+   "same_set_entries": 8365703
+  },
+  {
+   "layer": 26,
+   "total": 8388608,
+   "same_sequence_entries": 6704618,
+   "same_set_entries": 8360019
+  }
+ ],
+ "summary": {
+  "total": 226492416,
+  "same_sequence": 180962909,
+  "same_set": 225749195
+ },
+ "SUPERSEDED": "same_set derived from a normalisation hack (numel // len(set)); see real/data/dsa_sets_clean.json for the per-row measurement",
+ "superseded_by": "real/data/dsa_sets_clean.json"
+}

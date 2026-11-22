@@ -1,0 +1,1181 @@
+\documentclass[10pt]{article}
+
+% Two builds from one source, as TMLR requires: the review build (default) is
+% anonymized and headed "Under review as submission to TMLR"; the preprint build
+% (\def\TMLRSUBMISSION{1}) prints the author block for arXiv.  Only the style
+% option changes, so the text is identical between the two.
+\ifdefined\TMLRSUBMISSION
+  \usepackage[preprint]{tmlr}
+\else
+  \usepackage{tmlr}
+\fi
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{underscore}
+
+\title{Sharing a Route Is Not Free: Measuring the Cost of Cross-Layer Top-$k$ Reuse in Real Weights}
+
+\author{%
+  Anonymous Author(s) \\
+  Affiliation \\
+  Address \\
+  \texttt{email}
+}
+
+\def\month{MM}
+\def\year{YYYY}
+\def\openreview{\url{https://openreview.net/forum?id=XXXX}}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Families of sparse attention let one layer reuse the token selection another
+layer computed, resting on adjacent layers choosing nearly the same tokens -- a claim about \emph{selection}, not \emph{quality}.
+IndexCache \citep{indexcache} measures quality at benchmark granularity on
+trained sparse models; on a checkpoint trained with sharing (an FSS route
+pattern) the group's own set costs twelve times less than an arbitrary
+substitute of the same size.
+We isolate the selection-set variable on dense pretrained weights with a
+three-readout design separating token-level from decision-level cost, patching
+the attention pass so each layer keeps its own queries, keys and values and only
+the attended set is borrowed; dense, per-layer top-$k$ and group-leader reuse
+share weights, tokens and batch. The harness refuses to report unless per-layer
+selection at $k$ equal to the sequence length matches the dense pass; that
+control caught a real defect. On
+twenty batches of 512 positions the \emph{mean} cost per borrowed pair is 11.9
+times higher when the source is layer 0 or 1 than 2 or later. Shifting groups
+by one layer cuts cost 2--3.4 times at three of four widths. Three similarity-shaped predictors fail to rank the cost: overlap $r=-0.357$ on
+23 Qwen2.5-0.5B pairs, CKA $r=-0.341$ and contribution $r=-0.071$ on a GPT-2
+probe (\S\ref{sec:whatnot}). Against an
+arbitrary $k$-set of the same size the reuse cost is $0.034$ to $0.126$ of that
+null: most of it is the price of a set a layer did not choose. At the decision level on ARC-Easy, 0.5B loses at most
+25.5 points across 25 cells, five of them at $p<0.05$; at $k$ equal to 67\%
+of the decision-level context (256 of 384 positions) the largest difference is
+1 point. Reuse destroys more answers than it repairs (10.1 versus 7.9 per hundred
+at-risk on ARC-Easy, 12.4 versus 6.9 on ARC-Challenge), an asymmetry of 1.3--1.8
+times rather than 5:1, and exemplar count alone can flip its sign.
+\end{abstract}
+
+\section{Introduction}
+
+Sparse attention makes long context affordable by attending to a subset of
+positions. A recent line of work notices that the subsets chosen by
+neighbouring layers are similar enough to share, and uses that to avoid
+recomputing an index per layer. Multi-layer Indexer reports that adjacent layers
+select almost the same tokens and that the sharing needs no retraining
+\citep{mli}. CLSA shares both the key-value blocks and the routing across layers
+\citep{clsa}. IndexCache reuses indices across layers as an engineering
+optimisation \citep{indexcache}.
+
+The empirical premise in these three papers is a measurement of \emph{overlap}: the
+fraction of positions that two layers both select. Our own reproduction
+confirms that premise is real. Adjacent layers overlap far above chance,
+and the enrichment grows with sequence length (1.19 times chance at 512
+positions with $k=128$, 1.96 times at 2048 positions).
+
+What the premise does not establish is that the borrowed selection still
+attends to the right things. Two layers can select the same positions for
+different reasons: layer $\ell{+}1$ may select position $j$ because its own
+query needs it, while layer $\ell$ selected it for a reason that does not
+transfer. If so, overlap is high and reuse is still harmful. IndexCache
+\citep{indexcache} measures exactly this quality loss, but at benchmark
+granularity on trained sparse models and by retention ratio; Kascade
+\citep{kascade} uses a related mass-overlap ratio as a systems heuristic. We
+isolate the same question at a different grain: on dense pretrained weights we
+hold queries, keys, values and batch fixed and change only the set of attended
+positions, then read the cost at both token and decision level. A systematic
+study of trained \emph{key-value} sharing \citep{kvshare} answers a different
+question because it retrains; the throughput-oriented papers
+\citep{mli,clsa} report latency, not this quality term.
+
+This paper measures the step. We take a pretrained model, patch every attention
+layer so that the set of attended positions can be supplied from outside, and
+compare three readings that differ in nothing else:
+
+\begin{itemize}
+\item \textbf{dense}: every position attended, the model as shipped.
+\item \textbf{own}: each layer attends to its own top-$k$ positions.
+\item \textbf{reuse}: each layer attends to the top-$k$ positions of the
+      first layer of its group.
+\end{itemize}
+
+All three use each layer's own queries, keys and values; only the \emph{set}
+differs. We report $\text{reuse} - \text{own}$, which removes the cost of
+sparsification itself and isolates the cost of sharing.
+
+\paragraph{What we find.}
+(i) Reuse costs quality at the token level, and the cost is governed by $k$ and
+by the identity of the group leader, and by inter-layer distance much less.
+(ii) The measurement that motivates reuse (index overlap) is only a weak
+predictor of cost, and part of what it appears to explain is confounded with
+leader identity; a mass-based diagnostic improves on it in a head-to-head test
+but is not an identified mechanism.
+(iii) At the decision level the cost is much smaller than the token-level
+number suggests, and in most configurations not statistically detectable at
+our sample sizes.
+(iv) The direction of the residual damage is observed consistently across the
+significant cells but is modest, and our first estimate of it was wrong for an
+algebraic reason that we now state as a gate.
+
+\paragraph{What this paper is not.}
+It is not a claim that reuse is useless. At $k$ equal to 75\% of the sequence
+and groups of up to four layers, the cost is under 0.0122 nats of token
+NLL, and at the decision level we find configurations where reuse is slightly
+\emph{better} than per-layer selection. What it is not is a measurement of a
+model trained to \emph{share}: outside \S\ref{sec:leader} every number borrows
+routing post hoc from weights that received no training signal for reuse. The
+checkpoints we run include one that learned to select per layer and one trained
+with sharing, and what the second shows is narrow: substituting a random set for
+the group's own set costs twelve times more, so training does not make a layer
+indifferent to which set it receives. A system trained with sharing could still
+move its representations to make sharing cheaper in ways a fixed-weight
+substitution does not see.
+
+\section{Instrumentation}
+
+\subsection{Three readings, one model}
+
+We patch each attention module's forward pass. The patch computes attention
+scores exactly as the original does, then masks all but a supplied set of
+positions per query, applies the softmax over the masked row, and multiplies
+by the layer's own values. The dense reading supplies the full triangular mask
+and must reproduce the unpatched model bit for bit; the other two supply
+per-layer or inherited selections.
+
+Three implementation details cost us real time and are worth stating because
+each produced plausible-looking wrong numbers before it was fixed.
+
+\begin{enumerate}
+\item \textbf{Axis.} Scores have shape (batch, head, query, \emph{key}). Selections
+      therefore live on the last axis. A gather on the query axis returns a
+      tensor of the right shape with the wrong contents and does not raise.
+\item \textbf{Masking, not gathering.} Extracting the kept scores and scattering
+      them back changes the order of the softmax reduction. In bfloat16,
+      addition is not associative, and the result is no longer bit-identical
+      to the dense pass even when $k$ equals the sequence length. We therefore
+      mask: keep a boolean of shape (batch, head, query, key), set the kept
+      entries, and let the softmax reduce over the full row.
+\item \textbf{One contiguous range.} A triangular mask must not be added to a mask
+      built from \texttt{-inf}: the sum of two infinities is not a number. We
+      use the dtype's most negative finite value.
+\end{enumerate}
+
+\subsection{The control that must pass}
+
+Before any reading is reported, the instrument runs the per-layer reading with
+$k$ equal to the sequence length and asserts that its mean token NLL equals the
+dense value to within 0.000001. This is not a formality: the wrong-axis
+implementation above satisfied every shape check and produced a loss far outside
+that tolerance, which the control rejected. The rejections are kept as artifacts
+rather than narrated: \texttt{paper/evidence/run-logs/main.log} is a failed
+control at the tolerance of the loss, and
+\texttt{real/data/control\_failure\_7b.txt} is a failed one
+at the boundary of the argument. The control value is recorded in every
+artifact, and a failed control invalidates the cell rather than the run.
+
+Threshold on the control is deliberately tight, and this is a design choice
+rather than an accident: a loose tolerance would have let the bfloat16
+reduction-order error pass as noise, and that error is one of the mechanisms
+by which the measurement could silently become a measurement of the harness.
+
+\subsection{Models, data, benchmark}
+
+We use Qwen2.5-0.5B (24 layers, hidden 896, 14 heads, 2 key-value heads),
+Qwen2.5-1.5B and Qwen2.5-7B (28 layers each) in bfloat16, on wikitext-2-raw-v1
+test for the token-level measurements and on ARC-Easy and ARC-Challenge for the
+decision-level ones. All runs execute on a single AMD Radeon instance with ROCm.
+Token-level grids are measured at twenty batches and single-pair sweeps at
+twenty batches as well; the four-batch run reported in an earlier version of
+this work is kept as a sample-size control, not as a result.
+
+We report two quantities throughout. Token-level: mean per-token
+negative log-likelihood, and its difference from the per-layer reading. Decision-level:
+exact accuracy over four-way multiple choice, with each option scored by the sum
+of its tokens' log-probabilities, without decoding, because a decoding
+policy would confound the attribution.
+
+\section{Token-level cost}
+
+\subsection{The grid}
+
+Table~\ref{tab:grid} gives $\text{reuse} - \text{own}$ for 0.5B at 512 positions.
+Sparsification alone is nearly free in this range and sometimes slightly
+helpful ($k=64$ to $k=256$ \emph{lower} NLL, by at most 0.0016), so every cost
+below belongs to sharing rather than to sparsity. At $k=32$ sparsification
+itself costs 0.0107, which is why that row is read as a sparsity effect on
+top of a sharing cost.
+
+\begin{table}[h]
+\centering
+\caption{$\text{reuse}-\text{own}$ in nats per token, Qwen2.5-0.5B, 512
+positions, twenty batches, dense 2.82874 (perplexity 16.92). Control exact
+($0$) in every cell. Source: \texttt{real/data/main\_20b\_05.json}.}
+\label{tab:grid}
+\begin{tabular}{rrrrrr}
+\toprule
+$k$ & $g{=}2$ & $g{=}3$ & $g{=}4$ & $g{=}6$ & $g{=}12$ \\
+\midrule
+32  & +0.8050 & +0.4854 & +0.9615 & +1.4553 & +3.2594 \\
+64  & +0.4447 & +0.1884 & +0.5258 & +0.8356 & +2.4429 \\
+128 & +0.1726 & +0.0602 & +0.2302 & +0.3581 & +1.6102 \\
+192 & +0.0678 & +0.0292 & +0.1169 & +0.1731 & +0.9188 \\
+256 & +0.0242 & +0.0114 & +0.0560 & +0.0736 & +0.4493 \\
+384 & +0.0016 & +0.0004 & +0.0122 & +0.0154 & +0.0639 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Three regularities. First, $k$ is the main switch, and the useful range is
+narrow: at $k=384$ (75\% of the sequence) groups up to four layers cost at
+most $+0.0122$ nats, taking perplexity from 16.92 to 17.13; at $k=32$ the
+same grouping costs between $+0.8050$ and $+3.2594$, which is perplexity 37.9
+to 440.6.
+
+Second, cost is not monotone in group width, and the violation is stable
+across samples: $g{=}3$ is \emph{cheaper} than $g{=}2$ at every $k$
+($+0.0016$ against $+0.0004$ at $k=384$, $+0.1726$ against $+0.0602$ at
+$k=128$), while $g{=}4$ is dearer than both. The reason is not that wide
+groups help: a three-layer grouping does not ask layer 3 to borrow, because
+layer 3 leads its own group, and layer 3 is the most expensive
+\emph{follower} we measured. In an even grouping layer 3 follows layer 2 and
+pays $+0.0146$; \S\ref{sec:leader} separates leader from follower.
+
+Third, larger models share more cheaply at the same $k$: $k{=}128$, $g{=}2$
+costs $+0.1726$ nats on 0.5B, $+0.0396$ on 1.5B and $+0.0243$ on 7B, factors
+of 0.23 and 0.14. This is the one regularity that held identically in the
+four-batch sample.
+
+\subsection{What the reuse cost is measured against}
+
+Every cell above compares a follower using the \emph{leader's} set against the
+same layer using its \emph{own} set, so the two states differ twice over: the
+set belongs to someone else, and it is not the set this layer would have
+chosen. Those two differences can be separated, because the leader's set is
+something we can replace with an arbitrary set of the same size. We do that at
+each $(k,g)$ cell: the leaders keep the selection they would have made, every
+borrowing layer receives a random $k$-set drawn only from positions it can see, and the null
+perturbs exactly the layers the reuse cell perturbs. On 0.5B at $k{=}256$ the
+null costs $+0.31493$, $+0.33666$ and $+0.58492$ nats for $g{=}2,3,6$, and on
+7B $+0.07348$, $+0.17319$ and $+0.27844$. The reuse cost is $0.034$ to $0.126$
+of the null, and the null is $7.95$ to $29.4$ times the reuse cost
+(\texttt{real/data/rand\_control\_amd\_05\_bf16.json},
+\texttt{real/data/rand\_control\_amd\_7b\_bf16.json}). So the leader's index
+carries real information -- borrowing is not merely using a set the layer did
+not choose -- and yet at under an eighth of the null it is far from
+sufficient: most of the penalty of swapping a set is simply that the set is
+not the layer's own. The 0.5B and 7B reruns reproduce this paper's published
+cells exactly, with a maximum absolute difference of $0.0$ nats, so the null is
+quoted against the same numbers the grid reports.
+
+The same null on the trained-sparse checkpoint makes the point harder. There
+the arbitrary set costs $+0.039778$, $+0.076422$ and $+0.102348$ nats for
+$g{=}2,3,6$ against reuse costs of $-0.000686$, $+0.001180$ and $+0.002704$:
+$37.8$ to $64.8$ times, against $7.95$ to $29.4$ on dense weights, and the null
+exceeds reuse in every one of the nine batches
+(\texttt{real/data/dsa\_group\_rand.json}). Because both cells of each pair are
+measured in the same forward-pass protocol and on the same batches, the ratio is
+paired rather than assembled from two experiments
+(\texttt{real/data/dsa\_group\_rand\_analysis.json}). Read this as a ratio and
+not as a magnitude: the trained model pays \emph{less} in absolute nats for an
+arbitrary set than 0.5B does ($+0.0398$ to $+0.1023$ against $+0.3149$ to
+$+0.5849$), and the two checkpoints are not the same model at two scales, so the
+absolute numbers are not comparable across the two families. What is comparable
+is where each model's own reuse cost sits against its own null, and on that axis
+the trained checkpoint sits further below: its reuse cost is at most $2.6$\% of
+its null in every cell, against $12.6$\% at worst on dense weights. So learning
+a selection does not make a layer tolerant of an arbitrary one; it makes the
+layer's own choice cheaper relative to the arbitrary alternative. We checked
+that the two harnesses build the same null rather than two conventions wearing
+one name: both exclude positions at or past the query, both
+stay in range, both reproduce under a fixed seed and both change under a
+different one, and both clamp identically when a row can see fewer keys than
+$k$ (\texttt{real/null\_parity.py}).
+
+\subsection{Sequence length is the amplifier}
+
+Table~\ref{tab:long} repeats the lower half of the grid at 2048 positions.
+For the same $k$ and the same group, the cost is 2.6 to 14.9 times larger.
+
+\begin{table}[h]
+\centering
+\caption{Cost at 512 versus 2048 positions, same $k$ and group (0.5B,
+twenty batches at both lengths). The ratio grows fastest where $k$ is far
+from saturation. Source: \texttt{real/data/main\_20b\_05.json} and
+\texttt{real/data/long\_20b.json}.}
+\label{tab:long}
+\begin{tabular}{rrrrr}
+\toprule
+cell & 512 & 2048 & ratio \\
+\midrule
+$k{=}128$, $g{=}2$ & +0.1726 & +0.7230 & 4.2 \\
+$k{=}128$, $g{=}6$ & +0.3581 & +0.9254 & 2.6 \\
+$k{=}256$, $g{=}2$ & +0.0242 & +0.3615 & 14.9 \\
+$k{=}256$, $g{=}6$ & +0.0736 & +0.5425 & 7.4 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+This matters for how the reuse literature should be read. A configuration
+tested at 512 positions and reported as cheap can be fifteen times more
+expensive at the lengths sparse attention exists to serve, and the
+amplification is strongest precisely for the large-$k$ cells that look
+safest at short length: $k{=}256$ with $g{=}2$ costs $+0.0242$ nats at 512
+and $+0.3615$ at 2048. The number to quote is a cost \emph{curve over
+length}, not a single operating point.
+
+\subsection{Two indices, neither of which is the axis}
+\label{sec:leader}
+
+We measure 210 single-pair transfers on 0.5B: layer $t$ borrows layer
+$s$'s selection, $1 \le t - s \le 12$, all other layers left at their own
+selection. Read as a marginal profile, the median cost looks nearly flat:
+$+0.00067$ at distance one, $+0.00076$ at five, $+0.00116$ at ten. But that
+profile pools every source that can reach a given distance, and in an
+$L$-layer stack a pair at distance $d$ can only have source
+$0 \ldots L-1-d$ -- so the mean source at distance $d$ is exactly
+$(L-1-d)/2$, which is arithmetic rather than a property of the model. Over
+the four sweeps the observed column matches that arithmetic column to two
+decimals every time, so the deep columns of the profile are averages over
+systematically shallower sources. Holding the source fixed instead, the cost
+rises with distance on three sweeps out of four (within-source Spearman
+$+0.172$ to $+0.236$, stratified permutation $p$ from $0.0057$ to $0.0609$).
+Distance is therefore a real axis, not a flat one.
+
+No single decomposition settles how large an axis it is.
+Since $t = s + d$ holds for every pair, the three columns span only two
+dimensions and any two of them generate the same space; whichever one is put
+first absorbs the shared part. Ordering the fit by source gives the distance
+increment $0.0015$ to $0.0224$ in $R^2$; ordering it by distance gives the
+position increment $0.0436$ to $0.1341$; ordering it by target gives a third
+set of numbers. These are three writings of one two-variable fit, not three
+findings, and the near collinearity of source and target on our grids
+($r = +0.82$ to $+0.99$) leaves the split unidentifiable from this data. What
+survives that is the ceiling: no two-variable fit explains more than
+$0.0542$ to $0.1435$ of the variance in pair cost, so $86\%$ to $95\%$ of it
+is carried by something these two indices do not name. The one comparison
+here that needs no ordering at all is each column fitted alone: source
+explains $0.0456$ to $0.1420$ and distance $0.0012$ to $0.0268$, so the
+leader is the larger axis in the weaker sense of the two marginal fits, not
+in the sense that the two effects are separable from this data
+(\texttt{real/data/distance\_axis.json}).
+
+The tail is thick and not at the far end: the largest single transfer is
+$+0.0635$, at distance ten (layer 11 borrowing layer 1).
+
+Regrouping the same 210 pairs by \emph{which layer is the source} tells a
+different story:
+
+\begin{table}[h]
+\centering
+\caption{Mean single-pair cost by source layer, Qwen2.5-0.5B, $k=256$,
+512 positions, twenty batches, distances up to twelve. Source layers 0 and 1
+dominate. Source: \texttt{real/data/pairs20w12\_0.5B.jsonl}.}
+\label{tab:leader}
+\begin{tabular}{rrc}
+\toprule
+source layer & mean cost & $n$ \\
+\midrule
+0 & +0.012454 & 12 \\
+1 & +0.010745 & 12 \\
+2 & +0.003884 & 12 \\
+3 & +0.000799 & 12 \\
+4 & +0.000643 & 12 \\
+\midrule
+sources 0--1 & +0.011599 & 24 \\
+sources $2+$  & +0.000972 & 186 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The ratio is 11.9 per pair and 12.4 when each source layer first
+contributes one mean: those are the two \emph{mean}-based weightings and they
+agree. The median ratio is smaller, 5.9, because the per-pair cost has a thick
+tail, so the headline describes an average rather than a typical pair. The same
+split holds on the other two sizes: 18.3 and 15.9 on
+1.5B, 7.4 and 6.1 on 7B. With ten thousand relabellings of the source column,
+the permutation $p$ is $0.0002$ on 0.5B (the smallest model has the fewest
+leader pairs) and the resolution limit $0.0001$ on 1.5B, 7B and TinyLlama
+(\texttt{real/data/cross\_family.json}).
+
+Is this a Qwen2.5 artifact? We repeat the same single-pair protocol on
+TinyLlama-1.1B, a model from the Llama family, at the same $k=256$,
+512 positions and twenty batches. Sources 0--1 average $+0.051198$
+($n=12$) against $+0.001784$ for deeper sources, a ratio of 28.71,
+with permutation $p=0.0001$ over 10000 relabellings
+(\texttt{real/data/pairs20\_TinyLlama.jsonl}). On this same
+window-six protocol the three Qwen2.5 sizes give 7.54, 34.99 and 11.82
+(\texttt{real/data/cross\_family.json}). The leader anomaly survives a
+change of model family and of scale: across the five dense checkpoints we
+measure, the first two sources are the expensive ones. The fifth is
+Qwen2.5-14B ($48$ layers) at $k{=}256$, where sources 0--1 average
+$+0.003865$ ($n=12$) against $+0.000305$ ($n=255$) for deeper sources over the
+whole $267$-pair window-six sweep (sources 2--46), a ratio of
+$12.67$ with the same permutation floor $p=0.0001$; a boundary that admits
+source two as "leader" dilutes it to $7.45$, so the ratio is definition-sensitive
+in the direction the smaller models already show. Two things do vary: the absolute
+magnitudes, and how far past the first two sources the expensive band
+extends -- at $k{=}256$ and distance up to six, source two is $5.0$ times the
+deeper tail on 0.5B, $22.3$ times on TinyLlama and $7.87$ times on 14B, but
+indistinguishable from it on 1.5B and 7B, and the ordering \emph{within} the
+first two sources is not separable at six pairs per source
+(\texttt{real/data/band\_depth.json}).
+
+That claim is scoped to dense weights, and we can say where it stops. The same
+single-pair protocol on a checkpoint \emph{trained} to select its own sparse
+index in every layer (a 27-layer model with a learned 2048-of-$n$ indexer,
+$k{=}2048$, 4096 positions, three batches) puts lead sources at $+0.000482$
+against $+0.000543$ for deeper ones, a ratio of $0.89$ with a two-sided
+permutation $p=0.61$ and a difference whose bootstrap interval
+$[-4.7\times10^{-4}, +4.0\times10^{-4}]$ straddles zero: on a model that
+learned its own selection, the first-layer privilege is not there
+(\texttt{real/data/dsa\_report.json}). Borrowing still costs something
+everywhere -- $127$ of the $141$ pairs are positive, mean
+$+5.4\times10^{-4}$ with interval $[+4.7\times10^{-4}, +6.1\times10^{-4}]$
+-- it is simply flat in the source layer rather than concentrated in the first
+two. So the asymmetry is a property of dense weights measured post hoc, not of
+attention as such, and a claim that sharing is harmless because overlap is high
+gains nothing from this: on that model the per-query Jaccard between shared
+index sets is $0.86$ while the correlation between overlap and cost is
+$0.0008$.
+
+Grouping that model's layers costs far less than the dense grid predicts. The
+dense 0.5B row at the same keep fraction ($k{=}256$ of $512$, half the sequence) pays
+$+0.0242$, $+0.0114$ and $+0.0736$ nats for $g{=}2,3,6$
+(Table~\ref{tab:grid}); the trained checkpoint pays $+0.000918$ on average
+across the same three cells ($8$ of $9$ cells positive), which is 2.5\% of
+the dense total, and each individual cell's interval includes zero at three
+batches. The direction is the same, so what dense weights call the cost of
+sharing is largely the cost of imposing a selection a layer never learned to
+use, and the part of it that survives training is small.
+
+These numbers are means over every scoring position, and at this keep fraction
+half of those positions do not separate a borrowed set from the layer's own. A query at position $q$ sees $q+1$
+keys; while $q+1 \le 256$ the top-$256$ set is every visible key, so a borrowing
+layer receives exactly the set it would have chosen and that row contributes
+zero. Restricting the average to the rows that can discriminate multiplies every
+cell by $511/255 = 2.0039$ exactly -- measured, not fitted, and exact to
+$5.4\times10^{-6}$ across twelve cells at four values of $k$
+(\texttt{real/data/dilution\_analysis.json}). At $k{=}64$ the correction is only
+$1.14$, so the published numbers are conservative and they are more conservative
+where $k$ is a larger share of the sequence, which is the regime this paper
+argues is dangerous. No comparison changes: a common factor cancels in every
+ratio we report, including the null below.
+
+\subsection{A checkpoint trained to share}
+\label{sec:trainedshare}
+
+\paragraph{The gap this leaves.} \S\ref{sec:leader} cites a checkpoint that
+learned to select its own index in every layer, which is not the same as
+learning to be \emph{reused}, and the Limitations section says so. A
+trained-with-sharing model does exist for the architecture we study: we measure
+\texttt{fxmeng/DSV2-Lite-IndexCache-Sparse-1250}, a 27-layer DeepSeek-V2-Lite
+derivative whose route pattern is \texttt{FSS} repeated nine times. Each full
+layer computes routes that its two shared layers then reuse; the sharing is
+what the model was trained with, not something we impose on it afterwards. It
+selects $2048$ of $4096$ positions.
+
+\paragraph{What it costs to substitute the set.} We note all three readings are
+paired inside one run, on the same three batches, with the same seeds
+(\texttt{real/data/ic\_null.json}). Borrowing a neighbouring group's real,
+learned set costs $+0.005763$ nats per token, and its interval
+$[-3.2\times10^{-3}, 1.5\times10^{-2}]$ includes zero at three batches: on this
+model the group's own choice is close enough to a usable substitute that this
+measurement does not separate them. Replacing the same borrow with a random set
+of the same size, drawn only from positions each query can see, costs
+$+0.070199$ with interval $[+6.0\times10^{-2}, +8.0\times10^{-2}]$. The ratio is
+$12.18$ (\texttt{real/data/ic\_analysis.json}).
+
+\paragraph{Reading it as a ratio, not as a magnitude.} The absolute number is
+smaller than on the dense checkpoints, and that is not the comparison this pair
+supports: a different model family, a different keep fraction, and a different
+sequence length all sit between them. What the pair does say is that training a
+model to share does not make its layers indifferent to \emph{which} set they
+receive. It makes the set the group learned relatively cheap; the cost of an
+arbitrary substitute is still twelve times larger.
+
+\paragraph{Two controls, and the first one lied to us.} Shuffling the order of
+the borrowed indices without changing the set costs exactly $0.000$ -- as it
+must, because the indices become a boolean mask and a mask is order-invariant.
+We report it because our first attempt treated that zero as evidence the
+intervention failed, when in fact it says only that the harness has no order
+channel (\texttt{real/data/ic\_null.json}). A single-chunk probe does have to be
+run where the intervention can bite, and the rule is off by one from the obvious
+one: a chunk discriminates when its \emph{first} query sees more than $2048$
+keys, not when its last one does. Exactly half the chunks qualify, sixteen of
+thirty-two. Chunk $(1920,2048)$ sits on the boundary -- its last query sees
+$2048$ keys and selects all of them -- and forcing it changes nothing
+($\Delta = 0.000000$). The first genuinely live chunk $(2048,2176)$ exceeds the
+cutoff by a single key and still moves by $+0.0023$; the last chunk
+$(3968,4096)$, where $1921$ of $3969$ keys are excluded, moves by
+$+0.0013$ to $+0.0014$
+(\texttt{real/data/ic\_sanity.json}). Neither the two chunks nor the two runs
+rank each other: a single-chunk substitution is a mechanism check, not a
+magnitude, and this one moves by $2.7\%$ between separate processes while
+restoring bit-identically to $0.000000$ inside its own run. What it establishes
+is that the intervention reaches the model at all, which the first attempt --
+aimed at a chunk that could not discriminate -- did not.
+
+\paragraph{Half the positions are inert here too.} The dilution of
+\S\ref{sec:leader} reproduces on this checkpoint, and here it is measured rather
+than derived. Applying the substitution to every chunk and to only the sixteen
+discriminating chunks gives the same three per-batch deltas to the last printed
+digit (\texttt{real/data/ic\_dilution.json}). Averaging over the $2047$ rows that
+can discriminate instead of all $4095$ multiplies the cells by
+$1.9932$, $1.9913$ and $2.0136$ against the predicted $4095/2047 = 2.0005$
+(\texttt{real/data/ic\_row\_dilution.json}).
+
+\paragraph{Overlap still does not carry the signal.} On the last chunk, where
+both sets can exclude half the sequence, the learned adjacent-group set overlaps
+a random set of the same size at Jaccard $0.5211$ against $0.3399$ -- a factor
+$1.53$ -- and yet the two differ in cost by the factor above
+(\texttt{real/data/ic\_overlap.json}). Random sets have to be compared inside
+the same chunk, because their own overlap falls with the visible range: from
+$0.9418$ at the first chunk to $0.3399$ at the last.
+
+\subsection{What layer-specific scoring buys}
+\label{sec:latentindex}
+
+The checkpoint above gives every follower the leader's score. A second
+checkpoint from the same family, \texttt{fxmeng/DSV2-Lite-LatentIndex-Sparse-1250},
+uses the same $FSS$ route pattern but a different rule: the leader shares only
+its latent cache, and each follower reads its own offset out of the route list
+and scores the same keys with its own projection (the construction
+\citet{latentindex} describes). That makes the two checkpoints a controlled
+comparison of one thing -- whether the follower scores with its own weights or
+with the leader's -- so we can ask what that rule buys.
+
+\paragraph{Nothing measurable, and the probe did fire.} Forcing every follower
+to read offset zero reproduces the leader-scored behaviour, and a repeat with
+the substitution applied on top of each scores the cost of an arbitrary set:
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+cell & mean $\Delta$nll \\
+\midrule
+own score, own set (control) & $+0.000000$ \\
+leader score, own set & $+0.000105$ \\
+own score, random set & $+0.069073$ \\
+leader score, random set & $+0.069093$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The difference between the two ``own set'' cells has a confidence interval
+$[-0.001347,\,0.001556]$ over the three batches, which contains zero, and the
+three per-batch values do not even share a sign. The ratio between the two
+random-set cells is $0.9996$ by mean of per-batch ratios (a ratio of means
+gives $0.9997$), and the substitution cost is $0.984$ times the cost measured
+on the leader-scored checkpoint
+(\texttt{real/data/li\_run.json}, \texttt{real/data/li\_analysis.json}).
+
+A ratio near one has two possible readings -- the quantity is flat, or the
+probe did not reach the model -- and only a separate check separates them.
+Re-capturing the selected indices with the offset forced shows that they do
+change: on the $306$ chunks where the first query can see more than $k$ keys,
+Jaccard between the own-score and leader-score selections averages $0.7799$
+(median $0.7878$, minimum $0.4322$), and not one chunk is left identical. On
+the $288$ chunks that do not discriminate, $97.6\%$ are identical, which is
+what should happen there: their scores are all $-\infty$ and top-$k$ is a
+tie-break rather than a decision. The measurement is flat because the quantity
+is flat.
+
+\paragraph{What this rules out.} It rules out the inference that better
+selection quality must mean a lower decision-level cost. Giving a follower its
+own score changes roughly a fifth of the set it selects and leaves the cost of
+an arbitrary substitute unchanged. It does not rule out that layer-specific
+scoring helps on the axis its authors measure -- attention-mass recall
+against the dense attention is not the same quantity as NLL after
+substitution, and a method can recover one without moving the other. We
+therefore state the first and not the second, having been rejected once for
+making exactly that inference.
+
+\subsection{A predictive diagnostic, and a construct check}
+\label{sec:mechanism}
+
+The split by source says \emph{who} is expensive, not why. The obvious
+explanations fail: overlap, linear CKA and the contribution proxy do not rank
+the cost (\S\ref{sec:whatnot}). We therefore explore one further quantity, and
+we stress at the outset that it is a \emph{predictive diagnostic}, not an
+identified mechanism.
+
+The quantity is where a leader's selection lands in the \emph{follower's}
+distribution. We read the leader's selected positions against the follower's
+dense softmax (no reuse mask) and sum their probability; call this
+\emph{deliver-mass}. This is an unnormalised variant of the attention-mass
+overlap ratio used as a systems heuristic by Kascade \citep{kascade} and of the
+attention-mass recall reported by LatentIndex \citep{latentindex}; we apply it
+to dense-weight post-hoc reuse rather than claim it as a new measure. On 0.5B,
+sources 0--1 deliver $0.9087$ against $0.9722$ for deeper sources, a ratio of
+$0.935$; on TinyLlama the split is $0.8352$ versus $0.9784$, a ratio of $0.854$
+(both $p=0.0001$, ten-thousand relabellings). The leaders' own selections stay
+high-mass under their own distributions, so the gap is a cross-layer mismatch
+rather than diffuse early attention; Kascade \citep{kascade} independently
+observes that early layers have flatter distributions.
+
+Across the paired probes deliver-mass correlates with reuse cost at $-0.5124$
+on 0.5B and $-0.6912$ on TinyLlama. Deliver-mass also rises with layer depth,
+so we partial out the continuous source index: the correlation stays $-0.4679$
+and $-0.6290$. This control is incomplete: the leader reset is really the
+\emph{binary} split sources $0$--$1$ versus $2+$, and controlling that dummy
+shrinks the correlation materially: to $-0.3338$ ($p=1.6\times10^{-4}$) on
+0.5B and $-0.4253$ ($p=3.3\times10^{-6}$) on TinyLlama, while deliver-mass
+still adds $+0.0915$ and $+0.1149$ explained variance beyond the dummy alone,
+and a stack controlling the dummy, the source index and the distance together
+leaves $-0.3650$ and $-0.4197$ (\texttt{real/data/dummy\_controls.json},
+battery in \texttt{real/dummy\_controls.py}). Deliver-mass is therefore partly
+entangled with leader identity but is not a restatement of it. Restricting to
+sources $2+$ keeps
+TinyLlama negative at $-0.7108$ but weakens 0.5B to $-0.2957$; shuffling the
+deliver labels destroys the signal ($-0.0911$ and $-0.0431$). The correlations
+and the shuffle control are read from \texttt{real/data/deliver\_corr.json},
+joined from the dense probe and the masked-NLL pairs by
+\texttt{real/leader\_deliver\_analysis.py}. A reviewer asked whether this is
+just a decorative restatement of plain selection overlap. We tested that
+directly: on the \emph{same} dense pass we computed the Jaccard overlap of the
+two top-$k$ index sets and compared the two predictors on the same pairs
+(\texttt{real/overlap\_head2head.py}, \texttt{real/data/h2h\_corr.json}). Jaccard
+does carry signal ($r=-0.363$ on 0.5B, $-0.345$ on TinyLlama, $-0.427$ on 1.5B
+and $-0.402$ on 7B), but deliver-mass
+keeps a strong partial correlation after controlling it ($-0.4218$ and
+$-0.6469$ at the two small models, $-0.631$ and $-0.625$ at 1.5B and 7B,
+$p\le1.2\times10^{-6}$) and adds variance ($\Delta R^2=+0.154$, $+0.369$,
+$+0.326$ and $+0.328$), while jaccard's partial collapses and even flips
+positive on
+TinyLlama ($+0.138$, $p=0.149$). A synthetic fixture where deliver is a pure
+monotone function of overlap makes both the partial and $\Delta R^2$ vanish, so
+the comparison can go red. Under this test deliver-mass is not redundant with
+plain overlap. This is still a predictive comparison, not a mechanism: both
+readouts share the follower's queries and keys with the masked-NLL cost, and
+we note that we make no causal claim.
+
+The binary leader control of the previous paragraph is scale-dependent, and we
+report that plainly rather than only where it is strongest
+(\texttt{real/data/dummy\_controls.json}). At 1.5B the leader flag already
+explains half the cost variance ($R^2=0.498$), so deliver-mass adds only
+$+0.028$ beyond it and the partial falls to $-0.237$ ($p=3.9\times10^{-3}$);
+at 7B the flag explains $0.306$ and deliver adds $+0.166$ with a partial of
+$-0.489$ ($p=3.4\times10^{-10}$). The 0.5B and TinyLlama readings sit between
+these ($+0.092$ and $+0.115$ added variance). The correlation survives the
+binary control at every scale, but at 1.5B it does so weakly, and a reader
+should not conclude that the diagnostic is uniformly useful across sizes.
+
+A correlation surviving controls is not the same as accounting for the size of
+the effect, and we note the two are far apart here. Fitting cost against
+deliver-mass on the late leaders alone and extrapolating that slope to the early
+leaders' mean deliver predicts only $32\%$, $60\%$, $28\%$ and $38\%$ of the
+observed early-minus-late cost gap at 0.5B, TinyLlama, 1.5B and 7B
+(\texttt{real/data/leader\_magnitude.json}, battery in
+\texttt{real/leader\_magnitude.py}); the remaining $40$--$72\%$ is unexplained by
+the mass shift even under this deliberately generous linear extrapolation. The
+extrapolation is also out of support: fewer than half the early pairs fall inside
+the late group's deliver range, and at 1.5B none do (early maximum $0.9242$ below
+late minimum $0.9379$), so deliver-mass is nearly collinear with the leader flag
+there. We therefore report deliver-mass as a correlated diagnostic that falls
+well short of explaining why the first layers are expensive, not as an account of
+that magnitude; what carries the residual is not isolated by this measurement.
+
+As a construct check we ask only whether moving the borrowed index moves the
+cost in the predicted direction. A pre-registered two-pass ORACLE
+(source: \texttt{real/reuse\_intervene.py}) reads dense mass once and replaces
+only the index followers borrow, holding each layer's $q/k/v$ and the leaders'
+own selections fixed. HIGH borrows the followers' consensus dense top-$k$,
+LOW the bottom-$k$; BASE is the leader's own selection. On the same bfloat16
+0.5B artifact as the grid, HIGH$<$BASE$<$LOW in every grouping (group 2/3/6
+BASE NLL $2.874$ / $2.874$ / $2.911$, LOW $4.26$--$5.23$;
+\texttt{real/data/intervene\_05\_v2.json}), and the ordering holds on
+TinyLlama. We note this ordering is partly an artifact of construction: HIGH
+and LOW are the top and bottom of the same follower dense distribution that
+defines deliver-mass. The check therefore shows the borrowed index is a live lever on
+cost, \emph{not} that deliver-mass identifies a mechanism, and the guide set is
+dense attention unavailable in an autoregressive decoder, so this is not a
+deployable selection rule. We further note the ORACLE's BASE index is not
+bit-identical to the grid's reuse condition (a same-batch diagnostic,
+\texttt{real/diag\_base.py}, finds a material NLL gap and selection positions
+that differ at most indices), so we make no cross-comparison of absolute
+magnitudes between the two experiments.
+
+One descriptive consequence on 0.5B is the width non-monotonicity. In an even
+grouping layer 3 is the follower of layer 2, and that single transfer costs
+$+0.014557$, 18.9 times the median of all 210 pairs
+(\texttt{real/data/pairs20w12\_0.5B.jsonl}). Removing layer 3 from the
+$g{=}2$ partition drops its sum from $+0.023558$ to $+0.009001$, a factor of
+2.6. Layer 3 is also the dearest follower of layer 0 ($+0.036897$) and the
+third dearest of layer 1 ($+0.006638$, against $+0.000231$ for layer 2).
+It is not an odd-versus-even effect: odd followers average $+0.001963$ and
+even ones $+0.000569$, but removing layer 3 turns the odd average into
+$+0.000818$, close to the even one. We stress this is a single-layer
+observation on one width: on 1.5B and 7B the analogous layer is not the
+outlier, so we do not offer a width-dependent mechanism. Groups of three do
+not ask layer 3 to follow, which is why the offset fix helps.
+
+Second, the fix is cheap but not uniform. Shifting every group by one
+layer so the leaders become layers 1, 4, 7, \ldots{} multiplies the cost by
+0.30, 1.53, 0.31 and 0.50 for $g{=}2,3,4,6$
+(\texttt{real/data/offset20.jsonl}). Three widths get 2--3.4 times cheaper;
+$g{=}3$ gets 1.5 times dearer, and the reason is the same layer 3. In the
+unshifted $g{=}3$ partition layer 3 leads and pays nothing; shifting by one
+makes it a follower of layer 1, and the partition's predicted sum rises from
+$+0.010182$ to $+0.017952$, which matches the measured $+0.017464$. A system
+that shares routing can choose which layer computes it, and the choice is
+worth a factor of three \emph{in the partitions that do not put layer 3 in a
+follower slot}.
+
+\subsection{Borrowed costs add up}
+
+If the single-pair costs were independent, a group's cost would be the sum
+of its members'. It is not, and the departure grows with group width. On
+0.5B, measured over summed-predicted is 1.03 at $g{=}2$, 1.12 at $g{=}3$,
+1.16 at $g{=}4$, 1.32 at $g{=}6$ and 2.90 at $g{=}12$: $g{=}2$ is additive
+to within three percent, while the widest grouping we ran is nearly three
+times the sum of its parts. On 1.5B the sum understates the group cost
+throughout, by a factor of 1.72 to 2.32; on 7B it overstates it, by a factor
+of 0.40 to 0.71. The sign of the departure therefore changes with model
+size, so we report a per-model factor rather than additivity as a property
+of the model (\texttt{real/data/additivity.json}).
+
+What does transfer between the two protocols is the \emph{ordering}. Across
+the five widths on 0.5B and the three on each other model, the rank
+correlation between the summed single-pair cost and the measured group cost
+is $+1.000$ in all three. So the single-pair protocol is a usable instrument
+for asking which grouping is cheaper and an unusable one for asking how much
+cheaper. The direction of the error is not even constant: on 7B the summed
+single-pair cost overstates the group cost at every width, by up to a factor
+of two and a half, while on 0.5B it understates the widest width by a factor
+of three.
+
+The widest cell is also the one where an explanation is available but not
+separable from the measurement. At $g{=}12$ the 24 layers form two groups,
+so eleven consecutive layers borrow from layer 0 at once and each one's
+corrupted output is the next one's input; at $g{=}2$ no follower of layer 0
+has another follower of layer 0 upstream of it. Chain depth and
+group width move together in this grid and we did not run the design that
+would separate them, so we record the pattern and not a decomposition of
+it.
+
+\section{What the similarity measures do and do not predict}
+\label{sec:whatnot}
+
+The reuse literature's premise is that overlap is high, therefore reuse is
+cheap. We measured the cost and the overlap on the same models, so the
+implication can be tested rather than assumed. The three checks below come from
+two different corpora, which we keep separate: overlap is on 23 Qwen2.5-0.5B
+layer pairs, while the CKA and contribution probes are an earlier two-text
+GPT-2 study (eleven and ten layer pairs). They agree in sign but are not a
+single controlled comparison.
+
+\paragraph{Overlap.} We recount overlap per (batch, head, query), comparing
+each layer's selection with its neighbour's, and normalise by the overlap
+expected if the two selections were independent given each query's prefix
+length. That expectation is not $k$ divided by the prefix: for a prefix shorter
+than $k$ the selection is the whole prefix, so a naive baseline saturates at
+one when $k$ approaches the sequence length and manufactures a negative effect
+at exactly the cells where reuse is cheapest. The correct closed form is
+$T^{-1}\sum_{u \le T} \min(k, u)/u$. With it, enrichment is 1.19 times chance
+at 512 positions with $k=128$, 1.03 at $k=256$, 1.96 and 1.46 at 2048
+(\texttt{real/data/overlap\_baseline.json}).
+
+Across 23 layer pairs at matched $k$, overlap and cost have $r = -0.357$
+(rank correlation $-0.453$), and the overlap range is narrow, 0.83 to 0.93.
+The sign is the one the premise predicts -- more overlap, cheaper reuse -- so
+what fails is the magnitude and the exclusivity, not the direction: over this
+narrow overlap band the cost spans an order of magnitude, and the relation is
+not monotone in the way a predictor would need to be.
+
+\paragraph{Representation similarity.} Linear-kernel CKA between adjacent layers'
+attention outputs gives $r = -0.341$ with cost over ten layer pairs after
+excluding the first. Note that linear CKA is biased upward in finite samples:
+over twenty seeded draws of two independent $n\times 64$ matrices it averages
+$0.243$ at 200 samples and $0.031$ at 2000, so a value is only interpretable
+next to $(n,d)$ and we report both with every number.
+
+\paragraph{Contribution magnitude.} A layer's attention output, pushed through
+the unembedding, has a norm that grows 33-fold from layer one to layer eleven.
+It is strongly correlated with depth ($+0.895$ on the log scale) and with cost
+at $r=-0.071$ overall, $+0.604$ after excluding the first pair. Our
+preregistered criteria required an unrelated-quantity control to correlate
+less than 0.5 in absolute value with depth; it fails at 0.895, so this proxy
+is rejected rather than reported as weak.
+
+None of the three is a sufficient predictor, and each falls short for an
+interpretable reason: overlap is a property of attention rather than of a
+layer's role, and much of its apparent signal is shared with leader identity;
+CKA measures similarity of outputs, not of what those outputs are needed for;
+contribution magnitude is a depth proxy. We report them because the natural
+predictor is weaker and less exclusive than the premise assumes, which is what
+leaves room for the mass diagnostic we turn to next.
+
+\section{Decision-level cost}
+
+\subsection{Power first}
+
+A token-level cost of 0.06 nats and an unchanged answer can coexist, and
+reporting only the token-level number would overstate the practical cost.
+We therefore measure accuracy, but we measure the \emph{detectable} accuracy
+difference at the same time, because a small sample with few discordant
+items is unable to distinguish ``no damage'' from ``damage below the resolution''.
+
+For each cell with $b$ answers changed from right to wrong and $c$ from wrong
+to right, the exact two-sided McNemar test is applied, and the minimum
+detectable difference is the smallest $|b-c|$ that would reach $p<0.05$ given
+the observed discordance count. Table~\ref{tab:mde} reports the ranges.
+
+\begin{table}[h]
+\centering
+\caption{Minimum detectable accuracy difference, in percentage points, for
+cells that admit a rejection region at all. Source:
+\texttt{real/data/mcq\_power.json}.}
+\label{tab:mde}
+\begin{tabular}{llrr}
+\toprule
+benchmark & model & cells with MDE & magnitude \\
+\midrule
+ARC-Easy & 0.5B & 20 & 3.0--9.5 pt \\
+ARC-Easy & 1.5B & 5 & 3.5--7.0 pt \\
+ARC-Easy & 7B & 2 & 4.7 pt \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Cells whose discordance count is too small to reject anything are labelled
+as having no rejection region rather than given an MDE: at two discordant
+items the smallest two-sided exact $p$ is 0.5, so no result could reach
+significance. Giving those cells a number would be an arithmetic fiction.
+
+\subsection{The token-level cost does not translate one-for-one}
+
+On ARC-Easy with 0.5B, 25 cells, dense accuracy 0.6100:
+
+\begin{itemize}
+\item Only five cells reach $p<0.05$, and all of them have a group of six
+      layers or more: $k{=}32$ with $g{=}12$ ($-25.5$ points), $k{=}64$ with
+      $g{=}12$ ($-21.5$), $k{=}128$ with $g{=}12$ ($-21.0$), $k{=}32$ with
+      $g{=}6$ ($-9.0$), $k{=}192$ with $g{=}12$ ($-8.5$).
+\item $k{=}256$ is flat: five cells, five discordant items in total, every
+      $p \ge 0.5$, and two cells with exactly zero.
+\item The maximum difference across all 25 cells is 25.5 points, and all
+      five significant cells have it; among the twenty cells that do not
+      reach significance the largest is 4.5. At $k{=}256$ it is 1.0.
+\end{itemize}
+
+The 1.5B grid repeats the shape more quietly: dense 0.7600, nine cells, all
+three $k{=}256$ cells with zero discordant items, and a largest difference of
+13.0 points (significant). The 7B grid is quieter still: dense 0.7933, six
+cells, largest difference 4.7 points, and every $k{=}256$ cell at 0.67 from a
+single wrong-to-right flip.
+
+\subsection{Banding}
+
+Sorting the 25 cells of 0.5B by token-level cost reveals where the translation
+starts:
+
+\begin{table}[h]
+\centering
+\caption{Accuracy change by token-level cost band, 0.5B, 25 cells. Source:
+\texttt{real/data/mcq\_summary.json} crossed with
+\texttt{real/data/main\_20b\_05.json}.}
+\label{tab:band}
+\begin{tabular}{rrrrr}
+\toprule
+cost (nats) & cells & mean change & worst change & smallest $p$ \\
+\midrule
+0.0--0.2  & 11 & $-0.7$ pt & 2.0 & 0.219 \\
+0.2--0.5  &  5 & $-1.8$ & 3.0 & 0.26 \\
+0.5--1.0  &  5 & $-4.7$ & 8.5 & 0.0076 \\
+1.0--2.0  &  2 & $-15.0$ & 21.0 & $4.3\times10^{-7}$ \\
+2.0--4.0  &  2 & $-23.5$ & 25.5 & $1.7\times10^{-9}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Pearson correlation between the two is $-0.936$ over 25 cells, and $-0.906$
+over nine cells on 1.5B, $-0.638$ over six on 7B. The correlation is not
+evidence that NLL substitutes for accuracy (cells share question sets and
+are not independent), but it rules out the worse reading: it is not true
+that token-level damage is uniformly harmless downstream.
+
+The defensible statement is banded. Below 0.2 nats, we detect no decision
+damage at these sample sizes. Above 0.5 nats, we do.
+
+\subsection{Why the answers mostly survive}
+
+A common offset that moves all four option scores by the same amount changes
+no argument. Decomposing each item's score change into a mean shift across
+options and a spread across options separates the two:
+
+\begin{table}[h]
+\centering
+\caption{Score decomposition at 0.5B, 120 items, $g{=}6$. The shift is
+large relative to the baseline margin, so the reason answers survive is
+that margins were wide, not that the perturbation was small. Source:
+\texttt{real/data/mcq\_offset\_05b\_k64g6.json} and its $k{=}128$ counterpart.}
+\label{tab:offset}
+\begin{tabular}{lrr}
+\toprule
+quantity & $k{=}64$ & $k{=}128$ \\
+\midrule
+items flipped & 27 / 120 & 25 / 120 \\
+mean shift & $-2.541$ & $-1.077$ \\
+mean spread & 4.376 & 2.953 \\
+baseline margin & 2.832 & 2.887 \\
+AUC(margin predicts flip) & 0.764 & 0.856 \\
+AUC(spread predicts flip) & 0.616 & 0.579 \\
+AUC(shift predicts flip) & 0.514 & 0.648 \\
+margin, flipped & 1.201 & 0.746 \\
+margin, not flipped & 3.306 & 3.450 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The mechanism is not that the perturbation is small: the spread of 4.376 exceeds
+the baseline margin of 2.832, so the ordering of options is genuinely at
+risk. It survives because the margin \emph{of the items that flipped} was
+already thin ($1.20$ against $3.31$), and margin predicts which items flip
+with an AUC of 0.76 to 0.86. A system whose answers are near-ties will lose
+them; one whose answers are decided by a wide margin will not. Neither the
+common shift nor the spread predicts as well as the pre-existing margin does.
+
+\subsection{Direction, and a claim we had to retire}
+
+Our first report said the flips were directional at 5.1 to 1 on 1.5B. That
+claim was wrong, and the reason is algebraic:
+
+\begin{equation}
+b - c = (\text{correct under own}) - (\text{correct under reuse})
+      = N\,(\text{own accuracy} - \text{reuse accuracy}).
+\end{equation}
+
+This holds exactly on all 40 cells we checked (residual 0.000), and we now
+assert it in the analysis script rather than in prose. Dividing by $b+c$
+therefore restates the accuracy drop in another denominator; on a cell whose
+accuracy is preserved, $b$ and $c$ are equal as an algebraic consequence. The
+ratio is not evidence of direction.
+
+What can carry direction is a pair of \emph{different} denominators, because
+$b$ can only come from items originally correct and $c$ only from items
+originally wrong:
+
+\begin{equation}
+\text{damage} = \frac{b}{\#\text{correct under own}}, \qquad
+\text{rescue} = \frac{c}{\#\text{wrong under own}}.
+\end{equation}
+
+\begin{table}[h]
+\centering
+\caption{Damage and rescue per hundred at-risk items. ARC-Challenge's at-risk
+population is \emph{inverted} (more wrong than correct), which rules out
+drift-toward-the-majority as the explanation. Source:
+\texttt{real/data/cross\_bench.json}.}
+\label{tab:atrisk}
+\begin{tabular}{lrrrr}
+\toprule
+benchmark & at risk (correct / wrong) & damage & rescue & asymmetry \\
+\midrule
+ARC-Easy & 5098 / 2602 & 10.1 [9.3, 11.0] & 7.9 [6.9, 9.0] & 1.28 \\
+ARC-Challenge & 1245 / 1275 & 12.4 [10.7, 14.4] & 6.9 [5.6, 8.4] & 1.80 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Both benchmarks agree in direction and disagree in magnitude by only a
+factor of 1.4. The ARC-Challenge result is the stronger one for our
+interpretation, because its at-risk population is inverted: drift toward
+whichever class is larger would flip the sign, and the sign does not flip.
+
+\subsection{A confound we did not remove: exemplar count}
+
+The prompt builder discards demonstrations rather than truncating the
+question, so the number that fit depends on question length. ARC-Easy fits
+all eight; ARC-Challenge fits five. Comparing the pooled rates across
+benchmarks therefore changes two things at once.
+
+\begin{table}[h]
+\centering
+\caption{The same six cells at two exemplar counts (0.5B, ARC-Easy,
+$k \in \{64,128\}$, $g \in \{2,3,6\}$). The sign of damage minus rescue
+reverses. Source: \texttt{real/data/cross\_bench.json} under
+\texttt{shot\_control}.}
+\label{tab:shots}
+\begin{tabular}{rrrrrr}
+\toprule
+exemplars & $b$ & $c$ & damage & rescue & asymmetry \\
+\midrule
+8 & 74 & 54 & 10.3 [8.2, 12.7] & 11.3 [8.6, 14.4] & 0.91 \\
+5 & 45 & 24 & 6.1 [4.5, 8.1] & 5.2 [3.4, 7.6] & 1.17 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The reversal is asserted in the instrument's self-test, so the caveat is
+machine-checked rather than promised. Two consequences: the gap between
+1.28 and 1.80 is not attributable to question difficulty alone, since the
+matched subset moves the other way; and exemplar count is a real variable
+in this measurement, not noise. To align it would require either eight exemplars
+at a larger budget, which changes the absolute number of reusable keys, or
+five-shot ARC-Challenge, which we did not run.
+
+\section{Limitations}
+\label{sec:limits}
+
+\paragraph{Post hoc sharing.} Most numbers here borrow routing from a model
+trained without sharing. \S\ref{sec:leader} adds a checkpoint that learned to
+select its own sparse index, and \S\ref{sec:trainedshare} adds one trained with
+sharing (an FSS route pattern, each full layer serving two shared ones). That
+closes the gap in the direction a reader would ask for, and leaves two smaller
+ones open. It measures substitution within one architecture derivative at one
+keep fraction, not the sweep a deployed system would need; and it can only say
+that the group's learned set is a cheap substitute, since the interval on that
+reading includes zero at three batches. A model trained to share could also move
+its representations so that sharing becomes cheaper still, which no post-hoc
+substitution can observe -- we compare sets handed to frozen weights, not a
+model that learned to receive them.
+
+\paragraph{No downstream generation.} We score multiple choice by summed
+option log-probability and do not generate. Free-form generation would change
+the attribution, but it is also a setting we have not measured.
+
+\paragraph{Four-option benchmark resolution.} At 200 items, an MDE of 3--9
+points is coarse. Cells reported as indistinguishable are that, not
+demonstrated equivalence.
+
+\paragraph{Three model sizes, three data regimes.} The grid covers three
+sizes because that is what we ran it on: 0.5B has all thirty cells, 1.5B and
+7B have nine each, and 14B has three. The 7B token-level cells exist but only
+for the three $k$ values that fit, with twenty batches and bfloat16; its
+negative deltas at four batches turned positive at twenty, so we do not have a
+size at which the sign of the group cost is stable to sample size. The leader
+protocol reaches 14B completely: the window-six sweep over $48$ layers is
+$267$ pairs, sources 0--46, and all $267$ were measured. So the anomaly is
+confirmed at the top of the size range over the whole sweep, not a truncated
+band of it.
+
+\paragraph{Harness is the instrument.} Three defects in our own implementation
+produced plausible numbers before the control caught them. The control is
+reported in every artifact for that reason; a reader who distrusts the
+numbers should distrust the harness first, which is what we did.
+
+\paragraph{The mass diagnostic is not an identified mechanism.} Deliver-mass
+is measured on dense attention while the cost is measured after masking, so
+the two share the follower's queries and keys; controlling the binary
+source-$\le 1$ split shrinks the correlation by about a third. We note the ORACLE
+intervention brackets cost by construction (its HIGH and LOW are the top and
+bottom of the same follower dense distribution), its BASE index is not
+bit-identical to the grid's reuse condition, and its guide set requires dense
+attention unavailable during autoregressive decoding. Two further limits are
+visible in the numbers themselves: the incremental value of the diagnostic is
+scale-dependent (on 1.5B the binary leader flag already accounts for half the
+variance and deliver-mass adds little), and a slope extrapolation from the late
+layers leaves 40--72\% of the leader cost gap unexplained. We note these
+readings are a predictive diagnostic and a construct check, not a causal
+account or a deployable remedy.
+
+\paragraph{Statistical units and post-hoc power.} The leader permutation
+treats single pairs as exchangeable although source and target depths are
+coupled; the damage-versus-repair confidence intervals treat paired counts as
+independent; the four-batch and twenty-batch results are nested; and the MDE
+is computed after seeing the data. These are caveats on the decision-level
+analysis, not on the token-level NLL measurements.
+
+\section{What is not established here}
+
+We list the statements we considered and rejected, because each was tempting
+and each is unsupported:
+
+\begin{itemize}
+\item That reuse is free at large $k$. It is free at 512 positions with
+      $k$ at 75\% of the length and small groups; at 2048 positions
+      $k$ equal to 25\% of the length already costs $+0.1093$ nats.
+\item That overlap between layers is the reason reuse works. Overlap is high,
+      and its correlation with cost is negative and weak.
+\item That deliver-mass identifies a \emph{mechanism}. It improves on plain
+      overlap as a predictor in a head-to-head test (\S\ref{sec:mechanism}),
+      but both readouts share the follower's queries and keys with the cost,
+      so we note the predictive gain is not a causal identification.
+\item That layer 3 is a width-dependent mechanism. The 18.9-fold outlier is a
+      single-layer observation on 0.5B and does not recur at 1.5B or 7B.
+\item That the direction of damage is strongly asymmetric. It is asymmetric
+      at 1.3--1.8 times, and one control flips its sign.
+\item That MMLU would replicate the decision-level result. All three models
+      score at or near chance on it in our 5-shot setup, so a perturbation
+      there measures the floor rather than the cost. We dropped it and recorded
+      why.
+\item That ARC-Challenge is harder for reuse because its questions are harder.
+      Its exemplar count differs from ARC-Easy's, and we did not separate the
+      two.
+\end{itemize}
+
+\section{Related work}
+
+\paragraph{Cross-layer index reuse: throughput-oriented.} Multi-layer Indexer
+\citep{mli} reports that neighbouring layers select nearly identical tokens
+and reuses the index without retraining, targeting decode latency. CLSA
+\citep{clsa} shares routing and key-value blocks to cut prefill and storage.
+TidalDecode \citep{tidaldecode} makes sparse indices position-persistent across
+decoding steps and HySparse \citep{hysparse} combines oracle token selection
+with KV sharing. These lines measure throughput and report quality as retained.
+
+\paragraph{Cross-layer index reuse: quality measured.} IndexCache
+\citep{indexcache} is the closest prior measurement: it reuses indices across
+layers in a trained sparse model and reports the quality cost at benchmark
+granularity by retention ratio, including a training-free variant that drops
+without search and a study of why layer similarity is a poor proxy. Kascade
+\citep{kascade} is a training-free system that selects exact top-$k$ indices
+in anchor layers and reuses them between, choosing anchors by a
+cross-layer-similarity objective; its similarity ratio is the normalised form
+of the mass diagnostic we use in \S\ref{sec:mechanism}, and it too observes
+that early layers have flatter distributions. LatentIndex \citep{latentindex}
+starts from a shared latent cache but gives each follower a layer-specific
+scorer precisely because a shared discrete selection degrades quality, and
+reports attention-mass recall. Our contribution is not the first measurement
+of the quality term: it is a controlled isolation of the selection-set
+variable on dense pretrained weights, holding $q/k/v$ and batch fixed with a
+three-readout design, and a separation of token-level cost from its
+detectability at the decision level.
+
+\paragraph{Key-value sharing.} A systematic study \citep{kvshare} evaluates
+cross-layer key-value configurations that train the shared model, reporting
+that many stay competitive at half the cache. KVSharer \citep{kvsharer} finds
+that sharing \emph{dissimilar} KV caches better preserves performance — an
+early statement that layer similarity is a poor guide to sharing, which our
+three failed predictors reproduce and extend at the token level. Trained
+sharing can adapt representations; post-hoc routing has no such adaptation.
+
+\paragraph{Measuring what a component is needed for.} Our predictive proxies
+are all similarity-shaped, and all fail, consistent with the KV-sharing and
+index-reuse results above. More broadly, representational similarity is not
+necessity: linear CKA \citep{cka} measures alignment, not whether a component's
+computation is used, and work on attention sinks \citep{streamingllm} shows
+that a few positions can be load-bearing for reasons that top-$k$ saliency
+alone does not capture. These are the limitations we inherit when we read a
+mass-based diagnostic as a predictor.
+
+\section{Reproducibility}
+
+Each number in this paper is recomputed from a stored artifact by two
+independent gates that run in the repository's test path, and a stale literal
+would fail both: one checks that
+each literal in the prose matches a value recomputed from the artifacts, in
+both directions (a stale literal fails it, and a literal without an artifact
+behind it fails it too);
+another checks that each quoted sentence appears verbatim in its report and
+that its numbers match a named artifact field within a tolerance. The
+evaluation-evidence export lists 331 episodes with per-field provenance,
+marks three wall-clock fields as unavailable rather than estimating them,
+and refuses to cite any episode whose control did not pass. A large language
+model assisted with drafting and editing; all measurements, scripts,
+and reported numbers were produced and verified by the checks named above.
+
+\bibliography{main}
+\bibliographystyle{tmlr}
+
+\end{document}

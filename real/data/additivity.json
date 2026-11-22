@@ -1,0 +1,152 @@
+{
+ "kernel": "grid = sum of single-pair costs for the same pairs",
+ "sweeps": {
+  "qwen05": {
+   "sweep": "qwen05",
+   "pairs": "pairs20w12_0.5B.jsonl",
+   "grid": "main_20b_05.json",
+   "n_layers": 24,
+   "own_pairs": 2.8283525586128233,
+   "own_grid": 2.8283525586128233,
+   "baseline_identity": true,
+   "cells": [
+    {
+     "group": 2,
+     "n_parts": 12,
+     "missing": 0,
+     "sum": 0.023557972908022418,
+     "grid": 0.02419476509094265,
+     "ratio": 1.0270308564071478,
+     "k": 256
+    },
+    {
+     "group": 3,
+     "n_parts": 16,
+     "missing": 0,
+     "sum": 0.010181927680972258,
+     "grid": 0.011434543132782249,
+     "ratio": 1.12302340883356,
+     "k": 256
+    },
+    {
+     "group": 4,
+     "n_parts": 18,
+     "missing": 0,
+     "sum": 0.04830151796341209,
+     "grid": 0.056013619899749845,
+     "ratio": 1.1596658295952438,
+     "k": 256
+    },
+    {
+     "group": 6,
+     "n_parts": 20,
+     "missing": 0,
+     "sum": 0.055739712715152656,
+     "grid": 0.07356138229370135,
+     "ratio": 1.3197302015104202,
+     "k": 256
+    },
+    {
+     "group": 12,
+     "n_parts": 22,
+     "missing": 0,
+     "sum": 0.15502396821976028,
+     "grid": 0.44929916858673113,
+     "ratio": 2.898256145461388,
+     "k": 256
+    }
+   ],
+   "n_cells": 5,
+   "ratio_min": 1.0270308564071478,
+   "ratio_max": 2.898256145461388,
+   "rank_rho": 1.0,
+   "ranks_preserved": true
+  },
+  "qwen15": {
+   "sweep": "qwen15",
+   "pairs": "pairs20w12_1.5B.jsonl",
+   "grid": "main_20b_15.json",
+   "n_layers": 28,
+   "own_pairs": 2.49151428937912,
+   "own_grid": 2.49151428937912,
+   "baseline_identity": true,
+   "cells": [
+    {
+     "group": 2,
+     "n_parts": 14,
+     "missing": 0,
+     "sum": 0.004099619388582276,
+     "grid": 0.007739460468292325,
+     "ratio": 1.8878485378050602,
+     "k": 256
+    },
+    {
+     "group": 3,
+     "n_parts": 18,
+     "missing": 0,
+     "sum": 0.007505548000337203,
+     "grid": 0.012879443168640314,
+     "ratio": 1.7159897142835776,
+     "k": 256
+    },
+    {
+     "group": 6,
+     "n_parts": 23,
+     "missing": 0,
+     "sum": 0.03924393653869851,
+     "grid": 0.09104794263839722,
+     "ratio": 2.3200512147555505,
+     "k": 256
+    }
+   ],
+   "n_cells": 3,
+   "ratio_min": 1.7159897142835776,
+   "ratio_max": 2.3200512147555505,
+   "rank_rho": 1.0,
+   "ranks_preserved": true
+  },
+  "qwen7": {
+   "sweep": "qwen7",
+   "pairs": "pairs20w12_7B.jsonl",
+   "grid": "main_20b_7.json",
+   "n_layers": 28,
+   "own_pairs": 2.270425170660019,
+   "own_grid": 2.270425170660019,
+   "baseline_identity": true,
+   "cells": [
+    {
+     "group": 2,
+     "n_parts": 14,
+     "missing": 0,
+     "sum": 0.0081906557083129,
+     "grid": 0.003239309787750333,
+     "ratio": 0.3954884569818601,
+     "k": 256
+    },
+    {
+     "group": 3,
+     "n_parts": 18,
+     "missing": 0,
+     "sum": 0.01521111726760882,
+     "grid": 0.0094940245151518,
+     "ratio": 0.6241503729228862,
+     "k": 256
+    },
+    {
+     "group": 6,
+     "n_parts": 23,
+     "missing": 0,
+     "sum": 0.045114427804947344,
+     "grid": 0.03218902945518476,
+     "ratio": 0.7134974557220216,
+     "k": 256
+    }
+   ],
+   "n_cells": 3,
+   "ratio_min": 0.3954884569818601,
+   "ratio_max": 0.7134974557220216,
+   "rank_rho": 1.0,
+   "ranks_preserved": true
+  }
+ }
+}

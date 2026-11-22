@@ -1,0 +1,46 @@
+{
+  "verdict": "SUPPORTED",
+  "models": {
+    "Qwen2.5-0.5B": {
+      "verdict": "SUPPORTED",
+      "reason": "all groups HIGH<BASE<LOW",
+      "groups": {
+        "2": {
+          "verdict": "SUPPORTED",
+          "reason": "HIGH<BASE<LOW"
+        },
+        "3": {
+          "verdict": "SUPPORTED",
+          "reason": "HIGH<BASE<LOW"
+        },
+        "6": {
+          "verdict": "SUPPORTED",
+          "reason": "HIGH<BASE<LOW"
+        }
+      }
+    },
+    "TinyLlama-1.1B": {
+      "verdict": "SUPPORTED",
+      "reason": "all groups HIGH<BASE<LOW",
+      "groups": {
+        "2": {
+          "verdict": "SUPPORTED",
+          "reason": "HIGH<BASE<LOW"
+        },
+        "3": {
+          "verdict": "SUPPORTED",
+          "reason": "HIGH<BASE<LOW"
+        },
+        "6": {
+          "verdict": "SUPPORTED",
+          "reason": "HIGH<BASE<LOW"
+        }
+      }
+    }
+  },
+  "eps": 1e-06,
+  "inputs": [
+    "attn-reuse/real/data/intervene_05.json",
+    "attn-reuse/real/data/intervene_tiny.json"
+  ]
+}

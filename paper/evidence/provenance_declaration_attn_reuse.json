@@ -1,0 +1,955 @@
+{
+ "schema": "experiment-provenance-declaration/1",
+ "paper": "attn-reuse/paper/main.tex",
+ "experiment_intake_declaration": {
+  "mode": "run_experiments",
+  "note": "17 experiment groups were run on one AMD Radeon instance (48 GiB, ROCm 7.2.1) against Qwen2.5 0.5B/1.5B/7B; logs, run scripts and environment are stored under attn-reuse/paper/evidence/"
+ },
+ "experiments": [
+  {
+   "id": "E01",
+   "desc": "token-level cost grid, 0.5B, seq 512, twenty batches",
+   "log": "attn-reuse/paper/evidence/run-logs/main20_05.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/main_20b_05.json",
+   "runs": 3,
+   "baseline": "dense pass",
+   "status": "completed",
+   "generator": "attn-reuse/real/reuse_real.py"
+  },
+  {
+   "id": "E02",
+   "desc": "sequence-length amplification, 0.5B, seq 2048, twenty batches",
+   "log": "attn-reuse/paper/evidence/run-logs/long20.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/long_20b.json",
+   "runs": 1,
+   "baseline": "dense at 2048",
+   "status": "completed",
+   "generator": "attn-reuse/real/reuse_real.py"
+  },
+  {
+   "id": "E03",
+   "desc": "token-level grid, 1.5B, twenty batches",
+   "log": "attn-reuse/paper/evidence/run-logs/main20_15.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/main_20b_15.json",
+   "runs": 1,
+   "baseline": "dense 1.5B",
+   "status": "completed",
+   "generator": "attn-reuse/real/reuse_real.py"
+  },
+  {
+   "id": "E04",
+   "desc": "210 single-pair transfers, window 12, twenty batches",
+   "log": "attn-reuse/paper/evidence/run-logs/pairs20w12_0.5B.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/pairs20w12_0.5B.jsonl",
+   "runs": 1,
+   "baseline": "own selection",
+   "status": "completed",
+   "generator": "attn-reuse/real/sweep2.py"
+  },
+  {
+   "id": "E05",
+   "desc": "paired precision on 20 batches",
+   "log": "attn-reuse/paper/evidence/run-logs/prec.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/precision.json",
+   "runs": 1,
+   "baseline": "dense pass",
+   "status": "completed",
+   "generator": "attn-reuse/real/precision.py"
+  },
+  {
+   "id": "E06",
+   "desc": "shifted grouping, offset 1, twenty batches",
+   "log": "attn-reuse/paper/evidence/run-logs/offset20.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/offset20.jsonl",
+   "runs": 1,
+   "baseline": "unshifted grouping",
+   "status": "completed",
+   "generator": "attn-reuse/real/sweep2.py"
+  },
+  {
+   "id": "E07",
+   "desc": "decision level, ARC-Easy, 0.5B",
+   "log": "attn-reuse/paper/evidence/run-logs/mcq6.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/mcq_05b.json",
+   "runs": 1,
+   "baseline": "dense accuracy",
+   "status": "completed",
+   "generator": "attn-reuse/real/mcq_reuse.py"
+  },
+  {
+   "id": "E08",
+   "desc": "decision level, ARC-Easy, 1.5B",
+   "log": "attn-reuse/paper/evidence/run-logs/mcq6.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/mcq_15b.json",
+   "runs": 1,
+   "baseline": "dense accuracy",
+   "status": "completed",
+   "generator": "attn-reuse/real/mcq_reuse.py"
+  },
+  {
+   "id": "E09",
+   "desc": "decision level, ARC-Easy, 7B",
+   "log": "attn-reuse/paper/evidence/run-logs/mcq6.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/mcq_7b.json",
+   "runs": 1,
+   "baseline": "dense accuracy",
+   "status": "completed",
+   "generator": "attn-reuse/real/mcq_reuse.py"
+  },
+  {
+   "id": "E10",
+   "desc": "decision level, ARC-Challenge, 1.5B",
+   "log": "attn-reuse/paper/evidence/run-logs/arcc2.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/arcc_15b.json",
+   "runs": 1,
+   "baseline": "dense accuracy",
+   "status": "completed",
+   "generator": "attn-reuse/real/mcq_reuse.py"
+  },
+  {
+   "id": "E11",
+   "desc": "decision level, ARC-Challenge, 7B",
+   "log": "attn-reuse/paper/evidence/run-logs/arcc2.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/arcc_7b.json",
+   "runs": 1,
+   "baseline": "dense accuracy",
+   "status": "completed",
+   "generator": "attn-reuse/real/mcq_reuse.py"
+  },
+  {
+   "id": "E12",
+   "desc": "decision level, ARC-Challenge, 7B, k=64",
+   "log": "attn-reuse/paper/evidence/run-logs/arcc7b64_outer.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/arcc_7b_k64.json",
+   "runs": 1,
+   "baseline": "dense accuracy",
+   "status": "completed",
+   "generator": "attn-reuse/real/mcq_reuse.py"
+  },
+  {
+   "id": "E13",
+   "desc": "shot-matched control, ARC-Easy, 0.5B, five exemplars",
+   "log": "attn-reuse/paper/evidence/run-logs/ae5_outer.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/arc_easy_5shot.json",
+   "runs": 1,
+   "baseline": "dense accuracy",
+   "status": "completed",
+   "generator": "attn-reuse/real/mcq_reuse.py"
+  },
+  {
+   "id": "E14",
+   "desc": "MMLU high-school mathematics probe, three models",
+   "log": "attn-reuse/paper/evidence/run-logs/mmlu_probe.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/mmlu_probe.json",
+   "runs": 1,
+   "baseline": "chance level",
+   "status": "completed",
+   "generator": "attn-reuse/real/mcq_reuse.py"
+  },
+  {
+   "id": "E15",
+   "desc": "per-query index overlap at two sequence lengths",
+   "log": "attn-reuse/paper/evidence/run-logs/ov2.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/overlap2.json",
+   "runs": 1,
+   "baseline": "random subsets",
+   "status": "completed",
+   "generator": "attn-reuse/real/mcq_reuse.py"
+  },
+  {
+   "id": "E16",
+   "desc": "attention-mass and margin probes",
+   "log": "attn-reuse/paper/evidence/run-logs/lead.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/leader_512.json",
+   "runs": 1,
+   "baseline": "uniform attention",
+   "status": "completed",
+   "generator": "attn-reuse/real/mcq_reuse.py"
+  },
+  {
+   "id": "E18",
+   "desc": "token-level grid, 7B, twenty batches",
+   "log": "attn-reuse/paper/evidence/run-logs/main20_7.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/main_20b_7.json",
+   "runs": 1,
+   "baseline": "dense 7B",
+   "status": "completed",
+   "generator": "attn-reuse/real/mcq_reuse.py"
+  },
+  {
+   "id": "E19",
+   "desc": "single-pair sweeps, 1.5B and 7B, twenty batches",
+   "log": "attn-reuse/paper/evidence/run-logs/pairs20w12_1.5B.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/pairs20w12_1.5B.jsonl",
+   "runs": 1,
+   "baseline": "own selection",
+   "status": "completed",
+   "generator": "attn-reuse/real/mcq_reuse.py"
+  },
+  {
+   "id": "E20",
+   "desc": "leader split on 1.5B and 7B, twenty batches, window 12",
+   "log": "attn-reuse/paper/evidence/run-logs/pairs20w12_7B.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/pairs20w12_7B.jsonl",
+   "runs": 1,
+   "baseline": "own selection",
+   "status": "completed",
+   "generator": "attn-reuse/real/mcq_reuse.py"
+  },
+  {
+   "id": "E21",
+   "desc": "leader split with a 10000-relabelling permutation null",
+   "log": "attn-reuse/paper/evidence/run-logs/leader_cross.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/leader_cross_20b_w12.json",
+   "runs": 1,
+   "baseline": "own selection",
+   "status": "completed",
+   "generator": "attn-reuse/real/mcq_reuse.py"
+  },
+  {
+   "id": "E22",
+   "desc": "batch-size sensitivity over every quoted token-level quantity",
+   "log": "attn-reuse/paper/evidence/run-logs/sample_sensitivity.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/sample_sensitivity.json",
+   "runs": 1,
+   "baseline": "four batches",
+   "status": "completed",
+   "generator": "attn-reuse/real/mcq_reuse.py"
+  },
+  {
+   "id": "E17",
+   "desc": "per-cell starved mass for 420 layer pairs",
+   "log": "attn-reuse/paper/evidence/run-logs/margin.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/margin_512.json",
+   "runs": 1,
+   "baseline": "same-layer selection",
+   "status": "completed",
+   "generator": "attn-reuse/real/mcq_reuse.py"
+  },
+  {
+   "id": "E23",
+   "desc": "deliver-mass dense-attention probe and paired-correlation controls",
+   "log": "attn-reuse/paper/evidence/run-logs/deliver.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/deliver_corr.json",
+   "runs": 3,
+   "baseline": "shuffled deliver labels",
+   "status": "completed",
+   "generator": "attn-reuse/real/leader_mechanism.py"
+  },
+  {
+   "id": "E24",
+   "desc": "pre-registered ORACLE intervention on the borrowed index",
+   "log": "attn-reuse/paper/evidence/run-logs/intervene.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/intervene_05_v2.json",
+   "runs": 3,
+   "baseline": "bottom-k index",
+   "status": "completed",
+   "generator": "attn-reuse/real/reuse_intervene.py"
+  },
+  {
+   "id": "E25",
+   "desc": "head-to-head deliver-mass vs plain Jaccard overlap on one dense pass",
+   "log": "attn-reuse/paper/evidence/run-logs/h2h.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/h2h_corr.json",
+   "runs": 3,
+   "baseline": "plain Jaccard overlap",
+   "status": "completed",
+   "generator": "attn-reuse/real/overlap_head2head.py"
+  },
+  {
+   "id": "E26",
+   "desc": "binary early-leader dummy control for deliver-mass correlation",
+   "log": "attn-reuse/paper/evidence/run-logs/dummy_controls.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/dummy_controls.json",
+   "runs": 3,
+   "baseline": "dummy-only synthetic fixture",
+   "status": "completed",
+   "generator": "attn-reuse/real/dummy_controls.py"
+  },
+  {
+   "id": "E27",
+   "desc": "head-to-head and leader control extended to 1.5B and 7B",
+   "log": "attn-reuse/paper/evidence/run-logs/h2h_scale.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/h2h_corr.json",
+   "runs": 3,
+   "baseline": "the same predictors at 0.5B and TinyLlama",
+   "status": "completed",
+   "generator": "attn-reuse/real/overlap_head2head.py"
+  },
+  {
+   "id": "E28",
+   "desc": "how much of the leader cost gap deliver-mass explains by late-slope extrapolation",
+   "log": "attn-reuse/paper/evidence/run-logs/leader_magnitude.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/leader_magnitude.json",
+   "runs": 3,
+   "baseline": "full / none / partial synthetic fixtures",
+   "status": "completed",
+   "generator": "attn-reuse/real/leader_magnitude.py"
+  },
+  {
+   "id": "E29",
+   "desc": "depth of the expensive band across five models, equal distance<=6 protocol",
+   "log": "attn-reuse/paper/evidence/run-logs/band_depth.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/band_depth.json",
+   "runs": 3,
+   "baseline": "published cross-family ratios recomputed under the same distance cut",
+   "status": "completed",
+   "generator": "attn-reuse/real/band_depth.py"
+  },
+  {
+   "id": "E30",
+   "desc": "reuse cost on a checkpoint trained to select its own sparse index, single-pair protocol, deterministic mode",
+   "log": "attn-reuse/paper/evidence/run-logs/dsa_real_model.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/dsa_report.json",
+   "runs": 3,
+   "baseline": "self-borrow returns the base loss exactly in-process; five dense ratios reproject the published values under the same distance cut",
+   "status": "completed",
+   "generator": "attn-reuse/real/dsa_report_check.py"
+  },
+  {
+   "id": "E31",
+   "desc": "cost of grouping layers on the trained-sparse checkpoint vs the dense grid at the same keep fraction",
+   "log": "attn-reuse/paper/evidence/run-logs/dsa_group.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/dsa_group_analysis.json",
+   "runs": 3,
+   "baseline": "one forward per (group,batch) as in table:grid; determinism certificate in-run; each cell's t interval reported and one cell straddles zero",
+   "status": "completed",
+   "generator": "attn-reuse/real/dsa_group_analysis.py"
+  },
+  {
+   "id": "E32",
+   "desc": "random-set null matched to each reuse cell: leaders keep their own selection, only borrowing layers get an arbitrary k-set",
+   "log": "attn-reuse/paper/evidence/run-logs/rand_null.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/rand_control_amd_05_bf16.json",
+   "runs": 3,
+   "baseline": "the null's reuse column reproduces table:grid exactly on both models (max abs difference 0.0); selftest proves zero causal violations and seed reproducibility",
+   "status": "completed",
+   "generator": "attn-reuse/real/reuse_llama.py"
+  },
+  {
+   "id": "E33",
+   "desc": "row dilution: the grid averages over scoring rows that cannot discriminate at this keep fraction, at four values of k",
+   "log": "attn-reuse/paper/evidence/run-logs/dilution.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/dilution_analysis.json",
+   "runs": 3,
+   "baseline": "the multiplier (S-1)/(S-1-k) is derived with no free parameter and then compared to twelve measured cells; a violated identity is flagged and an obeyed one accepted, so the check is neither always-red nor always-green",
+   "status": "completed",
+   "generator": "attn-reuse/real/position_matched.py"
+  },
+  {
+   "id": "E34",
+   "desc": "arbitrary-set null on the trained-sparse checkpoint, both cells of each pair measured in one run on the same batches",
+   "log": "attn-reuse/paper/evidence/run-logs/dsa_group_rand.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/dsa_group_rand_analysis.json",
+   "runs": 3,
+   "baseline": "reuse and null are paired per batch; the null exceeds reuse in all nine batches; a two-harness parity control shows the dense and trained-sparse nulls follow the same construction rules",
+   "status": "completed",
+   "generator": "attn-reuse/real/dsa_group_rand_analysis.py"
+  },
+  {
+   "id": "E35",
+   "desc": "reuse cost on a checkpoint trained WITH cross-layer sharing (IndexCache, FSS route pattern): the group's own set versus a random set of the same size, with dilution, order and single-chunk controls",
+   "log": "attn-reuse/paper/evidence/run-logs/ic_trainshare.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/ic_analysis.json",
+   "runs": 3,
+   "baseline": "the group's own set is the cheap substitute at a CI straddling zero while the random set is twelve times dearer; order-only replacement is exactly zero, which is mask invariance rather than a failed intervention; the all-chunk and live-chunk readings agree to the last printed digit; a single-chunk probe runs only where the first query sees more than topk keys",
+   "status": "completed",
+   "generator": "attn-reuse/real/ic_analysis.py"
+  },
+  {
+   "id": "E36",
+   "desc": "reuse cost on a checkpoint trained WITH layer-specific scoring (LatentIndex, same FSS route pattern): own score versus the leader's score, each crossed with own set and random set, plus a manipulation check that the forced offset really changes the selected indices",
+   "log": "attn-reuse/paper/evidence/run-logs/li_latentindex.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/li_analysis.json",
+   "runs": 3,
+   "baseline": "leader-scoring and own-scoring differ by an amount whose CI straddles zero and whose per-batch signs disagree, while the substitution cost is within 2% of the leader-scored checkpoint; forcing the offset changes every discriminating chunk (Jaccard 0.78, none identical) and leaves 97.6% of the non-discriminating ones untouched, so the flat reading is a property of the quantity and not a dead probe",
+   "status": "completed",
+   "generator": "attn-reuse/real/li_analysis.py"
+  },
+  {
+   "id": "E37",
+   "desc": "completeness of the 14B leader sweep: how many of the 267 window-six pairs a 48-layer model contains were actually measured, and which source band they span",
+   "log": "attn-reuse/paper/evidence/run-logs/pairs14b_resume.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/scale_leader_14b.json",
+   "runs": 3,
+   "baseline": "all 267 pairs of the window-six sweep are measured, sources 0-46, with no duplicate pair; the ratio 12.67 therefore rests on the whole sweep and not on a truncated band; the grid covers 30 cells on 0.5B, 9 on 1.5B, 9 on 7B and 3 on 14B",
+   "status": "completed",
+   "generator": "attn-reuse/real/scale_leader_14b.py"
+  },
+  {
+   "id": "E38",
+   "desc": "whether inter-layer distance carries pair cost once the source layer's composition is held fixed, and how much of the variance it accounts for against the source layer itself",
+   "log": "attn-reuse/paper/evidence/run-logs/distance_axis.log",
+   "config": "attn-reuse/paper/evidence/runs/config_main.json",
+   "env": "attn-reuse/paper/evidence/runs/environment.txt",
+   "artifact": "attn-reuse/real/data/distance_axis.json",
+   "runs": 3,
+   "baseline": "the mean source at distance d equals (L-1-d)/2 to two decimals in every column of all four sweeps, so the published distance profile is a composition report; stratifying by source leaves rho +0.172 to +0.236 with p 0.0057 to 0.0609, and the distance R^2 increment is 0.0015 to 0.0224 against 0.0456 to 0.1420 for source, so distance is real but small and the leader is the larger axis",
+   "status": "completed",
+   "generator": "attn-reuse/real/distance_axis.py"
+  }
+ ],
+ "claims": [
+  {
+   "id": "c1",
+   "text": "Table~\\ref{tab:grid} gives",
+   "experiment_ids": [
+    "E01"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c2",
+   "text": "Table~\\ref{tab:long} repeats the lower half",
+   "experiment_ids": [
+    "E02"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c3",
+   "text": "the cost is 2.6 to 14.9 times larger",
+   "experiment_ids": [
+    "E02",
+    "E01"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c4",
+   "text": "Read as a marginal profile, the median cost looks",
+   "experiment_ids": [
+    "E04"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c5",
+   "text": "Regrouping the same 210 pairs",
+   "experiment_ids": [
+    "E04"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c6",
+   "text": "The ratio is 11.9 per pair",
+   "experiment_ids": [
+    "E04"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c7",
+   "text": "costs $+0.1726$ nats on 0.5B",
+   "experiment_ids": [
+    "E03",
+    "E01"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c8",
+   "text": "multiplies the cost by",
+   "experiment_ids": [
+    "E06",
+    "E01"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c9",
+   "text": "enrichment is 1.19 times chance",
+   "experiment_ids": [
+    "E15"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c10",
+   "text": "Overlap is high,",
+   "experiment_ids": [
+    "E15"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c11",
+   "text": "Table~\\ref{tab:mde} reports the ranges",
+   "experiment_ids": [
+    "E07",
+    "E08",
+    "E09"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c12",
+   "text": "Only five cells reach $p<0.05$",
+   "experiment_ids": [
+    "E07"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c13",
+   "text": "dense accuracy 0.6100",
+   "experiment_ids": [
+    "E07"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c14",
+   "text": "Sorting the 25 cells of 0.5B",
+   "experiment_ids": [
+    "E07",
+    "E01"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c15",
+   "text": "The 1.5B grid repeats the shape more quietly",
+   "experiment_ids": [
+    "E08"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c16",
+   "text": "The 7B grid is quieter still",
+   "experiment_ids": [
+    "E09"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c17",
+   "text": "Neither the\ncommon shift nor the spread",
+   "experiment_ids": [
+    "E07"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c18",
+   "text": "Our first report said the flips were directional",
+   "experiment_ids": [
+    "E07",
+    "E08"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c19",
+   "text": "ARC-Challenge's at-risk",
+   "experiment_ids": [
+    "E10",
+    "E11",
+    "E12"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c20",
+   "text": "The sign of damage minus rescue",
+   "experiment_ids": [
+    "E13",
+    "E07"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c21",
+   "text": "score at or near chance on it",
+   "experiment_ids": [
+    "E14"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c22",
+   "text": "margin predicts which items flip",
+   "experiment_ids": [
+    "E07"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c23",
+   "text": "we stress at the outset that it is a",
+   "experiment_ids": [
+    "E23"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c24",
+   "text": "and the shuffle control are read from",
+   "experiment_ids": [
+    "E23"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c25",
+   "text": "A reviewer asked whether this is",
+   "experiment_ids": [
+    "E23",
+    "E25"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c26",
+   "text": "As a construct check we ask only whether moving the borrowed index",
+   "experiment_ids": [
+    "E24"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c27",
+   "text": "BASE NLL $2.874$ / $2.874$ / $2.911$",
+   "experiment_ids": [
+    "E24"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c28",
+   "text": "We note this ordering is partly an artifact of construction",
+   "experiment_ids": [
+    "E24"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c29",
+   "text": "We note the ORACLE intervention brackets cost by construction",
+   "experiment_ids": [
+    "E24"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c30",
+   "text": "We note these readings",
+   "experiment_ids": [
+    "E23",
+    "E24"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c31",
+   "text": "keeps a strong partial correlation after controlling it",
+   "experiment_ids": [
+    "E25"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c32",
+   "text": "A synthetic fixture where deliver is a pure",
+   "experiment_ids": [
+    "E25"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c33",
+   "text": "we note that we make no causal claim",
+   "experiment_ids": [
+    "E23",
+    "E25"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c34",
+   "text": "so we note the predictive gain is not a causal identification",
+   "experiment_ids": [
+    "E23",
+    "E25"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c35",
+   "text": "partly entangled with leader identity but is not a restatement",
+   "experiment_ids": [
+    "E26"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c36",
+   "text": "scale-dependent, and we report that plainly",
+   "experiment_ids": [
+    "E27"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c37",
+   "text": "survives the binary control at every scale",
+   "experiment_ids": [
+    "E27"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c38",
+   "text": "predicts only $32\\%$, $60\\%$, $28\\%$ and $38\\%$",
+   "experiment_ids": [
+    "E28"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c39",
+   "text": "source two is $5.0$ times the deeper tail on 0.5B",
+   "experiment_ids": [
+    "E29"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c40",
+   "text": "indistinguishable from it on 1.5B and 7B",
+   "experiment_ids": [
+    "E29"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c41",
+   "text": "the first-layer privilege is not there",
+   "experiment_ids": [
+    "E30"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c42",
+   "text": "the asymmetry is a property of dense weights",
+   "experiment_ids": [
+    "E30"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c43",
+   "text": "what dense weights call the cost of sharing is largely",
+   "experiment_ids": [
+    "E31"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c44",
+   "text": "Grouping that model's layers costs far less",
+   "experiment_ids": [
+    "E31"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c45",
+   "text": "the leaders keep the selection they would have made",
+   "experiment_ids": [
+    "E32"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c46",
+   "text": "the reuse cost is $0.034$ to $0.126$ of the null",
+   "experiment_ids": [
+    "E32"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c47",
+   "text": "the published numbers are conservative",
+   "experiment_ids": [
+    "E33"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c48",
+   "text": "Read this as a ratio and",
+   "experiment_ids": [
+    "E34"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c49",
+   "text": "the two harnesses build the same null",
+   "experiment_ids": [
+    "E34",
+    "E32"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c50",
+   "text": "What it costs to substitute the set",
+   "experiment_ids": [
+    "E35"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c51",
+   "text": "does not make its layers indifferent",
+   "experiment_ids": [
+    "E35"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c52",
+   "text": "the cost of an arbitrary substitute",
+   "experiment_ids": [
+    "E35"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c53",
+   "text": "Nothing measurable, and the probe did fire",
+   "experiment_ids": [
+    "E36"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c54",
+   "text": "changes roughly a fifth of the set it selects",
+   "experiment_ids": [
+    "E36"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c55",
+   "text": "The measurement is flat because the quantity",
+   "experiment_ids": [
+    "E36"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c56",
+   "text": "all $267$ were measured",
+   "experiment_ids": [
+    "E37"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c57",
+   "text": "confirmed at the top of the size range over the whole sweep",
+   "experiment_ids": [
+    "E37"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c58",
+   "text": "leaves the split unidentifiable from this data",
+   "experiment_ids": [
+    "E38"
+   ],
+   "locator": ""
+  },
+  {
+   "id": "c59",
+   "text": "no two-variable fit explains more than",
+   "experiment_ids": [
+    "E38"
+   ],
+   "locator": ""
+  }
+ ]
+}

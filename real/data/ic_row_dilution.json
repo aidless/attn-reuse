@@ -1,0 +1,26 @@
+{
+ "model": "/root/models/DSV2-Lite-IndexCache-Sparse-1250",
+ "seq": 4096,
+ "topk": 2048,
+ "chunk": 128,
+ "n_batches": 3,
+ "deltas_all_rows": [
+  0.06707882881164551,
+  0.06892014294862747,
+  0.07479903101921082
+ ],
+ "deltas_live_rows": [
+  0.13370029628276825,
+  0.13724000751972198,
+  0.15061810612678528
+ ],
+ "measured_multipliers": [
+  1.9931817333631896,
+  1.9912902331328535,
+  2.013637129712304
+ ],
+ "expected_multiplier": 2.0004885197850513,
+ "inert_row_share": 0.5001221001221001,
+ "inert_chunks_are_bit_inert": true,
+ "inert_evidence": "/root/attn_newstack/ic_dilution.json (all-chunks vs live-chunks = 1.0000)"
+}

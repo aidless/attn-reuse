@@ -1,0 +1,92 @@
+{
+ "model": "models/Qwen2.5-0.5B",
+ "dtype": "bfloat16",
+ "n_layers": 24,
+ "seq": 512,
+ "n_batches": 20,
+ "k": 256,
+ "groups": {
+  "2": {
+   "nll": {
+    "base": 2.873978865146637,
+    "high": 2.8282106280326844,
+    "low": 4.263027346134185
+   },
+   "deliver": {
+    "base": 0.9498325892857142,
+    "high": 0.9851562500000001,
+    "low": 0.5611235119047618
+   },
+   "deliver_static": {
+    "base": 0.9634156773487726,
+    "high": 0.9856055676937103,
+    "low": 0.5619834164778391
+   },
+   "overlap_high_low": 0.25097669909397763,
+   "overlap_low_base": 0.25144440680742264,
+   "low_distinct_from_base": true,
+   "delta_vs_full_base": 0.04523754119873047,
+   "delta_vs_full_high": -0.0005306959152222568,
+   "delta_vs_full_low": 1.4342860221862788,
+   "manipulation_check": true,
+   "predicted_order": true,
+   "deliver_static_order": true
+  },
+  "3": {
+   "nll": {
+    "base": 2.8739023923873903,
+    "high": 2.828140473365784,
+    "low": 5.036561679840088
+   },
+   "deliver": {
+    "base": 0.9444475446428572,
+    "high": 0.9799386160714285,
+    "low": 0.5571358816964286
+   },
+   "deliver_static": {
+    "base": 0.9614986144006252,
+    "high": 0.9810231737792492,
+    "low": 0.5770276263356209
+   },
+   "overlap_high_low": 0.2509764954447746,
+   "overlap_low_base": 0.25138677656650543,
+   "low_distinct_from_base": true,
+   "delta_vs_full_base": 0.04516106843948364,
+   "delta_vs_full_high": -0.0006008505821228916,
+   "delta_vs_full_low": 2.2078203558921814,
+   "manipulation_check": true,
+   "predicted_order": true,
+   "deliver_static_order": true
+  },
+  "6": {
+   "nll": {
+    "base": 2.9112350583076476,
+    "high": 2.8286046743392945,
+    "low": 5.226102614402771
+   },
+   "deliver": {
+    "base": 0.9340624999999999,
+    "high": 0.9790066964285714,
+    "low": 0.5500948660714287
+   },
+   "deliver_static": {
+    "base": 0.9454626232385636,
+    "high": 0.9803509593009949,
+    "low": 0.576419574022293
+   },
+   "overlap_high_low": 0.2509765625,
+   "overlap_low_base": 0.2513836473226547,
+   "low_distinct_from_base": true,
+   "delta_vs_full_base": 0.08249373435974094,
+   "delta_vs_full_high": -0.00013664960861214936,
+   "delta_vs_full_low": 2.3973612904548647,
+   "manipulation_check": true,
+   "predicted_order": true,
+   "deliver_static_order": true
+  }
+ },
+ "full": 2.8287413239479067,
+ "harness_own_kseq": 2.8287413239479067,
+ "harness_abs_diff": 0.0,
+ "harness_pass": true
+}

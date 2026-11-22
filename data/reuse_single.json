@@ -1,0 +1,196 @@
+{
+ "model": "openai-community/gpt2",
+ "n_layers": 12,
+ "mode": "single-layer",
+ "per_layer_mean_delta": {
+  "1": 0.5738223791122437,
+  "2": 0.041159749031066895,
+  "3": 0.06549549102783203,
+  "4": 0.03980541229248047,
+  "5": 0.06116926670074463,
+  "6": 0.04057168960571289,
+  "7": 0.08370006084442139,
+  "8": 0.04441249370574951,
+  "9": 0.031720638275146484,
+  "10": 0.051680803298950195,
+  "11": 0.08795297145843506
+ },
+ "rows": [
+  {
+   "text": 1,
+   "reused_layer": 1,
+   "source_layer": 0,
+   "loss_base": 3.77789044380188,
+   "loss_reuse": 4.249706745147705,
+   "delta_loss": 0.4718163013458252
+  },
+  {
+   "text": 1,
+   "reused_layer": 2,
+   "source_layer": 1,
+   "loss_base": 3.77789044380188,
+   "loss_reuse": 3.8234829902648926,
+   "delta_loss": 0.045592546463012695
+  },
+  {
+   "text": 1,
+   "reused_layer": 3,
+   "source_layer": 2,
+   "loss_base": 3.77789044380188,
+   "loss_reuse": 3.854322671890259,
+   "delta_loss": 0.0764322280883789
+  },
+  {
+   "text": 1,
+   "reused_layer": 4,
+   "source_layer": 3,
+   "loss_base": 3.77789044380188,
+   "loss_reuse": 3.809941291809082,
+   "delta_loss": 0.03205084800720215
+  },
+  {
+   "text": 1,
+   "reused_layer": 5,
+   "source_layer": 4,
+   "loss_base": 3.77789044380188,
+   "loss_reuse": 3.82858943939209,
+   "delta_loss": 0.05069899559020996
+  },
+  {
+   "text": 1,
+   "reused_layer": 6,
+   "source_layer": 5,
+   "loss_base": 3.77789044380188,
+   "loss_reuse": 3.8040339946746826,
+   "delta_loss": 0.026143550872802734
+  },
+  {
+   "text": 1,
+   "reused_layer": 7,
+   "source_layer": 6,
+   "loss_base": 3.77789044380188,
+   "loss_reuse": 3.859814167022705,
+   "delta_loss": 0.0819237232208252
+  },
+  {
+   "text": 1,
+   "reused_layer": 8,
+   "source_layer": 7,
+   "loss_base": 3.77789044380188,
+   "loss_reuse": 3.812828779220581,
+   "delta_loss": 0.03493833541870117
+  },
+  {
+   "text": 1,
+   "reused_layer": 9,
+   "source_layer": 8,
+   "loss_base": 3.77789044380188,
+   "loss_reuse": 3.819228172302246,
+   "delta_loss": 0.04133772850036621
+  },
+  {
+   "text": 1,
+   "reused_layer": 10,
+   "source_layer": 9,
+   "loss_base": 3.77789044380188,
+   "loss_reuse": 3.827677011489868,
+   "delta_loss": 0.04978656768798828
+  },
+  {
+   "text": 1,
+   "reused_layer": 11,
+   "source_layer": 10,
+   "loss_base": 3.77789044380188,
+   "loss_reuse": 3.867858409881592,
+   "delta_loss": 0.08996796607971191
+  },
+  {
+   "text": 2,
+   "reused_layer": 1,
+   "source_layer": 0,
+   "loss_base": 3.4259824752807617,
+   "loss_reuse": 4.101810932159424,
+   "delta_loss": 0.6758284568786621
+  },
+  {
+   "text": 2,
+   "reused_layer": 2,
+   "source_layer": 1,
+   "loss_base": 3.4259824752807617,
+   "loss_reuse": 3.462709426879883,
+   "delta_loss": 0.036726951599121094
+  },
+  {
+   "text": 2,
+   "reused_layer": 3,
+   "source_layer": 2,
+   "loss_base": 3.4259824752807617,
+   "loss_reuse": 3.480541229248047,
+   "delta_loss": 0.054558753967285156
+  },
+  {
+   "text": 2,
+   "reused_layer": 4,
+   "source_layer": 3,
+   "loss_base": 3.4259824752807617,
+   "loss_reuse": 3.4735424518585205,
+   "delta_loss": 0.04755997657775879
+  },
+  {
+   "text": 2,
+   "reused_layer": 5,
+   "source_layer": 4,
+   "loss_base": 3.4259824752807617,
+   "loss_reuse": 3.497622013092041,
+   "delta_loss": 0.0716395378112793
+  },
+  {
+   "text": 2,
+   "reused_layer": 6,
+   "source_layer": 5,
+   "loss_base": 3.4259824752807617,
+   "loss_reuse": 3.4809823036193848,
+   "delta_loss": 0.05499982833862305
+  },
+  {
+   "text": 2,
+   "reused_layer": 7,
+   "source_layer": 6,
+   "loss_base": 3.4259824752807617,
+   "loss_reuse": 3.5114588737487793,
+   "delta_loss": 0.08547639846801758
+  },
+  {
+   "text": 2,
+   "reused_layer": 8,
+   "source_layer": 7,
+   "loss_base": 3.4259824752807617,
+   "loss_reuse": 3.4798691272735596,
+   "delta_loss": 0.05388665199279785
+  },
+  {
+   "text": 2,
+   "reused_layer": 9,
+   "source_layer": 8,
+   "loss_base": 3.4259824752807617,
+   "loss_reuse": 3.4480860233306885,
+   "delta_loss": 0.022103548049926758
+  },
+  {
+   "text": 2,
+   "reused_layer": 10,
+   "source_layer": 9,
+   "loss_base": 3.4259824752807617,
+   "loss_reuse": 3.479557514190674,
+   "delta_loss": 0.05357503890991211
+  },
+  {
+   "text": 2,
+   "reused_layer": 11,
+   "source_layer": 10,
+   "loss_base": 3.4259824752807617,
+   "loss_reuse": 3.51192045211792,
+   "delta_loss": 0.0859379768371582
+  }
+ ]
+}

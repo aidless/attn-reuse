@@ -1,0 +1,80 @@
+[
+ {
+  "model": "/root/models/DSV2-Lite-LatentIndex-Sparse-1250",
+  "method": "latentindexer",
+  "seq": 4096,
+  "topk": 2048,
+  "chunk": 128,
+  "n_batches": 3,
+  "n_followers": 18,
+  "n_leaders": 9,
+  "base_mean": 1.9957902878522873,
+  "repeat_delta": 0.0,
+  "cells": {
+   "own": {
+    "n": 3,
+    "mean": 0.0,
+    "sd": 0.0,
+    "ci": [
+     0.0,
+     0.0
+    ],
+    "all_positive": false
+   },
+   "offset0": {
+    "n": 3,
+    "mean": 0.00010458131631215413,
+    "sd": 0.0005841289753891688,
+    "ci": [
+     -0.0013465926158357,
+     0.001555755248460008
+    ],
+    "all_positive": false
+   },
+   "null_own": {
+    "n": 3,
+    "mean": 0.06907282769680023,
+    "sd": 0.012133522855750542,
+    "ci": [
+     0.03892905326469925,
+     0.09921660212890121
+    ],
+    "all_positive": true
+   },
+   "null_off0": {
+    "n": 3,
+    "mean": 0.06909337143103282,
+    "sd": 0.012076780507303328,
+    "ci": [
+     0.03909056418320923,
+     0.09909617867885642
+    ],
+    "all_positive": true
+   }
+  },
+  "control_own_is_zero": true,
+  "cost_of_losing_own_score": 0.00010458131631215413,
+  "null_own_over_null_off0_mean_of_ratios": 0.9995901745352361,
+  "null_own_over_null_off0_ratio_of_means": 0.9997026670749003,
+  "offsets": {
+   "per_batch": [
+    0.0006738901138305664,
+    0.0001331716775894165,
+    -0.0004933178424835205
+   ],
+   "mean": 0.00010458131631215413,
+   "all_positive": false,
+   "ci": [
+    -0.0013465926158357,
+    0.001555755248460008
+   ]
+  }
+ },
+ {
+  "reference": "indexcache",
+  "path": "real/data/ic_analysis.json",
+  "null_mean": 0.07019869486490886,
+  "othergroup_mean": 0.005763451258341472,
+  "ratio": 12.179975455385337
+ }
+]

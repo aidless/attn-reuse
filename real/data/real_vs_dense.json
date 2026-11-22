@@ -1,0 +1,65 @@
+{
+ "note": "identical distance<=6 cut; each measured with its own harness The 14B row is recomputed from the completed 267-pair sweep (2026-11-21).",
+ "models": [
+  {
+   "model": "0.5B",
+   "n_pairs": 123,
+   "n_layers": 24,
+   "base_nll": 2.8287413239479067,
+   "lead_mean": 0.005986284216245215,
+   "rest_mean": 0.0007937961870487166,
+   "ratio": 7.541336572177093,
+   "lead_rel": 0.0021162359971078986
+  },
+  {
+   "model": "1.5B",
+   "n_pairs": 147,
+   "n_layers": 28,
+   "base_nll": 2.491463613510132,
+   "lead_mean": 0.006141139070193054,
+   "rest_mean": 0.00017552914442849117,
+   "ratio": 34.98643538762814,
+   "lead_rel": 0.002464872068326548
+  },
+  {
+   "model": "7B",
+   "n_pairs": 147,
+   "n_layers": 28,
+   "base_nll": 2.2703939855098723,
+   "lead_mean": 0.006771709521611584,
+   "rest_mean": 0.0005729730923970481,
+   "ratio": 11.818547173449206,
+   "lead_rel": 0.002982614279649279
+  },
+  {
+   "model": "TinyLlama",
+   "n_pairs": 111,
+   "n_layers": 22,
+   "base_nll": 2.425240534543991,
+   "lead_mean": 0.05119780302047727,
+   "rest_mean": 0.0017835631515039439,
+   "ratio": 28.705349164287252,
+   "lead_rel": 0.021110402160626845
+  },
+  {
+   "model": "14B",
+   "n_pairs": 267,
+   "n_layers": 48,
+   "base_nll": 1.8512973725795745,
+   "lead_mean": 0.0038647418220839245,
+   "rest_mean": 0.0003049191540363654,
+   "ratio": 12.674644314482803,
+   "lead_rel": 0.0020875856463291155
+  },
+  {
+   "model": "DSV2-Lite-DSA-sparse",
+   "n_pairs": 141,
+   "n_layers": 27,
+   "base_nll": 1.9924981196721394,
+   "lead_mean": 0.00048182739151853005,
+   "rest_mean": 0.0005427620515651645,
+   "ratio": 0.8877322762877085,
+   "lead_rel": 0.0002418207509263866
+  }
+ ]
+}

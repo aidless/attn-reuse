@@ -1,0 +1,290 @@
+{
+  "schema": "experiment-provenance-report/1",
+  "intake_mode": "run_experiments",
+  "experiments_seen": [
+    "E01",
+    "E02",
+    "E03",
+    "E04",
+    "E05",
+    "E06",
+    "E07",
+    "E08",
+    "E09",
+    "E10",
+    "E11",
+    "E12",
+    "E13",
+    "E14",
+    "E15",
+    "E16",
+    "E17",
+    "E18",
+    "E19",
+    "E20",
+    "E21",
+    "E22"
+  ],
+  "claims": [
+    {
+      "claim_id": "c1",
+      "text": "Table~\\ref{tab:grid} gives",
+      "verdict": "ALIGNED",
+      "detail": "claim 挂在实验 ['E01'] 上，log/config/env/artifact/status 齐全",
+      "experiment_ids": [
+        "E01"
+      ],
+      "locator": "L192"
+    },
+    {
+      "claim_id": "c2",
+      "text": "Table~\\ref{tab:long} repeats the lower half",
+      "verdict": "ALIGNED",
+      "detail": "claim 挂在实验 ['E02'] 上，log/config/env/artifact/status 齐全",
+      "experiment_ids": [
+        "E02"
+      ],
+      "locator": "L241"
+    },
+    {
+      "claim_id": "c3",
+      "text": "the cost is 2.6 to 14.9 times larger",
+      "verdict": "ALIGNED",
+      "detail": "claim 挂在实验 ['E02', 'E01'] 上，log/config/env/artifact/status 齐全",
+      "experiment_ids": [
+        "E02",
+        "E01"
+      ],
+      "locator": "L242"
+    },
+    {
+      "claim_id": "c4",
+      "text": "Twelve times the distance buys less",
+      "verdict": "ALIGNED",
+      "detail": "claim 挂在实验 ['E04'] 上，log/config/env/artifact/status 齐全",
+      "experiment_ids": [
+        "E04"
+      ],
+      "locator": "L277"
+    },
+    {
+      "claim_id": "c5",
+      "text": "Regrouping the same 210 pairs",
+      "verdict": "ALIGNED",
+      "detail": "claim 挂在实验 ['E04'] 上，log/config/env/artifact/status 齐全",
+      "experiment_ids": [
+        "E04"
+      ],
+      "locator": "L282"
+    },
+    {
+      "claim_id": "c6",
+      "text": "The ratio is 11.9 per pair",
+      "verdict": "ALIGNED",
+      "detail": "claim 挂在实验 ['E04'] 上，log/config/env/artifact/status 齐全",
+      "experiment_ids": [
+        "E04"
+      ],
+      "locator": "L307"
+    },
+    {
+      "claim_id": "c7",
+      "text": "costs $+0.1726$ nats on 0.5B",
+      "verdict": "ALIGNED",
+      "detail": "claim 挂在实验 ['E03', 'E01'] 上，log/config/env/artifact/status 齐全",
+      "experiment_ids": [
+        "E03",
+        "E01"
+      ],
+      "locator": "L235"
+    },
+    {
+      "claim_id": "c8",
+      "text": "multiplies the cost by",
+      "verdict": "ALIGNED",
+      "detail": "claim 挂在实验 ['E06', 'E01'] 上，log/config/env/artifact/status 齐全",
+      "experiment_ids": [
+        "E06",
+        "E01"
+      ],
+      "locator": "L325"
+    },
+    {
+      "claim_id": "c9",
+      "text": "enrichment is 1.19 times chance",
+      "verdict": "ALIGNED",
+      "detail": "claim 挂在实验 ['E15'] 上，log/config/env/artifact/status 齐全",
+      "experiment_ids": [
+        "E15"
+      ],
+      "locator": "L361"
+    },
+    {
+      "claim_id": "c10",
+      "text": "Overlap is high,",
+      "verdict": "ALIGNED",
+      "detail": "claim 挂在实验 ['E15'] 上，log/config/env/artifact/status 齐全",
+      "experiment_ids": [
+        "E15"
+      ],
+      "locator": "L350"
+    },
+    {
+      "claim_id": "c11",
+      "text": "Table~\\ref{tab:mde} reports the ranges",
+      "verdict": "ALIGNED",
+      "detail": "claim 挂在实验 ['E07', 'E08', 'E09'] 上，log/config/env/artifact/status 齐全",
+      "experiment_ids": [
+        "E07",
+        "E08",
+        "E09"
+      ],
+      "locator": "L404"
+    },
+    {
+      "claim_id": "c12",
+      "text": "Only five cells reach $p<0.05$",
+      "verdict": "ALIGNED",
+      "detail": "claim 挂在实验 ['E07'] 上，log/config/env/artifact/status 齐全",
+      "experiment_ids": [
+        "E07"
+      ],
+      "locator": "L433"
+    },
+    {
+      "claim_id": "c13",
+      "text": "dense accuracy 0.6100",
+      "verdict": "ALIGNED",
+      "detail": "claim 挂在实验 ['E07'] 上，log/config/env/artifact/status 齐全",
+      "experiment_ids": [
+        "E07"
+      ],
+      "locator": "L430"
+    },
+    {
+      "claim_id": "c14",
+      "text": "Sorting the 25 cells of 0.5B",
+      "verdict": "ALIGNED",
+      "detail": "claim 挂在实验 ['E07', 'E01'] 上，log/config/env/artifact/status 齐全",
+      "experiment_ids": [
+        "E07",
+        "E01"
+      ],
+      "locator": "L452"
+    },
+    {
+      "claim_id": "c15",
+      "text": "The 1.5B grid repeats the shape more quietly",
+      "verdict": "ALIGNED",
+      "detail": "claim 挂在实验 ['E08'] 上，log/config/env/artifact/status 齐全",
+      "experiment_ids": [
+        "E08"
+      ],
+      "locator": "L444"
+    },
+    {
+      "claim_id": "c16",
+      "text": "The 7B grid is quieter still",
+      "verdict": "ALIGNED",
+      "detail": "claim 挂在实验 ['E09'] 上，log/config/env/artifact/status 齐全",
+      "experiment_ids": [
+        "E09"
+      ],
+      "locator": "L446"
+    },
+    {
+      "claim_id": "c17",
+      "text": "Neither the\ncommon shift nor the spread",
+      "verdict": "ALIGNED",
+      "detail": "claim 挂在实验 ['E07'] 上，log/config/env/artifact/status 齐全",
+      "experiment_ids": [
+        "E07"
+      ],
+      "locator": "L518"
+    },
+    {
+      "claim_id": "c18",
+      "text": "Our first report said the flips were directional",
+      "verdict": "ALIGNED",
+      "detail": "claim 挂在实验 ['E07', 'E08'] 上，log/config/env/artifact/status 齐全",
+      "experiment_ids": [
+        "E07",
+        "E08"
+      ],
+      "locator": "L523"
+    },
+    {
+      "claim_id": "c19",
+      "text": "ARC-Challenge's at-risk",
+      "verdict": "ALIGNED",
+      "detail": "claim 挂在实验 ['E10', 'E11', 'E12'] 上，log/config/env/artifact/status 齐全",
+      "experiment_ids": [
+        "E10",
+        "E11",
+        "E12"
+      ],
+      "locator": "L548"
+    },
+    {
+      "claim_id": "c20",
+      "text": "The sign of damage minus rescue",
+      "verdict": "ALIGNED",
+      "detail": "claim 挂在实验 ['E13', 'E07'] 上，log/config/env/artifact/status 齐全",
+      "experiment_ids": [
+        "E13",
+        "E07"
+      ],
+      "locator": "L578"
+    },
+    {
+      "claim_id": "c21",
+      "text": "score at or near chance on it",
+      "verdict": "ALIGNED",
+      "detail": "claim 挂在实验 ['E14'] 上，log/config/env/artifact/status 齐全",
+      "experiment_ids": [
+        "E14"
+      ],
+      "locator": "L641"
+    },
+    {
+      "claim_id": "c22",
+      "text": "margin predicts which items flip",
+      "verdict": "ALIGNED",
+      "detail": "claim 挂在实验 ['E07'] 上，log/config/env/artifact/status 齐全",
+      "experiment_ids": [
+        "E07"
+      ],
+      "locator": "L516"
+    }
+  ],
+  "undeclared_claims": [],
+  "overrides": [],
+  "unresolved_from_first_gate": [],
+  "prior_trustworthy": null,
+  "verdict_counts": {
+    "ALIGNED": 22,
+    "OVERSTATED": 0,
+    "NOT_SUPPORTED_BY_PROVENANCE": 0,
+    "PROVENANCE_INSUFFICIENT": 0,
+    "OVERRIDDEN": 0
+  },
+  "blocked": false,
+  "verdict": "PASS",
+  "external_facts": {
+    "schema": "external-fact-report/1",
+    "rows": [],
+    "blocked": false,
+    "verdict_counts": {
+      "SELF_CONTRADICTED": 0,
+      "CONFLICT": 0,
+      "REFUTED": 0,
+      "UNVERIFIED": 0,
+      "SUPPORTED": 0
+    },
+    "block_reasons": [],
+    "scope_note": "本槽只判「外部事实有没有被核过、核的结果对不对」，不判该事实本身"
+  },
+  "external_fact_blocked_claims": [],
+  "block_reasons": [],
+  "scope_note": "本闸只判 provenance 对不对，不评判实验本身对错（沿用 ARS 完整性门的边界）；外部事实只判「有没有被核过、核的结果对不对」，不判事实本身"
+}

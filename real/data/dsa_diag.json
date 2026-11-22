@@ -1,0 +1,12 @@
+{
+ "base": [
+  1.8414348363876343,
+  1.8414348363876343,
+  1.8414348363876343
+ ],
+ "capture_chunks": 32,
+ "self_borrow": 1.8414348363876343,
+ "self_borrow_delta": 0.0,
+ "identical_entries": 6704548,
+ "total_entries": 8388608
+}

@@ -1,0 +1,20 @@
+name: numbers
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: every printed number re-derives from an artifact
+        working-directory: paper
+        run: python3 audit_numbers.py
+      - name: the gate can fail
+        working-directory: paper
+        run: python3 audit_numbers.py --selftest

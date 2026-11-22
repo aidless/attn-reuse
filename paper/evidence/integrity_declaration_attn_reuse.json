@@ -1,0 +1,427 @@
+{
+ "schema": "integrity-declaration/1",
+ "paper": "attn-reuse/paper/main.tex",
+ "paper_type": "empirical",
+ "declaration_date": "2026-11-19",
+ "declared_context": "Real-weight measurement of cross-layer top-k reuse on Qwen2.5 0.5B/1.5B/7B. Every reading comes from a stored artifact; the harness refuses to report a cell whose k-equals-length control is not bit-identical to the dense pass.",
+ "results": [
+  {
+   "claim": "manuscript-number-audit: 212 prose literals and 141 table cells recomputed from the artifacts, both directions, plus a coverage count of every printed number",
+   "value": 353,
+   "value_kind": "count",
+   "log": "attn-reuse/paper/evidence/run-logs/audit_numbers.log",
+   "exit_code": 0,
+   "warnings": 0,
+   "determinism": "deterministic",
+   "evidence": "attn-reuse/paper/evidence/run-logs",
+   "output_digests": [],
+   "digest_scope": "single artifact set on disk"
+  },
+  {
+   "claim": "claim-support-gate: 12 claims of report 06 plus 12 of report 07, quote/support/strength",
+   "value": 24,
+   "value_kind": "count",
+   "log": "attn-reuse/paper/evidence/run-logs/claim_gate.log",
+   "exit_code": 0,
+   "warnings": 0,
+   "determinism": "deterministic",
+   "evidence": "attn-reuse/paper/evidence/run-logs",
+   "output_digests": [],
+   "digest_scope": "single artifact set on disk"
+  },
+  {
+   "claim": "cross-benchmark-identity: b-c identity and at-risk rates on both benchmarks",
+   "value": 2,
+   "value_kind": "count",
+   "log": "attn-reuse/paper/evidence/run-logs/cross_bench.log",
+   "exit_code": 0,
+   "warnings": 0,
+   "determinism": "deterministic",
+   "evidence": "attn-reuse/paper/evidence/run-logs",
+   "output_digests": [],
+   "digest_scope": "single artifact set on disk"
+  },
+  {
+   "claim": "evaluation-evidence-export: episodes exported with per-field provenance",
+   "value": 331,
+   "value_kind": "count",
+   "log": "attn-reuse/paper/evidence/run-logs/evidence.log",
+   "exit_code": 0,
+   "warnings": 0,
+   "determinism": "deterministic",
+   "evidence": "attn-reuse/paper/evidence/run-logs",
+   "output_digests": [],
+   "digest_scope": "single artifact set on disk"
+  },
+  {
+   "claim": "decision-number-audit: 19 key values of report 07 recomputed, reverse scan clean",
+   "value": 19,
+   "value_kind": "count",
+   "log": "attn-reuse/paper/evidence/run-logs/verify_decisions.log",
+   "exit_code": 0,
+   "warnings": 0,
+   "determinism": "deterministic",
+   "evidence": "attn-reuse/paper/evidence/run-logs",
+   "output_digests": [],
+   "digest_scope": "single artifact set on disk"
+  },
+  {
+   "claim": "token-number-audit: 232 literals of report 06 recomputed, reverse scan clean",
+   "value": 232,
+   "value_kind": "count",
+   "log": "attn-reuse/paper/evidence/run-logs/verify_report_numbers.log",
+   "exit_code": 0,
+   "warnings": 0,
+   "determinism": "deterministic",
+   "evidence": "attn-reuse/paper/evidence/run-logs",
+   "output_digests": [],
+   "digest_scope": "single artifact set on disk"
+  },
+  {
+   "claim": "the token-level grid was rerun three times from scratch; all three outputs are byte-identical",
+   "value": 3,
+   "value_kind": "count",
+   "log": "attn-reuse/paper/evidence/run-logs/reps_outer.log",
+   "exit_code": 0,
+   "warnings": 0,
+   "determinism": "deterministic",
+   "evidence": "attn-reuse/paper/evidence/runs/main_rep1.json",
+   "output_digests": [],
+   "digest_scope": "sha256 of out/main.json per repetition"
+  }
+ ],
+ "claim_numbers": [
+  {
+   "text": "dense 2.82874",
+   "value": 2.82874,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "dense_05b",
+   "printed": "2.82874",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.dense_05b"
+  },
+  {
+   "text": "perplexity 16.92",
+   "value": 16.92,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "ppl_05b",
+   "printed": "16.92",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.ppl_05b"
+  },
+  {
+   "text": "0.0016",
+   "value": 0.0016,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "own_spars_max",
+   "printed": "0.0016",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.own_spars_max"
+  },
+  {
+   "text": "0.0107",
+   "value": 0.0107,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "own_k32",
+   "printed": "0.0107",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.own_k32"
+  },
+  {
+   "text": "$+0.8050$",
+   "value": 0.805,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "grid.k32_g2",
+   "printed": "0.8050",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.grid.k32_g2"
+  },
+  {
+   "text": "$+3.2594$",
+   "value": 3.2594,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "grid.k32_g12",
+   "printed": "3.2594",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.grid.k32_g12"
+  },
+  {
+   "text": "$+0.8356$",
+   "value": 0.8356,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "grid.k64_g6",
+   "printed": "0.8356",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.grid.k64_g6"
+  },
+  {
+   "text": "$+0.0122$",
+   "value": 0.0122,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "grid.k384_g4",
+   "printed": "0.0122",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.grid.k384_g4"
+  },
+  {
+   "text": "$+0.0016$",
+   "value": 0.0016,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "grid.k384_g2",
+   "printed": "0.0016",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.grid.k384_g2"
+  },
+  {
+   "text": "$+0.0004$",
+   "value": 0.0004,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "grid.k384_g3",
+   "printed": "0.0004",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.grid.k384_g3"
+  },
+  {
+   "text": "$+0.1726$",
+   "value": 0.1726,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "grid.k128_g2",
+   "printed": "0.1726",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.grid.k128_g2"
+  },
+  {
+   "text": "$+0.0396$",
+   "value": 0.0396,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "g15.k128_g2",
+   "printed": "0.0396",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.g15.k128_g2"
+  },
+  {
+   "text": "$+0.0243$",
+   "value": 0.0243,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "g7.k128_g2",
+   "printed": "0.0243",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.g7.k128_g2"
+  },
+  {
+   "text": "$+0.7230$",
+   "value": 0.723,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "long.k128_g2",
+   "printed": "0.7230",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.long.k128_g2"
+  },
+  {
+   "text": "$+0.3615$",
+   "value": 0.3615,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "long.k256_g2",
+   "printed": "0.3615",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.long.k256_g2"
+  },
+  {
+   "text": "$+0.1093$",
+   "value": 0.1093,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "long.k512_g2",
+   "printed": "0.1093",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.long.k512_g2"
+  },
+  {
+   "text": "10.1",
+   "value": 10.1,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "cb.arc_easy.damage",
+   "printed": "10.1",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.cb.arc_easy.damage"
+  },
+  {
+   "text": "7.9",
+   "value": 7.9,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "cb.arc_easy.rescue",
+   "printed": "7.9",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.cb.arc_easy.rescue"
+  },
+  {
+   "text": "1.28",
+   "value": 1.28,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "cb.arc_easy.asym",
+   "printed": "1.28",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.cb.arc_easy.asym"
+  },
+  {
+   "text": "12.4",
+   "value": 12.4,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "cb.arc_challenge.damage",
+   "printed": "12.4",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.cb.arc_challenge.damage"
+  },
+  {
+   "text": "6.9",
+   "value": 6.9,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "cb.arc_challenge.rescue",
+   "printed": "6.9",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.cb.arc_challenge.rescue"
+  },
+  {
+   "text": "1.80",
+   "value": 1.8,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "cb.arc_challenge.asym",
+   "printed": "1.80",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.cb.arc_challenge.asym"
+  },
+  {
+   "text": "0.91",
+   "value": 0.91,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "sc.eight_shot.asym",
+   "printed": "0.91",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.sc.eight_shot.asym"
+  },
+  {
+   "text": "1.17",
+   "value": 1.17,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "sc.five_shot.asym",
+   "printed": "1.17",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.sc.five_shot.asym"
+  },
+  {
+   "text": "1.19 times chance",
+   "value": 1.19,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "ov.seq512_k128.enrichment",
+   "printed": "1.19",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.ov.seq512_k128.enrichment"
+  },
+  {
+   "text": "1.96 times at 2048",
+   "value": 1.96,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "ov.seq2048_k128.enrichment",
+   "printed": "1.96",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.ov.seq2048_k128.enrichment"
+  },
+  {
+   "text": "1.03 at $k=256$",
+   "value": 1.03,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "ov.seq512_k256.enrichment",
+   "printed": "1.03",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.ov.seq512_k256.enrichment"
+  },
+  {
+   "text": "1.46 at 2048",
+   "value": 1.46,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "ov.seq2048_k256.enrichment",
+   "printed": "1.46",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.ov.seq2048_k256.enrichment"
+  },
+  {
+   "text": "$-0.936$",
+   "value": 0.936,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "corr.05",
+   "printed": "-0.936",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.corr.05"
+  },
+  {
+   "text": "$-0.906$",
+   "value": 0.906,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "corr.15",
+   "printed": "-0.906",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.corr.15"
+  },
+  {
+   "text": "$-0.638$",
+   "value": 0.638,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "corr.7",
+   "printed": "-0.638",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.corr.7"
+  },
+  {
+   "text": "25.5 points",
+   "value": 25.5,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "dc.05.max_all_pt",
+   "printed": "25.5",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.dc.05.max_all_pt"
+  },
+  {
+   "text": "331 episodes",
+   "value": 331.0,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "ev.n",
+   "printed": "331",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.ev.n"
+  },
+  {
+   "text": "4.376",
+   "value": 4.376,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "off.k64.spread",
+   "printed": "4.376",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.off.k64.spread"
+  },
+  {
+   "text": "2.832",
+   "value": 2.832,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "off.k64.margin",
+   "printed": "2.832",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.off.k64.margin"
+  },
+  {
+   "text": "0.764",
+   "value": 0.764,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "off.k64.auc_margin",
+   "printed": "0.764",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.off.k64.auc_margin"
+  },
+  {
+   "text": "0.856",
+   "value": 0.856,
+   "artifact": "attn-reuse/paper/evidence/derived_facts_attn_reuse.json",
+   "field": "off.k128.auc_margin",
+   "printed": "0.856",
+   "ledger_key": "attn-reuse.derived_facts_attn_reuse.off.k128.auc_margin"
+  }
+ ],
+ "citations": [
+  {
+   "key": "mli",
+   "verdict": "VERIFIED",
+   "receipt": "https://arxiv.org/abs/2611.03768 (accessed 2026-11-19)"
+  },
+  {
+   "key": "clsa",
+   "verdict": "VERIFIED",
+   "receipt": "https://arxiv.org/abs/2606.06467 (accessed 2026-11-19)"
+  },
+  {
+   "key": "indexcache",
+   "verdict": "VERIFIED",
+   "receipt": "https://arxiv.org/abs/2603.12201 (accessed 2026-11-19)"
+  },
+  {
+   "key": "kvshare",
+   "verdict": "VERIFIED",
+   "receipt": "https://arxiv.org/abs/2410.14442 (accessed 2026-11-19)"
+  }
+ ],
+ "methods": {
+  "section_heading": "Instrumentation",
+  "config": "attn-reuse/paper/evidence/runs/config_main.json",
+  "exclude_numbers": []
+ },
+ "unexpected_claims": [],
+ "shortcut": {
+  "risk": "none",
+  "note": "no shortcut: the group-leader selection, the per-layer selection and the dense pass are three runs over the same weights, tokens and batch, and the difference between them is the measurement"
+ },
+ "frame_lock": {
+  "would_change_question": false,
+  "explained_despite": "the question is set by the reuse literature's premise, and the answer we report (leader identity, not layer distance) is one the premise does not predict; it is explained despite the framing, not by it"
+ }
+}

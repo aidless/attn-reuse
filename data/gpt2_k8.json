@@ -1,0 +1,123 @@
+{
+ "model": "openai-community/gpt2",
+ "k": 8,
+ "summary": {
+  "adjacent_mean_by_layer": [
+   0.8327394595457579,
+   0.856019214888336,
+   0.8721940460174774,
+   0.8523641174740403,
+   0.8369021597916314,
+   0.8347509274691162,
+   0.842664652139336,
+   0.8404652264396768,
+   0.8445131697956896,
+   0.8477234481534838,
+   0.8501391187650843
+  ],
+  "cross_head_mean_by_layer": [
+   0.8200004467859948,
+   0.8455954124033104,
+   0.8943388269164751,
+   0.8563708629699102,
+   0.8452560153012434,
+   0.8413121788979815,
+   0.8388336394478618,
+   0.8439197924899241,
+   0.8447157445469057,
+   0.8441573616225733,
+   0.8551029302123454,
+   0.8544975205423788
+  ],
+  "random_expectation": 0.440996965996966,
+  "adjacent_overall": 0.84640686731633,
+  "cross_head_overall": 0.8486750610114088,
+  "n_texts": 12
+ },
+ "rows": [
+  {
+   "text": "The quick brown fox jumps over the lazy ",
+   "seq": 14,
+   "n_layers": 12,
+   "n_heads": 12,
+   "random_expectation": 0.39999999999999997
+  },
+  {
+   "text": "Machine learning models must be evaluate",
+   "seq": 13,
+   "n_layers": 12,
+   "n_heads": 12,
+   "random_expectation": 0.4444444444444445
+  },
+  {
+   "text": "She opened the letter, read it twice, an",
+   "seq": 17,
+   "n_layers": 12,
+   "n_heads": 12,
+   "random_expectation": 0.3076923076923077
+  },
+  {
+   "text": "The committee rejected the proposal beca",
+   "seq": 11,
+   "n_layers": 12,
+   "n_heads": 12,
+   "random_expectation": 0.5714285714285715
+  },
+  {
+   "text": "In 1929 the stock market collapsed and t",
+   "seq": 13,
+   "n_layers": 12,
+   "n_heads": 12,
+   "random_expectation": 0.4444444444444445
+  },
+  {
+   "text": "A sparse attention mechanism selects a s",
+   "seq": 14,
+   "n_layers": 12,
+   "n_heads": 12,
+   "random_expectation": 0.39999999999999997
+  },
+  {
+   "text": "The patient reported chest pain that rad",
+   "seq": 13,
+   "n_layers": 12,
+   "n_heads": 12,
+   "random_expectation": 0.4444444444444445
+  },
+  {
+   "text": "We ran the experiment three times and ob",
+   "seq": 14,
+   "n_layers": 12,
+   "n_heads": 12,
+   "random_expectation": 0.39999999999999997
+  },
+  {
+   "text": "The treaty was signed in 1648, ending th",
+   "seq": 15,
+   "n_layers": 12,
+   "n_heads": 12,
+   "random_expectation": 0.3636363636363636
+  },
+  {
+   "text": "Compilers translate source code into an ",
+   "seq": 11,
+   "n_layers": 12,
+   "n_heads": 12,
+   "random_expectation": 0.5714285714285715
+  },
+  {
+   "text": "The mountain range extends for over two ",
+   "seq": 13,
+   "n_layers": 12,
+   "n_heads": 12,
+   "random_expectation": 0.4444444444444445
+  },
+  {
+   "text": "He argued that the evidence was insuffic",
+   "seq": 12,
+   "n_layers": 12,
+   "n_heads": 12,
+   "random_expectation": 0.49999999999999994
+  }
+ ]
+}

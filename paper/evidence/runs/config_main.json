@@ -1,0 +1,148 @@
+{
+  "schema": "attn-reuse-run-config/1",
+  "note": "Recorded invocation parameters for the token-level and decision-level grids. Every field here is a value the run scripts actually passed or a value read from the model's own config.json; the Instrumentation section's numbers are checked against this file by the integrity gate.",
+  "models": {
+    "Qwen/Qwen2.5-0.5B": {
+      "layers": 24,
+      "hidden_size": 896,
+      "num_attention_heads": 14,
+      "num_key_value_heads": 2,
+      "vocab_size": 151936,
+      "torch_dtype": "bfloat16"
+    },
+    "Qwen/Qwen2.5-1.5B": {
+      "layers": 28,
+      "hidden_size": 1536,
+      "num_attention_heads": 12,
+      "num_key_value_heads": 2,
+      "vocab_size": 151936,
+      "torch_dtype": "bfloat16"
+    },
+    "Qwen/Qwen2.5-7B": {
+      "layers": 28,
+      "hidden_size": 3584,
+      "num_attention_heads": 28,
+      "num_key_value_heads": 4,
+      "vocab_size": 152064,
+      "torch_dtype": "bfloat16"
+    }
+  },
+  "token_level": {
+    "seq": 512,
+    "n_batches": 4,
+    "ks": [
+      32,
+      64,
+      128,
+      192,
+      256,
+      384
+    ],
+    "groups": [
+      2,
+      3,
+      4,
+      6,
+      12
+    ],
+    "dtype": "float16",
+    "corpus": "wikitext-2-raw-v1 test, 1289979 characters"
+  },
+  "long_context": {
+    "seq": 2048,
+    "n_batches": 2,
+    "ks": [
+      128,
+      256,
+      512
+    ],
+    "groups": [
+      2,
+      3,
+      6
+    ],
+    "dtype": "float16"
+  },
+  "precision": {
+    "seq": 512,
+    "n_batches": 20,
+    "ks": [
+      256,
+      384
+    ],
+    "groups": [
+      2,
+      3,
+      6
+    ],
+    "dtype": "float16",
+    "layer": 0
+  },
+  "pairs": {
+    "window": 12,
+    "k": 256,
+    "seq": 512,
+    "n_batches": 4
+  },
+  "offset": {
+    "k": 256,
+    "offset": 1,
+    "groups": [
+      2,
+      3,
+      4,
+      6
+    ],
+    "seq": 512,
+    "n_batches": 4
+  },
+  "margin": {
+    "seq": 512,
+    "n_batches": 4,
+    "k": 256,
+    "max_distance": 12
+  },
+  "overlap": {
+    "seqs": [
+      512,
+      2048
+    ],
+    "ks": [
+      128,
+      256
+    ],
+    "n_batches": 1
+  },
+  "control": {
+    "k_equals_sequence_length": true,
+    "tolerance": 1e-06
+  },
+  "decision_level": {
+    "bench_arc_easy_items": 2376,
+    "bench_arc_challenge_items": 1172,
+    "shots_easy": 8,
+    "shots_challenge_requested": 8,
+    "shots_challenge_used": 5,
+    "shots_easy_control": 5,
+    "n_items_0_5b_1_5b": 200,
+    "n_items_7b": 150,
+    "n_items_7b_challenge": 120,
+    "seq": 384,
+    "dtype": "bfloat16",
+    "ks": [
+      32,
+      64,
+      128,
+      192,
+      256
+    ],
+    "groups": [
+      2,
+      3,
+      4,
+      6,
+      12
+    ]
+  },
+  "environment": "attn-reuse/paper/evidence/runs/environment.txt"
+}

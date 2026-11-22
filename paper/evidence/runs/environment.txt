@@ -1,0 +1,14 @@
+Remote compute host: AMD Radeon Cloud instance, ssh <cloud-host>
+OS: Ubuntu 24.04.4 LTS, kernel 6.8.0-147-generic
+GPU: AMD Radeon Graphics, gfx1100, VRAM 51,522,830,336 B (47.98 GiB), ROCm 7.2.1
+CPU/RAM: 128 cores, 503 GB
+Storage: overlay 3.5T, 1.5T free at run time
+Python: /opt/venv/bin/python (3.12.3)
+torch 2.9.1+gitff65f5b (hip 7.2.53211), torch.cuda.is_available()=True, 1 device
+transformers 4.57.6, datasets 4.8.2, numpy 2.1.2, scipy 1.14.1
+Model weights: Qwen/Qwen2.5-0.5B, Qwen/Qwen2.5-1.5B, Qwen/Qwen2.5-7B (HF mirror hf-mirror.com)
+Corpus: wikitext-2-raw-v1 test split, 1,289,979 characters, 4,358 lines
+Data: allenai/ai2_arc (ARC-Easy test 2376 items, ARC-Challenge test 1172 items), cais/mmlu high_school_mathematics test 270 items (dropped)
+Shared instance: another tenant's job (`make_modernbert_oof.py`) held VRAM throughout; its
+share was read from `rocm-smi --showmemuse` at the start and end of each run. Readings are
+not affected because our measurement is deterministic and the control pass was bit-identical.

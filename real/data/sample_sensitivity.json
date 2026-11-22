@@ -1,0 +1,262 @@
+{
+ "move_factor": 2.0,
+ "zero_band": 0.0005,
+ "nesting": "twenty-batch runs reuse the same first four windows; four-batch grids are reproduced bit-exactly",
+ "claims": [
+  {
+   "claim": "dense NLL, 0.5B",
+   "four_batch": 2.8464402556419373,
+   "twenty_batch": 2.8287413239479067,
+   "status": "stable",
+   "why": "moves by 0.99x"
+  },
+  {
+   "claim": "sparsification alone, k=32",
+   "four_batch": 0.000737309455871582,
+   "twenty_batch": 0.010711634159088046,
+   "status": "moved",
+   "why": "moves by 14.53x"
+  },
+  {
+   "claim": "sparsification alone, k=64",
+   "four_batch": -0.0034090280532836914,
+   "twenty_batch": -0.0007052421569824219,
+   "status": "moved",
+   "why": "moves by 0.21x"
+  },
+  {
+   "claim": "grid k=32 g=2",
+   "four_batch": 0.7299090623855591,
+   "twenty_batch": 0.8050025820732114,
+   "status": "stable",
+   "why": "moves by 1.10x"
+  },
+  {
+   "claim": "grid k=32 g=12",
+   "four_batch": 3.1839186549186707,
+   "twenty_batch": 3.2594350576400752,
+   "status": "stable",
+   "why": "moves by 1.02x"
+  },
+  {
+   "claim": "grid k=64 g=6",
+   "four_batch": 0.7228111624717712,
+   "twenty_batch": 0.8355950355529784,
+   "status": "stable",
+   "why": "moves by 1.16x"
+  },
+  {
+   "claim": "grid k=384 g=4",
+   "four_batch": 0.011380612850189209,
+   "twenty_batch": 0.012155675888061435,
+   "status": "stable",
+   "why": "moves by 1.07x"
+  },
+  {
+   "claim": "grid k=384 g=12",
+   "four_batch": 0.12315106391906738,
+   "twenty_batch": 0.06388301849365252,
+   "status": "stable",
+   "why": "moves by 0.52x"
+  },
+  {
+   "claim": "g2 vs g3 at k=384, g2 side",
+   "four_batch": 0.0016828179359436035,
+   "twenty_batch": 0.0015550374984742987,
+   "status": "stable",
+   "why": "moves by 0.92x"
+  },
+  {
+   "claim": "g2 vs g3 at k=384, g3 side",
+   "four_batch": 0.0022005438804626465,
+   "twenty_batch": 0.00044568777084341704,
+   "status": "reversed",
+   "why": "crosses the zero band"
+  },
+  {
+   "claim": "1.5B k=128 g=2",
+   "four_batch": 0.04822969436645508,
+   "twenty_batch": 0.03959388732910174,
+   "status": "stable",
+   "why": "moves by 0.82x"
+  },
+  {
+   "claim": "7B k=256 g=2",
+   "four_batch": -0.0011307001113891602,
+   "twenty_batch": 0.003239309787750333,
+   "status": "reversed",
+   "why": "changes sign"
+  },
+  {
+   "claim": "7B k=256 g=3",
+   "four_batch": -0.0018690824508666992,
+   "twenty_batch": 0.0094940245151518,
+   "status": "reversed",
+   "why": "changes sign"
+  },
+  {
+   "claim": "7B k=384 g=3",
+   "four_batch": -0.0007480382919311523,
+   "twenty_batch": 0.0005803704261779785,
+   "status": "reversed",
+   "why": "changes sign"
+  },
+  {
+   "claim": "amplification k=128 g=2",
+   "four_batch": 4.945905295085418,
+   "twenty_batch": 4.189461033175159,
+   "status": "stable",
+   "why": "moves by 0.85x"
+  },
+  {
+   "claim": "amplification k=128 g=6",
+   "four_batch": 3.6777062109537826,
+   "twenty_batch": 2.5839020319106734,
+   "status": "stable",
+   "why": "moves by 0.70x"
+  },
+  {
+   "claim": "amplification k=256 g=2",
+   "four_batch": 25.504285886756005,
+   "twenty_batch": 14.94012575852218,
+   "status": "stable",
+   "why": "moves by 0.59x"
+  },
+  {
+   "claim": "amplification k=256 g=6",
+   "four_batch": 10.271300098819626,
+   "twenty_batch": 7.374995786591489,
+   "status": "stable",
+   "why": "moves by 0.72x"
+  },
+  {
+   "claim": "leader ratio, 0.5B, d<=6",
+   "four_batch": 7.239128061329014,
+   "twenty_batch": 7.541336572177093,
+   "status": "stable",
+   "why": "moves by 1.04x"
+  },
+  {
+   "claim": "leader ratio, 1.5B, d<=6",
+   "four_batch": 7.239128061329014,
+   "twenty_batch": 7.541336572177093,
+   "status": "stable",
+   "why": "moves by 1.04x"
+  },
+  {
+   "claim": "leader ratio, 7B, d<=6",
+   "four_batch": 7.239128061329014,
+   "twenty_batch": 7.541336572177093,
+   "status": "stable",
+   "why": "moves by 1.04x"
+  },
+  {
+   "claim": "leader ratio, 0.5B, d<=12",
+   "four_batch": 13.983272389079643,
+   "twenty_batch": 11.931443931992487,
+   "status": "stable",
+   "why": "moves by 0.85x"
+  },
+  {
+   "claim": "layer 3 borrowing layer 2",
+   "four_batch": 0.013823986053466797,
+   "twenty_batch": 0.014557147026062367,
+   "status": "stable",
+   "why": "moves by 1.05x"
+  },
+  {
+   "claim": "layer 3 over the pair median",
+   "four_batch": 24.59600190890291,
+   "twenty_batch": 18.920846923199257,
+   "status": "stable",
+   "why": "moves by 0.77x"
+  },
+  {
+   "claim": "g=2 partition sum",
+   "four_batch": 0.0173986554145813,
+   "twenty_batch": 0.023557972908022418,
+   "status": "stable",
+   "why": "moves by 1.35x"
+  },
+  {
+   "claim": "g=2 sum without layer 3",
+   "four_batch": 0.003574669361114502,
+   "twenty_batch": 0.00900082588196005,
+   "status": "moved",
+   "why": "moves by 2.52x"
+  },
+  {
+   "claim": "additivity factor g=2, 0.5B",
+   "four_batch": 0.851281770189208,
+   "twenty_batch": 1.0270308564071478,
+   "status": "stable",
+   "why": "moves by 1.21x"
+  },
+  {
+   "claim": "additivity factor g=3, 0.5B",
+   "four_batch": 0.8948125033731239,
+   "twenty_batch": 1.12302340883356,
+   "status": "stable",
+   "why": "moves by 1.26x"
+  },
+  {
+   "claim": "additivity factor g=6, 0.5B",
+   "four_batch": 1.4152237559858714,
+   "twenty_batch": 1.3197302015104202,
+   "status": "stable",
+   "why": "moves by 0.93x"
+  },
+  {
+   "claim": "additivity factor g=6, 1.5B",
+   "four_batch": 1.69279500124534,
+   "twenty_batch": 2.3200512147555505,
+   "status": "stable",
+   "why": "moves by 1.37x"
+  },
+  {
+   "claim": "offset ratio g=2",
+   "four_batch": 0.41351362227856253,
+   "twenty_batch": 0.2988858910408106,
+   "status": "stable",
+   "why": "moves by 0.72x"
+  },
+  {
+   "claim": "offset ratio g=3",
+   "four_batch": 0.23613593744859576,
+   "twenty_batch": 1.5273191485812363,
+   "status": "moved",
+   "why": "moves by 6.47x"
+  },
+  {
+   "claim": "offset ratio g=4",
+   "four_batch": 0.1905017971867659,
+   "twenty_batch": 0.3088795923522909,
+   "status": "stable",
+   "why": "moves by 1.62x"
+  },
+  {
+   "claim": "offset ratio g=6",
+   "four_batch": 0.5098814661058612,
+   "twenty_batch": 0.5011580391185833,
+   "status": "stable",
+   "why": "moves by 0.98x"
+  }
+ ],
+ "counts": {
+  "stable": 26,
+  "moved": 4,
+  "reversed": 4
+ },
+ "reversed": [
+  "g2 vs g3 at k=384, g3 side",
+  "7B k=256 g=2",
+  "7B k=256 g=3",
+  "7B k=384 g=3"
+ ],
+ "moved": [
+  "sparsification alone, k=32",
+  "sparsification alone, k=64",
+  "g=2 sum without layer 3",
+  "offset ratio g=3"
+ ]
+}

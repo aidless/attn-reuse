@@ -1,0 +1,33 @@
+{
+ "model": "openai-community/gpt2",
+ "n_layers": 12,
+ "group_size": 12,
+ "n_groups": 1,
+ "groups": [
+  [
+   0,
+   12
+  ]
+ ],
+ "texts": [
+  {
+   "tokens": 67,
+   "loss_base": 3.77789044380188,
+   "loss_reuse": 6.865623950958252,
+   "delta_loss": 3.087733507156372,
+   "ppl_base": 43.72370529174805,
+   "ppl_reuse": 958.7438354492188,
+   "kl_base_to_reuse": 204.7078857421875
+  },
+  {
+   "tokens": 78,
+   "loss_base": 3.4259824752807617,
+   "loss_reuse": 6.5672407150268555,
+   "delta_loss": 3.1412582397460938,
+   "ppl_base": 30.752843856811523,
+   "ppl_reuse": 711.4041748046875,
+   "kl_base_to_reuse": 229.48484802246094
+  }
+ ],
+ "mean_delta_loss": 3.114495873451233
+}

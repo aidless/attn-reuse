@@ -1,0 +1,94 @@
+{
+ "openai-community--gpt2": {
+  "n_layers": 12,
+  "seq": 857,
+  "pairs": [
+   {
+    "source_layer": 0,
+    "reused_layer": 1,
+    "cka": 0.3544407443687179
+   },
+   {
+    "source_layer": 1,
+    "reused_layer": 2,
+    "cka": 0.2715448199756098
+   },
+   {
+    "source_layer": 2,
+    "reused_layer": 3,
+    "cka": 0.5002923716493172
+   },
+   {
+    "source_layer": 3,
+    "reused_layer": 4,
+    "cka": 0.5539467586444496
+   },
+   {
+    "source_layer": 4,
+    "reused_layer": 5,
+    "cka": 0.5780288369571609
+   },
+   {
+    "source_layer": 5,
+    "reused_layer": 6,
+    "cka": 0.5831613395049113
+   },
+   {
+    "source_layer": 6,
+    "reused_layer": 7,
+    "cka": 0.4827429477670206
+   },
+   {
+    "source_layer": 7,
+    "reused_layer": 8,
+    "cka": 0.4646251670913942
+   },
+   {
+    "source_layer": 8,
+    "reused_layer": 9,
+    "cka": 0.4632781659739161
+   },
+   {
+    "source_layer": 9,
+    "reused_layer": 10,
+    "cka": 0.5418048490925959
+   },
+   {
+    "source_layer": 10,
+    "reused_layer": 11,
+    "cka": 0.20565043200625244
+   }
+  ]
+ },
+ "distilbert--distilgpt2": {
+  "n_layers": 6,
+  "seq": 857,
+  "pairs": [
+   {
+    "source_layer": 0,
+    "reused_layer": 1,
+    "cka": 0.30539179542687056
+   },
+   {
+    "source_layer": 1,
+    "reused_layer": 2,
+    "cka": 0.5891854000900174
+   },
+   {
+    "source_layer": 2,
+    "reused_layer": 3,
+    "cka": 0.5061825818150365
+   },
+   {
+    "source_layer": 3,
+    "reused_layer": 4,
+    "cka": 0.6301787200911569
+   },
+   {
+    "source_layer": 4,
+    "reused_layer": 5,
+    "cka": 0.16641412759451624
+   }
+  ]
+ }
+}

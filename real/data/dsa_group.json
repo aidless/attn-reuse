@@ -1,0 +1,70 @@
+{
+ "gpu_cap": "40GiB",
+ "model": "DSV2-Lite-DSA-Sparse-1250",
+ "seq": 4096,
+ "n_batches": 3,
+ "keep_fraction": 0.5,
+ "dense_grid_k256_05B": {
+  "2": 0.0242,
+  "3": 0.0114,
+  "6": 0.0736
+ },
+ "topk": 2048,
+ "n_layers": 27,
+ "base_nll": [
+  1.8414348363876343,
+  1.9816139936447144,
+  2.1550211906433105
+ ],
+ "same_batch_repeat_range": 0.0,
+ "groups": {
+  "2": {
+   "nll": [
+    1.841614842414856,
+    1.9820085763931274,
+    2.152543544769287
+   ],
+   "deltas_per_batch": [
+    0.0001800060272216797,
+    0.00039458274841308594,
+    -0.0024776458740234375
+   ],
+   "mean_nll": 1.9920556545257568,
+   "mean_delta": -0.0006343523661295573,
+   "n_layers_shared": 13
+  },
+  "3": {
+   "nll": [
+    1.8431059122085571,
+    1.9821983575820923,
+    2.1557085514068604
+   ],
+   "deltas_per_batch": [
+    0.0016710758209228516,
+    0.0005843639373779297,
+    0.0006873607635498047
+   ],
+   "mean_nll": 1.99367094039917,
+   "mean_delta": 0.0009809335072835286,
+   "n_layers_shared": 18
+  },
+  "6": {
+   "nll": [
+    1.8416069746017456,
+    1.9852385520935059,
+    2.15844464302063
+   ],
+   "deltas_per_batch": [
+    0.00017213821411132812,
+    0.003624558448791504,
+    0.003423452377319336
+   ],
+   "mean_nll": 1.9950967232386272,
+   "mean_delta": 0.0024067163467407227,
+   "n_layers_shared": 22
+  }
+ },
+ "per_layer": {},
+ "note": "trained-sparse checkpoint; one forward per (group,batch); 50%% keep matches tab:grid k=256 of 512",
+ "protocol_caveat": "seq=4096 here vs 512 in tab:grid; model differs; compare relative cost only"
+}

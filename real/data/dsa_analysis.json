@@ -1,0 +1,47 @@
+{
+ "source_file": "dsa_multi.json",
+ "n_pairs": 141,
+ "n_lead": 12,
+ "n_rest": 129,
+ "lead_mean": 0.00048182739151853005,
+ "rest_mean": 0.0005427620515651645,
+ "ratio": 0.8877322762877085,
+ "permutation_two_sided": {
+  "n": 10000,
+  "seed": 20261119,
+  "p": 0.6132386761323868,
+  "dev": 0.11226772371229155
+ },
+ "bootstrap": {
+  "n": 10000,
+  "seed": 20261120,
+  "lo": 0.14556059524318474,
+  "hi": 1.752475760418292,
+  "median": 0.8717868553431184,
+  "share_below_one": 0.6178
+ },
+ "boundary_sensitivity": {
+  "0": {
+   "ratio": 1.0382999832179667,
+   "n_lead": 6
+  },
+  "1": {
+   "ratio": 0.8877322762877085,
+   "n_lead": 12
+  },
+  "2": {
+   "ratio": 0.8089854295824042,
+   "n_lead": 18
+  },
+  "3": {
+   "ratio": 0.9100751721366043,
+   "n_lead": 24
+  }
+ },
+ "same_batch_repeat_range": 0.0,
+ "deterministic": true,
+ "seq": 4096,
+ "n_batches": 3,
+ "topk": 2048,
+ "n_layers": 27
+}

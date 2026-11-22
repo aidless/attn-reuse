@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.bak*
+*.aux
+*.log
+*.blg
+*.fls
+*.fdb_latexmk
+*.out
+*.synctex.gz
+models/
+checkpoints/

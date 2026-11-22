@@ -1,0 +1,25 @@
+{
+  "bench": "mmlu/high_school_mathematics",
+  "shots": 5,
+  "seq": 640,
+  "n_items": 60,
+  "chance": 0.25,
+  "reason_dropped": "dense accuracy at or below chance under both scoring metrics for every model; a perturbation measured on a classifier that cannot solve the task reports the model's floor, not the reuse's cost",
+  "metrics": {
+    "Qwen2.5-0.5B": {
+      "n_items": 60,
+      "raw": 0.15,
+      "lengthnorm": 0.1667
+    },
+    "Qwen2.5-1.5B": {
+      "n_items": 60,
+      "raw": 0.2,
+      "lengthnorm": 0.25
+    },
+    "Qwen2.5-7B": {
+      "n_items": 60,
+      "raw": 0.2667,
+      "lengthnorm": 0.35
+    }
+  }
+}

@@ -1,0 +1,12 @@
+# Verbatim control-gate output from the first 7B MCQ run, before the scatter
+# form was replaced by the mask form.
+#
+# Provenance: captured from the remote run log at 2026-11-19T09:19Z
+#   mcq_reuse.py --model models/Qwen2.5-7B --bench arc_easy --shots 8 --n 30
+# The failing code path no longer exists, so this run cannot be repeated; the
+# number is kept because report 07 quotes it as the reason for the rewrite.
+# It is NOT evidence about the model — it is evidence that the instrument was
+# wrong.
+items=30 prompt_len median=246 max=272 full_len max=284
+full acc=0.7333
+CONTROL FAILED at k=284: max |score deviation| = 7.536e-01 > 5.0e-02 (keys were dropped)

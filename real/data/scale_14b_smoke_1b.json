@@ -1,0 +1,19 @@
+{
+  "model": "/root/models/Qwen2.5-14B-base",
+  "dtype": "bfloat16",
+  "n_layers": 48,
+  "seq": 512,
+  "n_batches": 1,
+  "readings": {
+    "full": 1.8325639963150024,
+    "control_own_kqlen": 1.8325639963150024,
+    "own_k256": 1.83367121219635,
+    "reuse_k256_g2": 1.8371132612228394
+  },
+  "deltas": {
+    "k256_g2": {
+      "vs_own": 0.003442049026489258,
+      "vs_full": 0.004549264907836914
+    }
+  }
+}
